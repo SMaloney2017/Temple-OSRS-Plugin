@@ -49,13 +49,13 @@ public class TempleOSRSPanel extends PluginPanel
 {
 	private static final String PATH = SCREENSHOT_DIR + File.separator + "TempleOSRS" + File.separator;
 
-	private static final Map<String, String> TIMES = Stream.of(new String[][] {
-		{ "Day", "1day" },
-		{ "Week", "1week" },
-		{ "Month", "31day" },
-		{ "Six Months", "186days" },
-		{ "Year", "365days" },
-		{ "All Time", "alltime" },
+	private static final Map<String, String> TIMES = Stream.of(new String[][]{
+		{"Day", "1day"},
+		{"Week", "1week"},
+		{"Month", "31day"},
+		{"Six Months", "186days"},
+		{"Year", "365days"},
+		{"All Time", "alltime"},
 	}).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
 	public static IconTextField playerLookup;
