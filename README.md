@@ -9,7 +9,7 @@
 > 1. ✅ **COMPLETED:** Implement functionality for sorting each activity panel by name, gain, rank, or EHP.
 > 2. ✅ **COMPLETED:** Right-click menu option to lookup player.
 > 3. 💡 Add support for other TempleOSRS API Endpoints. (Competitions, Aliases, Community, Groups)
-> 4. ✅ Save a Snapshot of player's Skills/ Bosses tab.
+> 4. ✅ **COMPLETED:** Save a Snapshot of player's Skills/ Bosses tab.
 
 ### Bugs to fix/ Concerns
 
