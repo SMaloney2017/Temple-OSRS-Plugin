@@ -32,9 +32,9 @@ import net.runelite.client.util.LinkBrowser;
 
 public class TempleOSRSPanel extends PluginPanel
 {
-	private static final String PATH = SCREENSHOT_DIR + File.separator + "TempleOSRS" + File.separator;
-
 	public static final String DEFAULT = "--";
+
+	private static final String PATH = SCREENSHOT_DIR + File.separator + "TempleOSRS" + File.separator;
 
 	public final TempleOSRSSkillsPanel skills;
 
