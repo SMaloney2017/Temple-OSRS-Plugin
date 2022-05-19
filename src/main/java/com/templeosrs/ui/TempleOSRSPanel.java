@@ -59,8 +59,10 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import net.runelite.api.Client;
 import net.runelite.api.Player;
 import static net.runelite.client.RuneLite.SCREENSHOT_DIR;
@@ -97,6 +99,10 @@ public class TempleOSRSPanel extends PluginPanel
 
 	private final TempleOSRSActivityPanel bosses;
 
+	private final TempleOSRSGroups groups;
+
+	private final TempleOSRSCompetitions competitions;
+
 	private final TempleOSRSOverview overview;
 
 	private JButton searchButton;
@@ -111,13 +117,15 @@ public class TempleOSRSPanel extends PluginPanel
 
 		skills = new TempleOSRSActivityPanel(HiscoreSkillType.SKILL);
 		bosses = new TempleOSRSActivityPanel(HiscoreSkillType.BOSS);
+		groups = new TempleOSRSGroups();
+		competitions = new TempleOSRSCompetitions();
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		getScrollPane().setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-		final JPanel layoutPanel = new JPanel();
+		JPanel layoutPanel = new JPanel();
 		layoutPanel.setLayout(new BoxLayout(layoutPanel, BoxLayout.Y_AXIS));
 		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-		add(layoutPanel);
 
 		JPanel fetchPlayer = new JPanel();
 		fetchPlayer.setLayout(new BoxLayout(fetchPlayer, BoxLayout.Y_AXIS));
@@ -133,24 +141,14 @@ public class TempleOSRSPanel extends PluginPanel
 		TempleOSRSTimeSelection timeSelection = new TempleOSRSTimeSelection(this);
 		fetchPlayer.add(timeSelection);
 
-		layoutPanel.add(fetchPlayer);
-
 		overview = new TempleOSRSOverview();
+
+		layoutPanel.add(fetchPlayer);
 		layoutPanel.add(overview);
-
-		JPanel display = new JPanel();
-
-		MaterialTabGroup tabGroup = new MaterialTabGroup(display);
-		MaterialTab skillsTab = new MaterialTab("Skills", tabGroup, skills);
-		MaterialTab bossesTab = new MaterialTab("Bosses", tabGroup, bosses);
-
-		tabGroup.addTab(skillsTab);
-		tabGroup.addTab(bossesTab);
-		tabGroup.select(skillsTab);
-
-		layoutPanel.add(tabGroup);
-		layoutPanel.add(display);
+		layoutPanel.add(buildScrollableTabs());
 		layoutPanel.add(buildScreenshots());
+
+		add(layoutPanel);
 
 		addInputKeyListener(this.nameAutocompleter);
 	}
@@ -208,9 +206,9 @@ public class TempleOSRSPanel extends PluginPanel
 
 	private JPanel buildFetchButtons()
 	{
-		JPanel searchButtons = new JPanel();
-		searchButtons.setLayout(new FlowLayout());
-		searchButtons.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		JPanel buttonsLayout = new JPanel();
+		buttonsLayout.setLayout(new FlowLayout());
+		buttonsLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 
 		searchButton = createNewButton("Search", "Search for player profile");
 		searchButton.addActionListener(e -> fetchUser());
@@ -218,10 +216,10 @@ public class TempleOSRSPanel extends PluginPanel
 		profileButton = createNewButton("Open Page", "Opens TempleOSRS player page");
 		profileButton.addActionListener(e -> open());
 
-		searchButtons.add(searchButton);
-		searchButtons.add(profileButton);
+		buttonsLayout.add(searchButton);
+		buttonsLayout.add(profileButton);
 
-		return searchButtons;
+		return buttonsLayout;
 	}
 
 	private JButton createNewButton(String text, String tooltip)
@@ -248,6 +246,36 @@ public class TempleOSRSPanel extends PluginPanel
 		});
 
 		return newButton;
+	}
+
+	private JPanel buildScrollableTabs()
+	{
+		JPanel tabsLayout = new JPanel();
+		tabsLayout.setLayout(new BoxLayout(tabsLayout, BoxLayout.Y_AXIS));
+
+		JPanel display = new JPanel();
+		MaterialTabGroup tabGroup = new MaterialTabGroup(display);
+
+		MaterialTab skillsTab = new MaterialTab("Skills", tabGroup, skills);
+		MaterialTab bossesTab = new MaterialTab("Bosses", tabGroup, bosses);
+		MaterialTab groupsTab = new MaterialTab("Groups", tabGroup, groups);
+		MaterialTab competitionsTab = new MaterialTab("Competitions", tabGroup, competitions);
+
+		tabGroup.addTab(skillsTab);
+		tabGroup.addTab(bossesTab);
+		tabGroup.addTab(groupsTab);
+		tabGroup.addTab(competitionsTab);
+
+		tabGroup.select(skillsTab);
+
+		JScrollPane scrollable = new JScrollPane(tabGroup);
+		scrollable.getViewport().setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		scrollable.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+		tabsLayout.add(scrollable);
+		tabsLayout.add(display);
+
+		return tabsLayout;
 	}
 
 	private JPanel buildScreenshots()
