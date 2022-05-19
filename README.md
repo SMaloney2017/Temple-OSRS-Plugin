@@ -11,8 +11,8 @@
 > 2. ✅ **COMPLETED:** Right-click menu option to lookup player.
 > 3. ⚙️ **IN PROGRESS:** Add support for other TempleOSRS API Endpoints. (Competitions, Aliases, Community, Groups)
 >     * ⚓ Implemented class skeleton for Groups/ Competitions + scrollable tab groups
->     * **NEXT:** Design clan's tab + logic (Overview, Members, Clan-Members lookup)
->     * **FUTURE:** Design Competitions's tab + logic (Join Comp, View On-going/ Previous, Rankings, Members lookup)
+>     * **NEXT:** Design Clan's tab (Overview, Members, Clan-Members lookup)
+>     * **FUTURE:** Design Competitions's tab (Join Comp, View On-going/ Previous, Rankings, Members lookup)
 > 4. ✅ **COMPLETED:** Save a Snapshot of player's Skills/ Bosses tab.
 
 ### Bugs to fix/ Concerns
