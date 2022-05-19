@@ -27,7 +27,7 @@ package com.templeosrs;
 
 import com.google.inject.Provides;
 import com.templeosrs.ui.TempleOSRSPanel;
-import com.templeosrs.ui.activities.TempleOSRSSkillsPanel;
+import com.templeosrs.ui.activities.TempleOSRSRanks;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.swing.SwingUtilities;
@@ -62,7 +62,7 @@ public class TempleOSRSPlugin extends Plugin
 
 	private static NavigationButton navButton;
 
-	public TempleOSRSSkillsPanel skillsPanel;
+	public TempleOSRSRanks skillsPanel;
 
 	public TempleOSRSPanel panel;
 
@@ -81,7 +81,7 @@ public class TempleOSRSPlugin extends Plugin
 	@Override
 	protected void startUp()
 	{
-		skillsPanel = injector.getInstance(TempleOSRSSkillsPanel.class);
+		skillsPanel = injector.getInstance(TempleOSRSRanks.class);
 		panel = injector.getInstance(TempleOSRSPanel.class);
 		navButton = NavigationButton.builder()
 			.tooltip("TempleOSRS")

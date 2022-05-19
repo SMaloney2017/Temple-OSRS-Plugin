@@ -49,7 +49,7 @@ import javax.swing.border.EmptyBorder;
 import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.ColorScheme;
 
-public class TempleOSRSActivityPanel extends JPanel
+public class TempleOSRSActivity extends JPanel
 {
 	private static final List<TempleOSRSHiscoreSkill> SKILLS = ImmutableList.of(
 		ATTACK, DEFENCE, STRENGTH,
@@ -83,20 +83,20 @@ public class TempleOSRSActivityPanel extends JPanel
 
 	private static final Color[] COLORS = {ColorScheme.DARK_GRAY_HOVER_COLOR, ColorScheme.SCROLL_TRACK_COLOR};
 
-	final Map<String, TempleOSRSTableRow> map = new HashMap<>();
+	final Map<String, TempleOSRSActivityTableRow> map = new HashMap<>();
 
-	final TempleOSRSSortPanel sortPanel;
+	final TempleOSRSSort sortPanel;
 
-	final TempleOSRSTableRow overall;
+	final TempleOSRSActivityTableRow overall;
 
-	ArrayList<TempleOSRSTableRow> rows = new ArrayList<>();
+	ArrayList<TempleOSRSActivityTableRow> rows = new ArrayList<>();
 
 	HiscoreSkillType hiscoreSkillType;
 
 	long total;
 
 	@Inject
-	public TempleOSRSActivityPanel(HiscoreSkillType type)
+	public TempleOSRSActivity(HiscoreSkillType type)
 	{
 		hiscoreSkillType = type;
 
@@ -104,9 +104,9 @@ public class TempleOSRSActivityPanel extends JPanel
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 
-		sortPanel = new TempleOSRSSortPanel(this, hiscoreSkillType);
+		sortPanel = new TempleOSRSSort(this, hiscoreSkillType);
 
-		overall = new TempleOSRSTableRow("overall", "Overall", COLORS[1], HiscoreSkillType.OVERALL);
+		overall = new TempleOSRSActivityTableRow("overall", "Overall", COLORS[1], HiscoreSkillType.OVERALL);
 		map.put("overall", overall);
 
 		initialize();
@@ -126,7 +126,7 @@ public class TempleOSRSActivityPanel extends JPanel
 			TempleOSRSHiscoreSkill skill = list.get(i);
 			String formattedKey = skill.getName().replaceAll("[^A-Za-z0-9]", "").toLowerCase();
 
-			TempleOSRSTableRow row = new TempleOSRSTableRow(formattedKey, skill.getName(), COLORS[i % 2], hiscoreSkillType);
+			TempleOSRSActivityTableRow row = new TempleOSRSActivityTableRow(formattedKey, skill.getName(), COLORS[i % 2], hiscoreSkillType);
 			map.put(formattedKey, row);
 			rows.add(row);
 			add(row);
@@ -143,7 +143,7 @@ public class TempleOSRSActivityPanel extends JPanel
 
 			if (map.containsKey(formattedKey))
 			{
-				TempleOSRSTableRow row = map.get(formattedKey);
+				TempleOSRSActivityTableRow row = map.get(formattedKey);
 				TempleOSRSSkill skillData = playerData.table.get(skill.getName());
 
 				long total = Objects.nonNull(skillData.xp) ? skillData.xp.longValue() : 0;
@@ -174,17 +174,17 @@ public class TempleOSRSActivityPanel extends JPanel
 	private void rebuild()
 	{
 		int i = 0;
-		for (TempleOSRSTableRow row : rows)
+		for (TempleOSRSActivityTableRow row : rows)
 		{
 			String skill = row.name;
-			TempleOSRSTableRow entry = map.get(skill);
+			TempleOSRSActivityTableRow entry = map.get(skill);
 			entry.setBackground(COLORS[i++ % 2]);
 			add(entry);
 		}
 		revalidate();
 	}
 
-	void sort(Comparator<TempleOSRSTableRow> comparator)
+	void sort(Comparator<TempleOSRSActivityTableRow> comparator)
 	{
 		rows.sort(comparator);
 		rebuild();

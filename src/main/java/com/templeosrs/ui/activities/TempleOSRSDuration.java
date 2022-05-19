@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 
-public class TempleOSRSTimeSelection extends JPanel
+public class TempleOSRSDuration extends JPanel
 {
 	private static final String[] OPTIONS = {
 		"All Time", "Day", "Week", "Month", "Six Months", "Year"
@@ -15,7 +15,7 @@ public class TempleOSRSTimeSelection extends JPanel
 
 	public static JComboBox<String> jComboBox;
 
-	public TempleOSRSTimeSelection(TempleOSRSSkillsPanel panel)
+	public TempleOSRSDuration(TempleOSRSRanks panel)
 	{
 		setLayout(new BorderLayout());
 		setOpaque(false);

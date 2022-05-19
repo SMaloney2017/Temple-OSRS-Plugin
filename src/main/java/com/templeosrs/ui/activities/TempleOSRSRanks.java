@@ -63,7 +63,7 @@ import net.runelite.client.ui.components.materialtabs.MaterialTab;
 import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
 import net.runelite.client.util.LinkBrowser;
 
-public class TempleOSRSSkillsPanel extends PluginPanel
+public class TempleOSRSRanks extends PluginPanel
 {
 	private static final Map<String, String> TIMES = Stream.of(new String[][]{
 		{"Day", "1day"},
@@ -80,9 +80,9 @@ public class TempleOSRSSkillsPanel extends PluginPanel
 
 	private final NameAutocompleter nameAutocompleter;
 
-	private final TempleOSRSActivityPanel skills;
+	private final TempleOSRSActivity skills;
 
-	private final TempleOSRSActivityPanel bosses;
+	private final TempleOSRSActivity bosses;
 
 	private final TempleOSRSOverview overview;
 
@@ -91,13 +91,13 @@ public class TempleOSRSSkillsPanel extends PluginPanel
 	private JButton profileButton;
 
 	@Inject
-	public TempleOSRSSkillsPanel(Client client, NameAutocompleter nameAutocompleter)
+	public TempleOSRSRanks(Client client, NameAutocompleter nameAutocompleter)
 	{
 		this.client = client;
 		this.nameAutocompleter = nameAutocompleter;
 
-		skills = new TempleOSRSActivityPanel(HiscoreSkillType.SKILL);
-		bosses = new TempleOSRSActivityPanel(HiscoreSkillType.BOSS);
+		skills = new TempleOSRSActivity(HiscoreSkillType.SKILL);
+		bosses = new TempleOSRSActivity(HiscoreSkillType.BOSS);
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
@@ -116,7 +116,7 @@ public class TempleOSRSSkillsPanel extends PluginPanel
 		JPanel buttons = buildFetchButtons();
 		fetchPlayer.add(buttons);
 
-		TempleOSRSTimeSelection timeSelection = new TempleOSRSTimeSelection(this);
+		TempleOSRSDuration timeSelection = new TempleOSRSDuration(this);
 		fetchPlayer.add(timeSelection);
 
 		overview = new TempleOSRSOverview();
@@ -261,7 +261,7 @@ public class TempleOSRSSkillsPanel extends PluginPanel
 
 		reset();
 
-		String period = TIMES.get(String.valueOf(TempleOSRSTimeSelection.jComboBox.getSelectedItem()));
+		String period = TIMES.get(String.valueOf(TempleOSRSDuration.jComboBox.getSelectedItem()));
 
 		new Thread(() -> {
 			try

@@ -1,7 +1,7 @@
 package com.templeosrs.ui;
 
 import com.templeosrs.TempleOSRSPlugin;
-import com.templeosrs.ui.activities.TempleOSRSSkillsPanel;
+import com.templeosrs.ui.activities.TempleOSRSRanks;
 import com.templeosrs.ui.clans.TempleOSRSGroups;
 import com.templeosrs.ui.competitions.TempleOSRSCompetitions;
 import com.templeosrs.util.NameAutocompleter;
@@ -36,7 +36,7 @@ public class TempleOSRSPanel extends PluginPanel
 
 	private static final String PATH = SCREENSHOT_DIR + File.separator + "TempleOSRS" + File.separator;
 
-	public final TempleOSRSSkillsPanel skills;
+	public final TempleOSRSRanks skills;
 
 	public final TempleOSRSGroups groups;
 
@@ -53,7 +53,7 @@ public class TempleOSRSPanel extends PluginPanel
 	@Inject
 	public TempleOSRSPanel(Client client, NameAutocompleter nameAutocompleter)
 	{
-		skills = new TempleOSRSSkillsPanel(client, nameAutocompleter);
+		skills = new TempleOSRSRanks(client, nameAutocompleter);
 		groups = new TempleOSRSGroups();
 		competitions = new TempleOSRSCompetitions();
 

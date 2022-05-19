@@ -44,7 +44,7 @@ import net.runelite.client.ui.ColorScheme;
 import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 import net.runelite.client.util.ImageUtil;
 
-public class TempleOSRSTableRow extends JPanel
+public class TempleOSRSActivityTableRow extends JPanel
 {
 	final String name;
 
@@ -60,7 +60,7 @@ public class TempleOSRSTableRow extends JPanel
 
 	double ehp;
 
-	TempleOSRSTableRow(String skillName, String tooltip, Color color, HiscoreSkillType type)
+	TempleOSRSActivityTableRow(String skillName, String tooltip, Color color, HiscoreSkillType type)
 	{
 		this.name = skillName;
 

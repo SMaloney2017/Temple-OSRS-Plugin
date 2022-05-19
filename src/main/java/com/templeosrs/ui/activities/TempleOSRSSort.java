@@ -11,7 +11,7 @@ import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.ColorScheme;
 import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 
-public class TempleOSRSSortPanel extends JPanel
+public class TempleOSRSSort extends JPanel
 {
 	private final TempleOSRSSortFilter name;
 
@@ -21,7 +21,7 @@ public class TempleOSRSSortPanel extends JPanel
 
 	private final TempleOSRSSortFilter ehp;
 
-	TempleOSRSSortPanel(TempleOSRSActivityPanel panel, HiscoreSkillType type)
+	TempleOSRSSort(TempleOSRSActivity panel, HiscoreSkillType type)
 	{
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
@@ -35,7 +35,7 @@ public class TempleOSRSSortPanel extends JPanel
 			public void mousePressed(MouseEvent me)
 			{
 				reset(total, rank, ehp);
-				Comparator<TempleOSRSTableRow> comparator = name.increasing ? Comparator.comparing((TempleOSRSTableRow row) -> row.name) : Comparator.comparing((TempleOSRSTableRow row) -> row.name).reversed();
+				Comparator<TempleOSRSActivityTableRow> comparator = name.increasing ? Comparator.comparing((TempleOSRSActivityTableRow row) -> row.name) : Comparator.comparing((TempleOSRSActivityTableRow row) -> row.name).reversed();
 				panel.sort(comparator);
 			}
 		});
@@ -46,7 +46,7 @@ public class TempleOSRSSortPanel extends JPanel
 			public void mousePressed(MouseEvent me)
 			{
 				reset(name, rank, ehp);
-				Comparator<TempleOSRSTableRow> comparator = total.increasing ? Comparator.comparingDouble((TempleOSRSTableRow row) -> row.total) : Comparator.comparingDouble((TempleOSRSTableRow row) -> row.total).reversed();
+				Comparator<TempleOSRSActivityTableRow> comparator = total.increasing ? Comparator.comparingDouble((TempleOSRSActivityTableRow row) -> row.total) : Comparator.comparingDouble((TempleOSRSActivityTableRow row) -> row.total).reversed();
 				panel.sort(comparator);
 			}
 		});
@@ -57,7 +57,7 @@ public class TempleOSRSSortPanel extends JPanel
 			public void mousePressed(MouseEvent me)
 			{
 				reset(total, name, ehp);
-				Comparator<TempleOSRSTableRow> comparator = rank.increasing ? Comparator.comparingDouble((TempleOSRSTableRow row) -> row.rank) : Comparator.comparingDouble((TempleOSRSTableRow row) -> row.rank).reversed();
+				Comparator<TempleOSRSActivityTableRow> comparator = rank.increasing ? Comparator.comparingDouble((TempleOSRSActivityTableRow row) -> row.rank) : Comparator.comparingDouble((TempleOSRSActivityTableRow row) -> row.rank).reversed();
 				panel.sort(comparator);
 			}
 		});
@@ -68,7 +68,7 @@ public class TempleOSRSSortPanel extends JPanel
 			public void mousePressed(MouseEvent me)
 			{
 				reset(total, name, rank);
-				Comparator<TempleOSRSTableRow> comparator = ehp.increasing ? Comparator.comparingDouble((TempleOSRSTableRow row) -> row.ehp) : Comparator.comparingDouble((TempleOSRSTableRow row) -> row.ehp).reversed();
+				Comparator<TempleOSRSActivityTableRow> comparator = ehp.increasing ? Comparator.comparingDouble((TempleOSRSActivityTableRow row) -> row.ehp) : Comparator.comparingDouble((TempleOSRSActivityTableRow row) -> row.ehp).reversed();
 				panel.sort(comparator);
 			}
 		});
