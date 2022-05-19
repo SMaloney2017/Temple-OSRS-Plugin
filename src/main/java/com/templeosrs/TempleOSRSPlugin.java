@@ -27,6 +27,7 @@ package com.templeosrs;
 
 import com.google.inject.Provides;
 import com.templeosrs.ui.TempleOSRSPanel;
+import com.templeosrs.ui.activities.TempleOSRSSkillsPanel;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.swing.SwingUtilities;
@@ -61,6 +62,8 @@ public class TempleOSRSPlugin extends Plugin
 
 	private static NavigationButton navButton;
 
+	public TempleOSRSSkillsPanel skillsPanel;
+
 	public TempleOSRSPanel panel;
 
 	@Inject
@@ -78,6 +81,7 @@ public class TempleOSRSPlugin extends Plugin
 	@Override
 	protected void startUp()
 	{
+		skillsPanel = injector.getInstance(TempleOSRSSkillsPanel.class);
 		panel = injector.getInstance(TempleOSRSPanel.class);
 		navButton = NavigationButton.builder()
 			.tooltip("TempleOSRS")
@@ -104,7 +108,7 @@ public class TempleOSRSPlugin extends Plugin
 			menuManager.get().removePlayerMenuItem(TEMPLE);
 		}
 
-		panel.shutdown();
+		skillsPanel.shutdown();
 	}
 
 	@Subscribe
@@ -186,7 +190,8 @@ public class TempleOSRSPlugin extends Plugin
 			{
 				navButton.getOnSelect().run();
 			}
-			panel.fetchUser(username);
+			panel.tabGroup.select(panel.skillsTab);
+			skillsPanel.fetchUser(username);
 		});
 	}
 }

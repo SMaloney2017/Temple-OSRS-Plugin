@@ -30,6 +30,7 @@
 package com.templeosrs.ui.activities;
 
 import com.templeosrs.TempleOSRSPlugin;
+import static com.templeosrs.ui.TempleOSRSPanel.DEFAULT;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -45,8 +46,6 @@ import net.runelite.client.util.ImageUtil;
 
 public class TempleOSRSTableRow extends JPanel
 {
-	private static final String DEFAULT = "--";
-
 	final String name;
 
 	private final TempleOSRSActivityLabel skillGain;

@@ -1,5 +1,6 @@
 package com.templeosrs.ui.activities;
 
+import static com.templeosrs.ui.TempleOSRSPanel.DEFAULT;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
@@ -12,8 +13,6 @@ import net.runelite.client.ui.FontManager;
 
 public class TempleOSRSOverview extends JPanel
 {
-	private static final String DEFAULT = "--";
-
 	public JPanel playerOverview;
 
 	public TempleOSRSOverviewLabel EXP;

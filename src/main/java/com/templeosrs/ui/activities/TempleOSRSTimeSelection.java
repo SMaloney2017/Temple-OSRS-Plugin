@@ -1,6 +1,5 @@
 package com.templeosrs.ui.activities;
 
-import com.templeosrs.ui.TempleOSRSPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JComboBox;
@@ -16,13 +15,13 @@ public class TempleOSRSTimeSelection extends JPanel
 
 	public static JComboBox<String> jComboBox;
 
-	public TempleOSRSTimeSelection(TempleOSRSPanel panel)
+	public TempleOSRSTimeSelection(TempleOSRSSkillsPanel panel)
 	{
 		setLayout(new BorderLayout());
 		setOpaque(false);
 
 		setMinimumSize(new Dimension(PANEL_WIDTH, 20));
-		setBorder(new EmptyBorder(0, 5, 5, 5));
+		setBorder(new EmptyBorder(0, 0, 5, 0));
 
 		jComboBox = new JComboBox<>(OPTIONS);
 		jComboBox.addActionListener(e -> panel.fetchUser());

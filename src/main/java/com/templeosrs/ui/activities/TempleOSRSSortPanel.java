@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Comparator;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.ColorScheme;
@@ -22,6 +23,7 @@ public class TempleOSRSSortPanel extends JPanel
 
 	TempleOSRSSortPanel(TempleOSRSActivityPanel panel, HiscoreSkillType type)
 	{
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 		setPreferredSize(new Dimension(PANEL_WIDTH, 20));
 

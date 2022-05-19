@@ -1,5 +1,6 @@
 package com.templeosrs.ui.activities;
 
+import static com.templeosrs.ui.TempleOSRSPanel.DEFAULT;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -14,8 +15,6 @@ import net.runelite.client.util.QuantityFormatter;
 
 public class TempleOSRSOverviewLabel extends JPanel
 {
-	private static final String DEFAULT = "--";
-
 	JLabel total;
 
 	JLabel rank;
