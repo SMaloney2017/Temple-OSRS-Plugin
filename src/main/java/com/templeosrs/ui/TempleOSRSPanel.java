@@ -130,6 +130,9 @@ public class TempleOSRSPanel extends PluginPanel
 		JPanel buttons = buildFetchButtons();
 		fetchPlayer.add(buttons);
 
+		TempleOSRSTimeSelection timeSelection = new TempleOSRSTimeSelection(this);
+		fetchPlayer.add(timeSelection);
+
 		layoutPanel.add(fetchPlayer);
 
 		overview = new TempleOSRSOverview();
@@ -145,12 +148,7 @@ public class TempleOSRSPanel extends PluginPanel
 		tabGroup.addTab(bossesTab);
 		tabGroup.select(skillsTab);
 
-		TempleOSRSTimeSelection timeSelection = new TempleOSRSTimeSelection(this);
-		timeSelection.setMinimumSize(new Dimension(PANEL_WIDTH, 20));
-		timeSelection.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		layoutPanel.add(tabGroup);
-		layoutPanel.add(timeSelection);
 		layoutPanel.add(display);
 		layoutPanel.add(buildScreenshots());
 
