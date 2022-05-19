@@ -4,10 +4,10 @@ import javax.inject.Inject;
 import javax.swing.JPanel;
 import net.runelite.client.ui.ColorScheme;
 
-public class TempleOSRSGroups extends JPanel
+public class TempleOSRSClans extends JPanel
 {
 	@Inject
-	public TempleOSRSGroups()
+	public TempleOSRSClans()
 	{
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 	}

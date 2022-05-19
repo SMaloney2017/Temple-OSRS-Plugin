@@ -2,7 +2,7 @@ package com.templeosrs.ui;
 
 import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.ui.activities.TempleOSRSRanks;
-import com.templeosrs.ui.clans.TempleOSRSGroups;
+import com.templeosrs.ui.clans.TempleOSRSClans;
 import com.templeosrs.ui.competitions.TempleOSRSCompetitions;
 import com.templeosrs.util.NameAutocompleter;
 import java.awt.BorderLayout;
@@ -38,7 +38,7 @@ public class TempleOSRSPanel extends PluginPanel
 
 	public final TempleOSRSRanks skills;
 
-	public final TempleOSRSGroups groups;
+	public final TempleOSRSClans groups;
 
 	public final TempleOSRSCompetitions competitions;
 
@@ -54,7 +54,7 @@ public class TempleOSRSPanel extends PluginPanel
 	public TempleOSRSPanel(Client client, NameAutocompleter nameAutocompleter)
 	{
 		skills = new TempleOSRSRanks(client, nameAutocompleter);
-		groups = new TempleOSRSGroups();
+		groups = new TempleOSRSClans();
 		competitions = new TempleOSRSCompetitions();
 
 		getScrollPane().setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
