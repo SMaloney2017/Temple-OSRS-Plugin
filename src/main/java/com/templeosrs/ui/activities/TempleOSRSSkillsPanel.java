@@ -30,7 +30,6 @@
 package com.templeosrs.ui.activities;
 
 import com.google.common.base.Strings;
-import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.util.NameAutocompleter;
 import com.templeosrs.util.TempleOSRSPlayer;
 import static com.templeosrs.util.TempleOSRSService.HOST;
@@ -38,32 +37,23 @@ import static com.templeosrs.util.TempleOSRSService.PLAYER_PAGE;
 import static com.templeosrs.util.TempleOSRSService.fetchUserGainsAsync;
 import com.templeosrs.util.playerinfo.TempleOSRSData;
 import com.templeosrs.util.playerinfo.TempleOSRSSkill;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.time.Instant;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import net.runelite.api.Client;
 import net.runelite.api.Player;
-import static net.runelite.client.RuneLite.SCREENSHOT_DIR;
 import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
@@ -71,13 +61,10 @@ import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.materialtabs.MaterialTab;
 import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
-import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.LinkBrowser;
 
 public class TempleOSRSSkillsPanel extends PluginPanel
 {
-	private static final String PATH = SCREENSHOT_DIR + File.separator + "TempleOSRS" + File.separator;
-
 	private static final Map<String, String> TIMES = Stream.of(new String[][]{
 		{"Day", "1day"},
 		{"Week", "1week"},
@@ -149,7 +136,6 @@ public class TempleOSRSSkillsPanel extends PluginPanel
 		layoutPanel.add(overview);
 		layoutPanel.add(tabGroup);
 		layoutPanel.add(display);
-		layoutPanel.add(buildScreenshots());
 
 		add(layoutPanel);
 
@@ -248,44 +234,6 @@ public class TempleOSRSSkillsPanel extends PluginPanel
 		});
 
 		return newButton;
-	}
-
-	private JPanel buildScreenshots()
-	{
-		JPanel saveLayout = new JPanel(new BorderLayout());
-		saveLayout.setBorder(new EmptyBorder(5, 5, 5, 5));
-		saveLayout.setOpaque(false);
-		JPopupMenu menu = new JPopupMenu();
-
-		JMenuItem takeScreenshot = new JMenuItem();
-		takeScreenshot.setText("Take Screenshot of current view...");
-		takeScreenshot.addActionListener(e -> screenshot(this));
-		menu.add(takeScreenshot);
-
-		JMenuItem openFolder = new JMenuItem();
-		openFolder.setText("Open screenshot folder...");
-		openFolder.addActionListener(e -> {
-			if (SCREENSHOT_DIR.exists() || SCREENSHOT_DIR.mkdirs())
-			{
-				LinkBrowser.open(SCREENSHOT_DIR.getAbsolutePath());
-			}
-		});
-		menu.add(openFolder);
-
-		JButton screenshotButton = new JButton();
-		screenshotButton.setBorder(new EmptyBorder(5, 5, 5, 5));
-		screenshotButton.setIcon(new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "save.png")));
-		screenshotButton.setBackground(ColorScheme.SCROLL_TRACK_COLOR);
-		screenshotButton.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				menu.show(screenshotButton, e.getX(), e.getY());
-			}
-		});
-		saveLayout.add(screenshotButton, BorderLayout.WEST);
-
-		return saveLayout;
 	}
 
 	public void fetchUser(String username)
@@ -434,30 +382,6 @@ public class TempleOSRSSkillsPanel extends PluginPanel
 		SwingUtilities.invokeLater(() -> LinkBrowser.browse(playerPageURL));
 
 		completed();
-	}
-
-	private void screenshot(JPanel panel)
-	{
-		final String username = format(playerLookup.getText());
-		String timestamp = String.valueOf(Instant.now().getEpochSecond());
-
-		File directory = new File(PATH);
-		if (directory.exists() || directory.mkdirs())
-		{
-			BufferedImage img = new BufferedImage(panel.getSize().width, panel.getSize().height, BufferedImage.TYPE_INT_RGB);
-			panel.paint(img.createGraphics());
-			File imageFile = new File(PATH + username + timestamp + ".png");
-			try
-			{
-				if (imageFile.createNewFile())
-				{
-					ImageIO.write(img, "png", imageFile);
-				}
-			}
-			catch (Exception ignored)
-			{
-			}
-		}
 	}
 
 	private void addInputKeyListener(KeyListener l)
