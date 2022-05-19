@@ -9,7 +9,7 @@
 
 > 1. ✅ **COMPLETED:** Implement functionality for sorting each activity panel by name, gain, rank, or EHP.
 > 2. ✅ **COMPLETED:** Right-click menu option to lookup player.
-> 3. ⚙️ **IN PROGRESS:** Add support for other TempleOSRS API Endpoints. (Competitions, Aliases, Community, Groups)
+> 3. ⚙️ **IN PROGRESS:** Add support for other TempleOSRS API Endpoints. (Competitions, Groups)
 >     * ⚓ Implemented class skeleton for Groups/ Competitions + scrollable tab groups
 >     * **NEXT:** Design Clan's tab (Overview, Members, Clan-Members lookup)
 >     * **FUTURE:** Design Competitions's tab (Join Comp, View On-going/ Previous, Rankings, Members lookup)
