@@ -2,13 +2,15 @@
 
 > A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.php). <br>
 
-![image](https://user-images.githubusercontent.com/60162255/168956952-9759ebe4-fc67-47bb-ae84-50be41df0f8c.png)
+![image](https://user-images.githubusercontent.com/60162255/169199135-328b4fd4-97df-4927-9218-49ea01fe7729.png)
+![image](https://user-images.githubusercontent.com/60162255/169199209-d747b75f-173e-4aab-bb7e-9ccc414d3923.png)
 
 ### To-Do / Potential Features
 
 > 1. ✅ **COMPLETED:** Implement functionality for sorting each activity panel by name, gain, rank, or EHP.
 > 2. ✅ **COMPLETED:** Right-click menu option to lookup player.
-> 3. 💡 Add support for other TempleOSRS API Endpoints. (Competitions, Aliases, Community, Groups)
+> 3. ⚙️ **IN PROGRESS:** Add support for other TempleOSRS API Endpoints. (Competitions, Aliases, Community, Groups)
+>     * ⚓ Implemented class skeleton for Groups/ Competitions + scrollable tab groups
 > 4. ✅ **COMPLETED:** Save a Snapshot of player's Skills/ Bosses tab.
 
 ### Bugs to fix/ Concerns
