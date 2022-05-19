@@ -2,6 +2,8 @@
  * Copyright (c) 2017, Adam <Adam@sigterm.info>
  * Copyright (c) 2018, Psikoi <https://github.com/psikoi>
  * Copyright (c) 2019, Bram91 <https://github.com/bram91>
+ * Copyright (c) 2020, dekvall
+ * Copyright (c) 2021, Rorro
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
