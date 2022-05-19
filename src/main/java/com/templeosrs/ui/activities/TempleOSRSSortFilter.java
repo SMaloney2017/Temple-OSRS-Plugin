@@ -1,4 +1,4 @@
-package com.templeosrs.ui;
+package com.templeosrs.ui.activities;
 
 import com.templeosrs.TempleOSRSPlugin;
 import java.awt.GridLayout;

@@ -1,4 +1,4 @@
-package com.templeosrs.ui;
+package com.templeosrs.ui.clans;
 
 import javax.swing.JPanel;
 

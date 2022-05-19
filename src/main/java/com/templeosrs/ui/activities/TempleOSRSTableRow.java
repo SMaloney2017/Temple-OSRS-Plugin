@@ -27,7 +27,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.templeosrs.ui;
+package com.templeosrs.ui.activities;
 
 import com.templeosrs.TempleOSRSPlugin;
 import java.awt.BorderLayout;

@@ -1,4 +1,4 @@
-package com.templeosrs.ui;
+package com.templeosrs.ui.activities;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -14,15 +14,15 @@ public class TempleOSRSOverview extends JPanel
 {
 	private static final String DEFAULT = "--";
 
-	JPanel playerOverview;
+	public JPanel playerOverview;
 
-	TempleOSRSOverviewLabel EXP;
+	public TempleOSRSOverviewLabel EXP;
 
-	TempleOSRSOverviewLabel EHP;
+	public TempleOSRSOverviewLabel EHP;
 
-	TempleOSRSOverviewLabel EHB;
+	public TempleOSRSOverviewLabel EHB;
 
-	TempleOSRSOverview()
+	public TempleOSRSOverview()
 	{
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(0, 5, 5, 5));
@@ -58,7 +58,7 @@ public class TempleOSRSOverview extends JPanel
 		add(layoutPanel);
 	}
 
-	void reset()
+	public void reset()
 	{
 		EHP.reset();
 		EHB.reset();

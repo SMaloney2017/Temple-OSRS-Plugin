@@ -1,4 +1,4 @@
-package com.templeosrs.ui;
+package com.templeosrs.ui.competitions;
 
 import javax.swing.JPanel;
 

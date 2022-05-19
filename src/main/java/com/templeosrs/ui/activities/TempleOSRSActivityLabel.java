@@ -1,4 +1,4 @@
-package com.templeosrs.ui;
+package com.templeosrs.ui.activities;
 
 import javax.swing.JLabel;
 import net.runelite.client.ui.ColorScheme;

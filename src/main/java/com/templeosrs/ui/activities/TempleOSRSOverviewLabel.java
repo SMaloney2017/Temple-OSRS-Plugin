@@ -1,4 +1,4 @@
-package com.templeosrs.ui;
+package com.templeosrs.ui.activities;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -49,7 +49,7 @@ public class TempleOSRSOverviewLabel extends JPanel
 		add(rank);
 	}
 
-	void update(long x, long x1)
+	public void update(long x, long x1)
 	{
 		rank.setText(x != 0 ? QuantityFormatter.quantityToStackSize(x) : DEFAULT);
 		total.setText(x1 != 0 ? QuantityFormatter.quantityToStackSize(x1) : DEFAULT);

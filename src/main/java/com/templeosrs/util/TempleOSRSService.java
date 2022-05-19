@@ -27,7 +27,7 @@ public class TempleOSRSService
 
 		Response response = client.newCall(request).execute();
 
-		if(response.body() != null)
+		if (response.body() != null)
 		{
 			return response.body().string();
 		}

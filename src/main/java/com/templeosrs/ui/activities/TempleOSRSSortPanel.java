@@ -1,4 +1,4 @@
-package com.templeosrs.ui;
+package com.templeosrs.ui.activities;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;

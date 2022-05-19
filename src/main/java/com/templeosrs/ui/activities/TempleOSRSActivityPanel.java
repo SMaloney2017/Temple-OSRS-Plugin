@@ -27,7 +27,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.templeosrs.ui;
+package com.templeosrs.ui.activities;
 
 import com.google.common.collect.ImmutableList;
 import com.templeosrs.util.TempleOSRSHiscoreSkill;
@@ -96,7 +96,7 @@ public class TempleOSRSActivityPanel extends JPanel
 	long total;
 
 	@Inject
-	TempleOSRSActivityPanel(HiscoreSkillType type)
+	public TempleOSRSActivityPanel(HiscoreSkillType type)
 	{
 		hiscoreSkillType = type;
 
@@ -133,7 +133,7 @@ public class TempleOSRSActivityPanel extends JPanel
 		}
 	}
 
-	void update(TempleOSRSPlayer result)
+	public void update(TempleOSRSPlayer result)
 	{
 		TempleOSRSData playerData = hiscoreSkillType.equals(HiscoreSkillType.SKILL) ? result.playerSkillsData.data : result.playerBossingData.data;
 
@@ -157,12 +157,12 @@ public class TempleOSRSActivityPanel extends JPanel
 		}
 	}
 
-	void update(long rank, double ehp)
+	public void update(long rank, double ehp)
 	{
 		overall.update(total, rank, ehp);
 	}
 
-	void reset()
+	public void reset()
 	{
 		total = 0;
 		overall.reset();
