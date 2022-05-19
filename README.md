@@ -2,8 +2,9 @@
 
 > A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.php). <br>
 
-![image](https://user-images.githubusercontent.com/60162255/169199135-328b4fd4-97df-4927-9218-49ea01fe7729.png)
-![image](https://user-images.githubusercontent.com/60162255/169199209-d747b75f-173e-4aab-bb7e-9ccc414d3923.png)
+![1652985288](https://user-images.githubusercontent.com/60162255/169375087-4ebe59c9-9e61-4dc2-a81f-7a34c9637aa6.png)
+![1652985302](https://user-images.githubusercontent.com/60162255/169375155-3bf2767d-865a-4c9e-8e8f-52ff9c2e109b.png)
+
 
 ### To-Do / Potential Features
 
