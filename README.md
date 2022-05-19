@@ -13,7 +13,7 @@
 >     * ⚓ Implemented class skeleton for Groups/ Competitions + scrollable tab groups
 >     * **NEXT:** Design Clan's tab (Overview, Members, Clan-Members lookup)
 >     * **FUTURE:** Design Competitions's tab (Join Comp, View On-going/ Previous, Rankings, Members lookup)
-> 4. ✅ **COMPLETED:** Save a Snapshot of player's Skills/ Bosses tab.
+> 4. ✅ **COMPLETED:** Save a Snapshot of the current view.
 
 ### Bugs to fix/ Concerns
 
