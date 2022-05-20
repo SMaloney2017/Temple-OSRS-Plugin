@@ -5,6 +5,7 @@ import com.templeosrs.util.TempleOSRSClan;
 import static com.templeosrs.util.TempleOSRSService.CLAN_PAGE;
 import static com.templeosrs.util.TempleOSRSService.HOST;
 import static com.templeosrs.util.TempleOSRSService.fetchClanAsync;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
@@ -17,16 +18,19 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import net.runelite.api.Client;
+import net.runelite.api.clan.ClanChannel;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.util.LinkBrowser;
-import static org.pushingpixels.substance.internal.utils.LazyResettableHashMap.reset;
 
 public class TempleOSRSGroups extends PluginPanel
 {
 	public final IconTextField clanLookup;
+
+	private final Client client;
 
 	private final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
 
@@ -34,9 +38,12 @@ public class TempleOSRSGroups extends PluginPanel
 
 	private JButton clanButton;
 
+	private final JButton verifyButton;
+
 	@Inject
-	public TempleOSRSGroups()
+	public TempleOSRSGroups(Client client)
 	{
+		this.client = client;
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
@@ -44,18 +51,30 @@ public class TempleOSRSGroups extends PluginPanel
 		layoutPanel.setLayout(new BoxLayout(layoutPanel, BoxLayout.Y_AXIS));
 		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-		JPanel fetchPlayer = new JPanel();
-		fetchPlayer.setLayout(new BoxLayout(fetchPlayer, BoxLayout.Y_AXIS));
-		fetchPlayer.setBorder(new EmptyBorder(5, 5, 0, 5));
-		fetchPlayer.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		JPanel fetchLayout = new JPanel();
+		fetchLayout.setLayout(new BoxLayout(fetchLayout, BoxLayout.Y_AXIS));
+		fetchLayout.setBorder(new EmptyBorder(5, 5, 0, 5));
+		fetchLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 
 		clanLookup = buildTextField();
-		fetchPlayer.add(clanLookup);
+		fetchLayout.add(clanLookup);
 
 		JPanel buttons = buildFetchButtons();
-		fetchPlayer.add(buttons);
+		fetchLayout.add(buttons);
 
-		layoutPanel.add(fetchPlayer);
+		JPanel verifyLayout = new JPanel();
+		verifyLayout.setLayout(new BorderLayout());
+		verifyLayout.setBorder(new EmptyBorder(0, 0, 5, 0));
+		verifyLayout.setOpaque(false);
+
+		verifyButton = createNewButton("Sync Members", "Sync members of the clan you are currently in");
+		verifyButton.addActionListener(e -> verify());
+		verifyButton.setEnabled(false);
+		verifyLayout.add(verifyButton);
+
+		fetchLayout.add(verifyLayout);
+
+		layoutPanel.add(fetchLayout);
 
 		add(layoutPanel);
 	}
@@ -169,9 +188,18 @@ public class TempleOSRSGroups extends PluginPanel
 
 	private void rebuild(TempleOSRSClan result)
 	{
-		//update info
-		//update leaders
-		//update members
+		if (client == null)
+		{
+			return;
+		}
+
+		ClanChannel localClan = client.getClanChannel();
+
+		String fetchedName = result.clanOverview.data.info.name;
+		if (localClan != null && Objects.equals(fetchedName, localClan.getName()))
+		{
+			verifyButton.setEnabled(true);
+		}
 		completed();
 	}
 
@@ -182,7 +210,8 @@ public class TempleOSRSGroups extends PluginPanel
 		{
 			return;
 		}
-		else if (clanID.length() > 12)
+
+		if (!isNumeric.matcher(clanID).matches())
 		{
 			error();
 			return;
@@ -196,11 +225,22 @@ public class TempleOSRSGroups extends PluginPanel
 		completed();
 	}
 
-	private void completed()
+	private void verify()
+	{
+
+	}
+
+	private void reset()
+	{
+		verifyButton.setEnabled(false);
+	}
+
+	private void error()
 	{
 		searchButton.setEnabled(true);
 		clanButton.setEnabled(true);
-		clanLookup.setIcon(IconTextField.Icon.SEARCH);
+		verifyButton.setEnabled(false);
+		clanLookup.setIcon(IconTextField.Icon.ERROR);
 		clanLookup.setEditable(true);
 	}
 
@@ -208,15 +248,16 @@ public class TempleOSRSGroups extends PluginPanel
 	{
 		searchButton.setEnabled(false);
 		clanButton.setEnabled(false);
+		verifyButton.setEnabled(false);
 		clanLookup.setIcon(IconTextField.Icon.LOADING);
 		clanLookup.setEditable(false);
 	}
 
-	private void error()
+	private void completed()
 	{
-		searchButton.setEnabled(false);
-		clanButton.setEnabled(false);
-		clanLookup.setIcon(IconTextField.Icon.ERROR);
-		clanLookup.setEditable(false);
+		searchButton.setEnabled(true);
+		clanButton.setEnabled(true);
+		clanLookup.setIcon(IconTextField.Icon.SEARCH);
+		clanLookup.setEditable(true);
 	}
 }

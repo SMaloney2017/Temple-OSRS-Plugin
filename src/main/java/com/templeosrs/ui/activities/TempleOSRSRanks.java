@@ -105,19 +105,19 @@ public class TempleOSRSRanks extends PluginPanel
 		layoutPanel.setLayout(new BoxLayout(layoutPanel, BoxLayout.Y_AXIS));
 		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-		JPanel fetchPlayer = new JPanel();
-		fetchPlayer.setLayout(new BoxLayout(fetchPlayer, BoxLayout.Y_AXIS));
-		fetchPlayer.setBorder(new EmptyBorder(5, 5, 0, 5));
-		fetchPlayer.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		JPanel fetchLayout = new JPanel();
+		fetchLayout.setLayout(new BoxLayout(fetchLayout, BoxLayout.Y_AXIS));
+		fetchLayout.setBorder(new EmptyBorder(5, 5, 0, 5));
+		fetchLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 
 		playerLookup = buildTextField();
-		fetchPlayer.add(playerLookup);
+		fetchLayout.add(playerLookup);
 
 		JPanel buttons = buildFetchButtons();
-		fetchPlayer.add(buttons);
+		fetchLayout.add(buttons);
 
 		TempleOSRSDuration timeSelection = new TempleOSRSDuration(this);
-		fetchPlayer.add(timeSelection);
+		fetchLayout.add(timeSelection);
 
 		overview = new TempleOSRSOverview();
 
@@ -132,7 +132,7 @@ public class TempleOSRSRanks extends PluginPanel
 
 		tabGroup.select(skillsTab);
 
-		layoutPanel.add(fetchPlayer);
+		layoutPanel.add(fetchLayout);
 		layoutPanel.add(overview);
 		layoutPanel.add(tabGroup);
 		layoutPanel.add(display);
@@ -325,6 +325,28 @@ public class TempleOSRSRanks extends PluginPanel
 		skills.update((long) ehpRankGain, ehpGain);
 	}
 
+	private void open()
+	{
+		String username = format(playerLookup.getText());
+		if (Strings.isNullOrEmpty(username))
+		{
+			return;
+		}
+
+		if (username.length() > 12)
+		{
+			error();
+			return;
+		}
+
+		loading();
+
+		String playerPageURL = HOST + PLAYER_PAGE + username;
+		SwingUtilities.invokeLater(() -> LinkBrowser.browse(playerPageURL));
+
+		completed();
+	}
+
 	private void reset()
 	{
 		skills.reset();
@@ -354,27 +376,6 @@ public class TempleOSRSRanks extends PluginPanel
 		profileButton.setEnabled(true);
 		playerLookup.setIcon(IconTextField.Icon.SEARCH);
 		playerLookup.setEditable(true);
-	}
-
-	private void open()
-	{
-		String username = format(playerLookup.getText());
-		if (Strings.isNullOrEmpty(username))
-		{
-			return;
-		}
-		else if (username.length() > 12)
-		{
-			error();
-			return;
-		}
-
-		loading();
-
-		String playerPageURL = HOST + PLAYER_PAGE + username;
-		SwingUtilities.invokeLater(() -> LinkBrowser.browse(playerPageURL));
-
-		completed();
 	}
 
 	private void addInputKeyListener(KeyListener l)
