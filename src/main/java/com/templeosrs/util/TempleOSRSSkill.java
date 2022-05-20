@@ -34,7 +34,7 @@ import static net.runelite.client.hiscore.HiscoreSkillType.SKILL;
 
 @AllArgsConstructor
 @Getter
-public enum TempleOSRSHiscoreSkill
+public enum TempleOSRSSkill
 {
 	ATTACK("Attack", SKILL),
 	DEFENCE("Defence", SKILL),
