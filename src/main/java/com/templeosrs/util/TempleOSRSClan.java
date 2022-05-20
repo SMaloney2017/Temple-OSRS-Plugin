@@ -12,7 +12,6 @@ public class TempleOSRSClan
 
 	public TempleOSRSClanOverview clanOverview;
 
-
 	TempleOSRSClan(String clanOverviewJSON)
 	{
 		clanOverview = gson.fromJson(clanOverviewJSON, TempleOSRSClanOverview.class);

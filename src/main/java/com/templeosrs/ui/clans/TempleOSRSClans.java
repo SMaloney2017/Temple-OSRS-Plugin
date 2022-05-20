@@ -9,14 +9,14 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
+import java.util.regex.Pattern;
 import javax.inject.Inject;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import net.runelite.api.Client;
-import net.runelite.api.clan.ClanChannel;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
@@ -26,17 +26,16 @@ import static org.pushingpixels.substance.internal.utils.LazyResettableHashMap.r
 
 public class TempleOSRSClans extends PluginPanel
 {
-	public final IconTextField clanLookup;
+	private final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
 
-	private final Client client;
+	public final IconTextField clanLookup;
 
 	private  JButton searchButton;
 
 	private JButton clanButton;
 	@Inject
-	public TempleOSRSClans(Client client)
+	public TempleOSRSClans()
 	{
-		this.client = client;
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
@@ -69,28 +68,6 @@ public class TempleOSRSClans extends PluginPanel
 		lookup.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 		lookup.setBackground(ColorScheme.SCROLL_TRACK_COLOR);
 		lookup.addActionListener(e -> fetchClan());
-		lookup.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				if (e.getClickCount() != 2)
-				{
-					return;
-				}
-				if (client == null)
-				{
-					return;
-				}
-
-				ClanChannel localClan = client.getClanChannel();
-
-				if (localClan != null)
-				{
-					fetchClan(localClan.getName());
-				}
-			}
-		});
 		lookup.addClearListener(() -> {
 			completed();
 			reset();
@@ -105,10 +82,10 @@ public class TempleOSRSClans extends PluginPanel
 		buttonsLayout.setLayout(new FlowLayout());
 		buttonsLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 
-		searchButton = createNewButton("Search", "Search for player profile");
+		searchButton = createNewButton("Search", "Search for clan by ID (found in TempleOSRS Clan-page url)");
 		searchButton.addActionListener(e -> fetchClan());
 
-		clanButton = createNewButton("Open Page", "Opens TempleOSRS player page");
+		clanButton = createNewButton("Open Page", "Opens TempleOSRS clan page");
 		clanButton.addActionListener(e -> open());
 
 		buttonsLayout.add(searchButton);
@@ -142,12 +119,6 @@ public class TempleOSRSClans extends PluginPanel
 		return newButton;
 	}
 
-	public void fetchClan(String clanname)
-	{
-		clanLookup.setText(clanname);
-		fetchClan();
-	}
-
 	public void fetchClan()
 	{
 		final String clanID = clanLookup.getText();
@@ -157,7 +128,7 @@ public class TempleOSRSClans extends PluginPanel
 			return;
 		}
 
-		if (clanID.length() > 12)
+		if (!isNumeric.matcher(clanID).matches())
 		{
 			error();
 			return;
@@ -166,7 +137,6 @@ public class TempleOSRSClans extends PluginPanel
 		loading();
 
 		reset();
-
 
 		new Thread(() -> {
 			try
@@ -182,7 +152,26 @@ public class TempleOSRSClans extends PluginPanel
 
 	private void rebuild(String ClanID, TempleOSRSClan result, Throwable err)
 	{
+		if (!clanLookup.getText().equals(ClanID))
+		{
+			completed();
+			return;
+		}
 
+		if (Objects.isNull(result) || Objects.nonNull(err) || result.error)
+		{
+			error();
+			return;
+		}
+		rebuild(result);
+	}
+
+	private void rebuild(TempleOSRSClan result)
+	{
+		//update info
+		//update leaders
+		//update members
+		completed();
 	}
 
 	private void open()
