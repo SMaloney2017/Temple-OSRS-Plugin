@@ -12,7 +12,11 @@ public class TempleOSRSService
 
 	public static final String PLAYER_PAGE = "player/overview.php?player=";
 
+	public static final String CLAN_PAGE = "groups/overview.php?id=";
+
 	private static final String PLAYER_OVERVIEW = "/player/view/overview_skilling_view.php?player=";
+
+	private static final String CLAN_OVERVIEW = "/api/group_info.php?id=";
 
 	private static final String BOSSES = "&tracking=bosses";
 
@@ -47,6 +51,19 @@ public class TempleOSRSService
 
 		CompletableFuture<TempleOSRSPlayer> future = new CompletableFuture<>();
 		future.complete(new TempleOSRSPlayer(playerSkillsOverviewJSON, playerBossingOverviewJSON));
+		return future;
+	}
+
+	public static CompletableFuture<TempleOSRSClan> fetchClanAsync(String clanID) throws Exception
+	{
+		String clanOverviewURL = HOST + CLAN_OVERVIEW + clanID;
+
+		String clanOverviewJSON;
+
+		clanOverviewJSON = getJsonFromURL(clanOverviewURL);
+
+		CompletableFuture<TempleOSRSClan> future = new CompletableFuture<>();
+		future.complete(new TempleOSRSClan(clanOverviewJSON));
 		return future;
 	}
 }

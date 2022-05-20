@@ -1,7 +1,7 @@
 package com.templeosrs.util;
 
 import com.google.gson.Gson;
-import com.templeosrs.util.playerinfo.TempleOSRSPlayerSkills;
+import com.templeosrs.util.playerinfo.TempleOSRSPlayerOverview;
 import java.util.Objects;
 
 public class TempleOSRSPlayer
@@ -10,16 +10,16 @@ public class TempleOSRSPlayer
 
 	public boolean error = false;
 
-	public TempleOSRSPlayerSkills playerSkillsData;
+	public TempleOSRSPlayerOverview playerSkillsOverview;
 
-	public TempleOSRSPlayerSkills playerBossingData;
+	public TempleOSRSPlayerOverview playerBossesOverview;
 
 	public TempleOSRSPlayer(String playerSkillsOverviewJSON, String playerBossingOverviewJSON)
 	{
-		playerSkillsData = gson.fromJson(playerSkillsOverviewJSON, TempleOSRSPlayerSkills.class);
-		playerBossingData = gson.fromJson(playerBossingOverviewJSON, TempleOSRSPlayerSkills.class);
+		playerSkillsOverview = gson.fromJson(playerSkillsOverviewJSON, TempleOSRSPlayerOverview.class);
+		playerBossesOverview = gson.fromJson(playerBossingOverviewJSON, TempleOSRSPlayerOverview.class);
 
-		if (Objects.nonNull(playerSkillsData.error) || Objects.nonNull(playerBossingData.error))
+		if (Objects.nonNull(playerSkillsOverview.error) || Objects.nonNull(playerBossesOverview.error))
 		{
 			error = true;
 		}

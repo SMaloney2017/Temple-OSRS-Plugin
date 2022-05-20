@@ -3,7 +3,7 @@ package com.templeosrs.util.playerinfo;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-public class TempleOSRSGraph
+public class TempleOSRSPlayerGraph
 {
 	@SerializedName("skill")
 	public String skill;

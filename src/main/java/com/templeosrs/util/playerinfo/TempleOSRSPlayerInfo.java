@@ -2,7 +2,7 @@ package com.templeosrs.util.playerinfo;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TempleOSRSInfo
+public class TempleOSRSPlayerInfo
 {
 	@SerializedName("name")
 	public String name;

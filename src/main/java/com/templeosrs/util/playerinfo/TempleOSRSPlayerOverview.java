@@ -2,10 +2,10 @@ package com.templeosrs.util.playerinfo;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TempleOSRSPlayerSkills
+public class TempleOSRSPlayerOverview
 {
 	@SerializedName("data")
-	public TempleOSRSData data;
+	public TempleOSRSPlayerData data;
 
 	@SerializedName("error")
 	public TempleOSRSPlayerError error;

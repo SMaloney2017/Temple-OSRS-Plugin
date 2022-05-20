@@ -33,7 +33,7 @@ import com.google.common.collect.ImmutableList;
 import com.templeosrs.util.TempleOSRSHiscoreSkill;
 import static com.templeosrs.util.TempleOSRSHiscoreSkill.*;
 import com.templeosrs.util.TempleOSRSPlayer;
-import com.templeosrs.util.playerinfo.TempleOSRSData;
+import com.templeosrs.util.playerinfo.TempleOSRSPlayerData;
 import com.templeosrs.util.playerinfo.TempleOSRSSkill;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -135,7 +135,7 @@ public class TempleOSRSActivity extends JPanel
 
 	public void update(TempleOSRSPlayer result)
 	{
-		TempleOSRSData playerData = hiscoreSkillType.equals(HiscoreSkillType.SKILL) ? result.playerSkillsData.data : result.playerBossingData.data;
+		TempleOSRSPlayerData playerData = hiscoreSkillType.equals(HiscoreSkillType.SKILL) ? result.playerSkillsOverview.data : result.playerBossesOverview.data;
 
 		for (TempleOSRSHiscoreSkill skill : TempleOSRSHiscoreSkill.values())
 		{

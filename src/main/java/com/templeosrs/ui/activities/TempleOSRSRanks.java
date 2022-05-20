@@ -35,7 +35,7 @@ import com.templeosrs.util.TempleOSRSPlayer;
 import static com.templeosrs.util.TempleOSRSService.HOST;
 import static com.templeosrs.util.TempleOSRSService.PLAYER_PAGE;
 import static com.templeosrs.util.TempleOSRSService.fetchUserGainsAsync;
-import com.templeosrs.util.playerinfo.TempleOSRSData;
+import com.templeosrs.util.playerinfo.TempleOSRSPlayerData;
 import com.templeosrs.util.playerinfo.TempleOSRSSkill;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -74,7 +74,7 @@ public class TempleOSRSRanks extends PluginPanel
 		{"All Time", "alltime"},
 	}).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
-	public static IconTextField playerLookup;
+	public final IconTextField playerLookup;
 
 	private final Client client;
 
@@ -140,13 +140,6 @@ public class TempleOSRSRanks extends PluginPanel
 		add(layoutPanel);
 
 		addInputKeyListener(this.nameAutocompleter);
-	}
-
-	@Override
-	public void onActivate()
-	{
-		super.onActivate();
-		playerLookup.requestFocusInWindow();
 	}
 
 	public void shutdown()
@@ -302,8 +295,8 @@ public class TempleOSRSRanks extends PluginPanel
 
 	private void rebuildConstants(TempleOSRSPlayer result)
 	{
-		TempleOSRSData bossingData = result.playerBossingData.data;
-		TempleOSRSData skillsData = result.playerSkillsData.data;
+		TempleOSRSPlayerData bossingData = result.playerBossesOverview.data;
+		TempleOSRSPlayerData skillsData = result.playerSkillsOverview.data;
 
 		TempleOSRSSkill ehbData = bossingData.table.get("Ehb");
 		TempleOSRSSkill ehpData = skillsData.table.get("Ehp");
