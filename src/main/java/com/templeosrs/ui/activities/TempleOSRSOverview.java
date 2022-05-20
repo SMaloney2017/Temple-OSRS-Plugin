@@ -45,9 +45,9 @@ public class TempleOSRSOverview extends JPanel
 		playerOverview.setBorder(new EmptyBorder(5, 5, 5, 5));
 		playerOverview.setLayout(new GridLayout(3, 1, 0, 5));
 
-		EHP = new TempleOSRSOverviewLabel("Ehp", "Efficient Hours Played", DEFAULT, DEFAULT);
-		EHB = new TempleOSRSOverviewLabel("Ehb", "Efficient Hours Bossed", DEFAULT, DEFAULT);
-		EXP = new TempleOSRSOverviewLabel("Xp", "Total Experience", DEFAULT, DEFAULT);
+		EHP = new TempleOSRSOverviewLabel("Ehp", "Efficient Hours Played");
+		EHB = new TempleOSRSOverviewLabel("Ehb", "Efficient Hours Bossed");
+		EXP = new TempleOSRSOverviewLabel("Xp", "Total Experience");
 
 		playerOverview.add(EHP);
 		playerOverview.add(EHB);

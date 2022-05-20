@@ -19,29 +19,20 @@ public class TempleOSRSOverviewLabel extends JPanel
 
 	JLabel rank;
 
-	TempleOSRSOverviewLabel(String label, String tooltip, String x, String x1)
+	TempleOSRSOverviewLabel(String label, String tooltip)
 	{
-		total = new JLabel(x);
-		rank = new JLabel(x1);
+		this.total = createNewJLabel(label + " Total");
+		this.rank = createNewJLabel(label + " Rank");
 
 		setPreferredSize(new Dimension(PANEL_WIDTH, 25));
-		setBorder(new EmptyBorder(0, 15, 0, 0));
+		setBorder(new EmptyBorder(0, 10, 0, 0));
+		setBackground(ColorScheme.SCROLL_TRACK_COLOR);
+		setLayout(new GridLayout(1, 3));
 
 		JLabel field = new JLabel(label.toUpperCase(), SwingConstants.LEFT);
 		field.setFont(FontManager.getRunescapeSmallFont());
 		field.setForeground(ColorScheme.PROGRESS_ERROR_COLOR);
 		field.setToolTipText(tooltip);
-
-		total.setFont(FontManager.getRunescapeSmallFont());
-		total.setForeground(Color.WHITE);
-		total.setToolTipText(label + " Total");
-
-		rank.setFont(FontManager.getRunescapeSmallFont());
-		rank.setForeground(Color.WHITE);
-		rank.setToolTipText(label + " Rank");
-
-		setBackground(ColorScheme.SCROLL_TRACK_COLOR);
-		setLayout(new GridLayout(1, 3));
 
 		add(field);
 		add(total);
@@ -58,5 +49,16 @@ public class TempleOSRSOverviewLabel extends JPanel
 	{
 		total.setText(DEFAULT);
 		rank.setText(DEFAULT);
+	}
+
+	private JLabel createNewJLabel(String tooltip)
+	{
+		JLabel label = new JLabel(DEFAULT);
+
+		label.setFont(FontManager.getRunescapeSmallFont());
+		label.setForeground(Color.WHITE);
+		label.setToolTipText(tooltip);
+
+		return label;
 	}
 }
