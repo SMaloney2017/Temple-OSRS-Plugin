@@ -38,4 +38,23 @@ public interface TempleOSRSConfig extends Config
 	{
 		return false;
 	}
+
+	@ConfigSection(
+		name = "Clan Options",
+		description = "Clan Options",
+		position = 3
+	)
+	String clanOptions = "clanOptions";
+
+	@ConfigItem(
+		keyName = "clanKey",
+		name = "Clan Key",
+		description = "Required key to edit group members using the TempleOSRS API",
+		position = 4,
+		section = clanOptions
+	)
+	default String clanKey()
+	{
+		return "";
+	}
 }
