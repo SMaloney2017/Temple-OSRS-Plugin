@@ -26,13 +26,14 @@ import static org.pushingpixels.substance.internal.utils.LazyResettableHashMap.r
 
 public class TempleOSRSGroups extends PluginPanel
 {
-	private final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
-
 	public final IconTextField clanLookup;
 
-	private  JButton searchButton;
+	private final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
+
+	private JButton searchButton;
 
 	private JButton clanButton;
+
 	@Inject
 	public TempleOSRSGroups()
 	{
@@ -82,7 +83,7 @@ public class TempleOSRSGroups extends PluginPanel
 		buttonsLayout.setLayout(new FlowLayout());
 		buttonsLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 
-		searchButton = createNewButton("Search", "Search for clan by ID (found in TempleOSRS Clan-page url)");
+		searchButton = createNewButton("Search", "Search for clan by ID (Found in TempleOSRS clan-page url)");
 		searchButton.addActionListener(e -> fetchClan());
 
 		clanButton = createNewButton("Open Page", "Opens TempleOSRS clan page");

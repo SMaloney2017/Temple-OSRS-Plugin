@@ -204,7 +204,7 @@ public class TempleOSRSRanks extends PluginPanel
 		return buttonsLayout;
 	}
 
-	private JButton createNewButton(String text, String tooltip)
+	public JButton createNewButton(String text, String tooltip)
 	{
 		JButton newButton = new JButton();
 

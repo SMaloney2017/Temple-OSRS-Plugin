@@ -1,6 +1,5 @@
 package com.templeosrs.ui.activities;
 
-import static com.templeosrs.ui.TempleOSRSPanel.DEFAULT;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
