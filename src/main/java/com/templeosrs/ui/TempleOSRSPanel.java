@@ -36,7 +36,7 @@ public class TempleOSRSPanel extends PluginPanel
 
 	private static final String PATH = SCREENSHOT_DIR + File.separator + "TempleOSRS" + File.separator;
 
-	public final TempleOSRSRanks skills;
+	public final TempleOSRSRanks ranks;
 
 	public final TempleOSRSClans groups;
 
@@ -51,11 +51,11 @@ public class TempleOSRSPanel extends PluginPanel
 	public final MaterialTab competitionsTab;
 
 	@Inject
-	public TempleOSRSPanel(Client client, NameAutocompleter nameAutocompleter)
+	public TempleOSRSPanel(TempleOSRSRanks ranks, TempleOSRSClans clans,TempleOSRSCompetitions comps)
 	{
-		skills = new TempleOSRSRanks(client, nameAutocompleter);
-		groups = new TempleOSRSClans();
-		competitions = new TempleOSRSCompetitions();
+		this.ranks = ranks;
+		this.groups = clans;
+		this.competitions = comps;
 
 		getScrollPane().setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -65,7 +65,7 @@ public class TempleOSRSPanel extends PluginPanel
 		JPanel display = new JPanel();
 		tabGroup = new MaterialTabGroup(display);
 
-		skillsTab = new MaterialTab("Ranks", tabGroup, skills);
+		skillsTab = new MaterialTab("Ranks", tabGroup, ranks);
 		groupsTab = new MaterialTab("Clans", tabGroup, groups);
 		competitionsTab = new MaterialTab("Competitions", tabGroup, competitions);
 

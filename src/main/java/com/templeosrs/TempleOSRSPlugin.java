@@ -28,6 +28,8 @@ package com.templeosrs;
 import com.google.inject.Provides;
 import com.templeosrs.ui.TempleOSRSPanel;
 import com.templeosrs.ui.activities.TempleOSRSRanks;
+import com.templeosrs.ui.clans.TempleOSRSClans;
+import com.templeosrs.ui.competitions.TempleOSRSCompetitions;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.swing.SwingUtilities;
@@ -62,7 +64,11 @@ public class TempleOSRSPlugin extends Plugin
 
 	private static NavigationButton navButton;
 
-	public TempleOSRSRanks skillsPanel;
+	public TempleOSRSRanks ranks;
+
+	public TempleOSRSClans clans;
+
+	public TempleOSRSCompetitions competitions;
 
 	public TempleOSRSPanel panel;
 
@@ -81,8 +87,11 @@ public class TempleOSRSPlugin extends Plugin
 	@Override
 	protected void startUp()
 	{
-		skillsPanel = injector.getInstance(TempleOSRSRanks.class);
-		panel = injector.getInstance(TempleOSRSPanel.class);
+		ranks = injector.getInstance(TempleOSRSRanks.class);
+		clans = injector.getInstance(TempleOSRSClans.class);
+		competitions = injector.getInstance(TempleOSRSCompetitions.class);
+
+		panel = new TempleOSRSPanel(ranks, clans, competitions);
 		navButton = NavigationButton.builder()
 			.tooltip("TempleOSRS")
 			.icon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "ehp.png"))
@@ -108,7 +117,7 @@ public class TempleOSRSPlugin extends Plugin
 			menuManager.get().removePlayerMenuItem(TEMPLE);
 		}
 
-		skillsPanel.shutdown();
+		ranks.shutdown();
 	}
 
 	@Subscribe
@@ -191,7 +200,7 @@ public class TempleOSRSPlugin extends Plugin
 				navButton.getOnSelect().run();
 			}
 			panel.tabGroup.select(panel.skillsTab);
-			skillsPanel.fetchUser(username);
+			ranks.fetchUser(username);
 		});
 	}
 }
