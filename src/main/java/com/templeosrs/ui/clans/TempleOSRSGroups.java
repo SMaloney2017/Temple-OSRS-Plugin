@@ -28,17 +28,17 @@ import net.runelite.client.util.LinkBrowser;
 
 public class TempleOSRSGroups extends PluginPanel
 {
+	private static final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
+
 	public final IconTextField clanLookup;
 
 	private final Client client;
 
-	private final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
+	private final JButton verifyButton;
 
 	private JButton searchButton;
 
 	private JButton clanButton;
-
-	private final JButton verifyButton;
 
 	@Inject
 	public TempleOSRSGroups(Client client)
