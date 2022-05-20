@@ -60,10 +60,12 @@ public class TempleOSRSActivityTableRow extends JPanel
 
 	double ehp;
 
+	HiscoreSkillType type;
+
 	TempleOSRSActivityTableRow(String skillName, String tooltip, Color color, HiscoreSkillType type)
 	{
 		this.name = skillName;
-
+		this.type = type;
 		setLayout(new BorderLayout());
 		setBackground(color);
 
@@ -112,13 +114,14 @@ public class TempleOSRSActivityTableRow extends JPanel
 		add(row);
 	}
 
-	void update(long gain, long rank, double ehp)
+	void update(long gain, long level, long rank, double ehp)
 	{
 		this.total = gain;
 		this.rank = rank;
 		this.ehp = ehp;
 
 		skillGain.update(gain);
+		skillGain.setToolTipText(type.equals(HiscoreSkillType.SKILL) ? level + " Levels" : "");
 		rankGain.update(rank);
 		ehpGain.update(ehp);
 	}

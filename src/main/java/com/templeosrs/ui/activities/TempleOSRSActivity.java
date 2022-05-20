@@ -146,19 +146,20 @@ public class TempleOSRSActivity extends JPanel
 				com.templeosrs.util.playerinfo.TempleOSRSSkill skillData = playerData.table.get(skill.getName());
 
 				long total = Objects.nonNull(skillData.xp) ? skillData.xp.longValue() : 0;
+				long levels = Objects.nonNull(skillData.level) ? skillData.level.longValue() : 0;
 				long rank = Objects.nonNull(skillData.rank) ? skillData.rank.longValue() : 0;
 				double ehp = hiscoreSkillType.equals(HiscoreSkillType.SKILL) ? (Objects.nonNull(skillData.ehp) ? skillData.ehp : 0) : (Objects.nonNull(skillData.ehb) ? skillData.ehb : 0);
 
 				this.total += total;
 
-				row.update(total, rank, ehp);
+				row.update(total, levels, rank, ehp);
 			}
 		}
 	}
 
 	public void update(long rank, double ehp)
 	{
-		overall.update(total, rank, ehp);
+		overall.update(total, 0, rank, ehp);
 	}
 
 	public void reset()
