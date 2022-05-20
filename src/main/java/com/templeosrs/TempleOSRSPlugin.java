@@ -28,7 +28,7 @@ package com.templeosrs;
 import com.google.inject.Provides;
 import com.templeosrs.ui.TempleOSRSPanel;
 import com.templeosrs.ui.activities.TempleOSRSRanks;
-import com.templeosrs.ui.clans.TempleOSRSClans;
+import com.templeosrs.ui.clans.TempleOSRSGroups;
 import com.templeosrs.ui.competitions.TempleOSRSCompetitions;
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -66,7 +66,7 @@ public class TempleOSRSPlugin extends Plugin
 
 	public TempleOSRSRanks ranks;
 
-	public TempleOSRSClans clans;
+	public TempleOSRSGroups clans;
 
 	public TempleOSRSCompetitions competitions;
 
@@ -88,7 +88,7 @@ public class TempleOSRSPlugin extends Plugin
 	protected void startUp()
 	{
 		ranks = injector.getInstance(TempleOSRSRanks.class);
-		clans = injector.getInstance(TempleOSRSClans.class);
+		clans = injector.getInstance(TempleOSRSGroups.class);
 		competitions = injector.getInstance(TempleOSRSCompetitions.class);
 
 		panel = new TempleOSRSPanel(ranks, clans, competitions);

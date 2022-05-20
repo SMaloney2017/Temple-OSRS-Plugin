@@ -24,7 +24,7 @@ import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.util.LinkBrowser;
 import static org.pushingpixels.substance.internal.utils.LazyResettableHashMap.reset;
 
-public class TempleOSRSClans extends PluginPanel
+public class TempleOSRSGroups extends PluginPanel
 {
 	private final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
 
@@ -34,7 +34,7 @@ public class TempleOSRSClans extends PluginPanel
 
 	private JButton clanButton;
 	@Inject
-	public TempleOSRSClans()
+	public TempleOSRSGroups()
 	{
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
