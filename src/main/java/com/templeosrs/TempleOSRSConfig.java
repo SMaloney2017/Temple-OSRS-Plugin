@@ -42,7 +42,6 @@ public interface TempleOSRSConfig extends Config
 	@ConfigSection(
 		name = "Clan Options",
 		description = "Clan Options",
-		closedByDefault = true,
 		position = 3
 	)
 	String clanOptions = "clanOptions";
