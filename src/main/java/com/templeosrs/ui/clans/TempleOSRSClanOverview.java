@@ -19,7 +19,6 @@ import javax.swing.border.LineBorder;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
-import net.runelite.client.util.ColorUtil;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.LinkBrowser;
 
