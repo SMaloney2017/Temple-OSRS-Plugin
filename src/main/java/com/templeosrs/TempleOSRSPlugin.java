@@ -136,14 +136,14 @@ public class TempleOSRSPlugin extends Plugin
 					menuManager.get().addPlayerMenuItem(TEMPLE);
 				}
 
-				if (config.clanMembers())
-				{
-					clans.add(clans.clanMembers);
-				}
-
 				if (config.clanAchievements())
 				{
 					clans.add(clans.clanAchievements);
+				}
+
+				if (config.clanMembers())
+				{
+					clans.add(clans.clanMembers);
 				}
 			}
 		}
