@@ -1,6 +1,7 @@
 package com.templeosrs.ui.clans;
 
 import com.google.common.base.Strings;
+import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.util.TempleOSRSClan;
 import static com.templeosrs.util.TempleOSRSService.CLAN_PAGE;
 import static com.templeosrs.util.TempleOSRSService.HOST;
@@ -24,6 +25,7 @@ import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
+import net.runelite.client.ui.components.PluginErrorPanel;
 import net.runelite.client.util.LinkBrowser;
 
 public class TempleOSRSClans extends PluginPanel
@@ -34,17 +36,22 @@ public class TempleOSRSClans extends PluginPanel
 
 	private final Client client;
 
-	private final TempleOSRSClanInfo overview;
+	private final TempleOSRSPlugin plugin;
 
 	private final JButton verifyButton;
+
+	private final PluginErrorPanel errorPanel = new PluginErrorPanel();
+
+	private final JPanel fetchLayout;
 
 	private JButton searchButton;
 
 	private JButton clanButton;
 
 	@Inject
-	public TempleOSRSClans(Client client)
+	public TempleOSRSClans(TempleOSRSPlugin plugin, Client client)
 	{
+		this.plugin = plugin;
 		this.client = client;
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
@@ -53,7 +60,7 @@ public class TempleOSRSClans extends PluginPanel
 		layoutPanel.setLayout(new BoxLayout(layoutPanel, BoxLayout.Y_AXIS));
 		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-		JPanel fetchLayout = new JPanel();
+		fetchLayout = new JPanel();
 		fetchLayout.setLayout(new BoxLayout(fetchLayout, BoxLayout.Y_AXIS));
 		fetchLayout.setBorder(new EmptyBorder(5, 5, 0, 5));
 		fetchLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
@@ -69,19 +76,19 @@ public class TempleOSRSClans extends PluginPanel
 		verifyLayout.setBorder(new EmptyBorder(0, 0, 5, 0));
 		verifyLayout.setOpaque(false);
 
-		verifyButton = createNewButton("Sync Members", "Sync members of the clan you are currently in");
+		verifyButton = createNewButton("Sync Members", "Sync members of the clan you are currently in (Requires key)");
 		verifyButton.addActionListener(e -> verify());
 		verifyButton.setEnabled(false);
 		verifyLayout.add(verifyButton);
 
 		fetchLayout.add(verifyLayout);
 
-		overview = new TempleOSRSClanInfo();
-
 		layoutPanel.add(fetchLayout);
-		layoutPanel.add(overview);
+
+		errorPanel.setContent("Clans", "You have not fetched clan information yet.");
 
 		add(layoutPanel);
+		add(errorPanel);
 	}
 
 	private IconTextField buildTextField()
@@ -177,6 +184,8 @@ public class TempleOSRSClans extends PluginPanel
 
 	private void rebuild(String ClanID, TempleOSRSClan result, Throwable err)
 	{
+		remove(errorPanel);
+
 		if (!clanLookup.getText().equals(ClanID))
 		{
 			completed();
@@ -205,6 +214,16 @@ public class TempleOSRSClans extends PluginPanel
 		{
 			verifyButton.setEnabled(true);
 		}
+
+		String[] leaders = result.clanOverview.data.leaders;
+		String[] members = result.clanOverview.data.members;
+
+		SwingUtilities.invokeLater(() -> {
+			add(new TempleOSRSClanMembers(plugin, "Leaders", leaders));
+			add(new TempleOSRSClanMembers(plugin, "Members", members));
+			add(new TempleOSRSClanAchievements());
+		});
+
 		completed();
 	}
 
@@ -238,6 +257,9 @@ public class TempleOSRSClans extends PluginPanel
 	private void reset()
 	{
 		verifyButton.setEnabled(false);
+		removeAll();
+		add(fetchLayout);
+		add(errorPanel);
 	}
 
 	private void error()
@@ -247,6 +269,7 @@ public class TempleOSRSClans extends PluginPanel
 		verifyButton.setEnabled(false);
 		clanLookup.setIcon(IconTextField.Icon.ERROR);
 		clanLookup.setEditable(true);
+		reset();
 	}
 
 	private void loading()

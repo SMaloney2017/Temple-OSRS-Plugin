@@ -42,7 +42,7 @@ public class TempleOSRSOverview extends JPanel
 
 		playerOverview = new JPanel();
 		playerOverview.setBorder(new EmptyBorder(5, 5, 5, 5));
-		playerOverview.setLayout(new GridLayout(3, 1));
+		playerOverview.setLayout(new GridLayout(3, 1, 0, 2));
 
 		EHP = new TempleOSRSOverviewSection("Ehp", "Efficient Hours Played", ColorScheme.DARKER_GRAY_COLOR);
 		EHB = new TempleOSRSOverviewSection("Ehb", "Efficient Hours Bossed", ColorScheme.DARK_GRAY_HOVER_COLOR);

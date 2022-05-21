@@ -21,7 +21,7 @@ public class TempleOSRSInfoSection extends JPanel
 		this.value = new JLabel(DEFAULT);
 		value.setFont(FontManager.getRunescapeSmallFont());
 
-		setPreferredSize(new Dimension(PANEL_WIDTH, 25));
+		setPreferredSize(new Dimension(PANEL_WIDTH, 20));
 		setBorder(new EmptyBorder(0, 10, 0, 0));
 		setLayout(new GridLayout(1, 2));
 		setBackground(color);

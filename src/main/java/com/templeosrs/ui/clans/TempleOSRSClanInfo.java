@@ -1,6 +1,5 @@
 package com.templeosrs.ui.clans;
 
-import com.templeosrs.ui.activities.TempleOSRSOverviewSection;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -21,7 +20,7 @@ public class TempleOSRSClanInfo extends JPanel
 
 	public final TempleOSRSInfoSection clanName;
 
-	public final TempleOSRSInfoSection clanMembers;
+	public final TempleOSRSInfoSection memberCount;
 
 	TempleOSRSClanInfo()
 	{
@@ -48,10 +47,10 @@ public class TempleOSRSClanInfo extends JPanel
 		clanOverview.setLayout(new GridLayout(0, 1));
 
 		clanName = new TempleOSRSInfoSection("Clan Name", ColorScheme.DARKER_GRAY_COLOR);
-		clanMembers = new TempleOSRSInfoSection("Members", ColorScheme.DARK_GRAY_HOVER_COLOR);
+		memberCount = new TempleOSRSInfoSection("Members", ColorScheme.DARK_GRAY_HOVER_COLOR);
 
 		clanOverview.add(clanName);
-		clanOverview.add(clanMembers);
+		clanOverview.add(memberCount);
 
 		clanSocials = new JPanel();
 		clanSocials.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
@@ -67,7 +66,6 @@ public class TempleOSRSClanInfo extends JPanel
 	public void reset()
 	{
 		clanName.reset();
-		clanMembers.reset();
 		clanSocials.removeAll();
 	}
 }

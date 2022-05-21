@@ -191,7 +191,7 @@ public class TempleOSRSPlugin extends Plugin
 		return configManager.getConfig(TempleOSRSConfig.class);
 	}
 
-	private void fetchUser(String username)
+	public void fetchUser(String username)
 	{
 		SwingUtilities.invokeLater(() ->
 		{

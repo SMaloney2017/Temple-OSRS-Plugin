@@ -85,6 +85,7 @@ public class TempleOSRSPanel extends PluginPanel
 		JPanel saveLayout = new JPanel(new BorderLayout());
 		saveLayout.setBorder(new EmptyBorder(5, 5, 5, 5));
 		saveLayout.setOpaque(false);
+
 		JPopupMenu menu = new JPopupMenu();
 
 		JMenuItem takeScreenshot = new JMenuItem();
