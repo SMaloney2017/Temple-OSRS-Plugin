@@ -59,22 +59,26 @@ public interface TempleOSRSConfig extends Config
 		return "";
 	}
 
-	@ConfigSection(
-		name = "Optional Displays",
-		description = "Optional Displays",
-		closedByDefault = true,
-		position = 5
-	)
-	String optionalDisplays = "optionalDisplays";
-
 	@ConfigItem(
 		keyName = "clanAchievements",
 		name = "Clan Achievements",
-		description = "Fetch and display group achievements when searching for clan",
-		position = 6,
-		section = optionalDisplays
+		description = "Display group achievements when fetching clan-information",
+		position = 5,
+		section = clanOptions
 	)
 	default boolean clanAchievements()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = "clanMembers",
+		name = "Clan Members",
+		description = "Display clan members when fetching clan-information",
+		position = 6,
+		section = clanOptions
+	)
+	default boolean clanMembers()
 	{
 		return true;
 	}

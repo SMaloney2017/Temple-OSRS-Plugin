@@ -128,10 +128,21 @@ public class TempleOSRSPlugin extends Plugin
 			if (client != null)
 			{
 				menuManager.get().removePlayerMenuItem(TEMPLE);
-
+				clans.clanMembers.setVisible(false);
+				clans.clanAchievements.setVisible(false);
 				if (config.playerLookup())
 				{
 					menuManager.get().addPlayerMenuItem(TEMPLE);
+				}
+
+				if (config.clanMembers())
+				{
+					clans.clanMembers.setVisible(true);
+				}
+
+				if (config.clanAchievements())
+				{
+					clans.clanAchievements.setVisible(true);
 				}
 			}
 		}

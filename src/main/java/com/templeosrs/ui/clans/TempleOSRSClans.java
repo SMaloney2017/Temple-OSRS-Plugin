@@ -1,6 +1,7 @@
 package com.templeosrs.ui.clans;
 
 import com.google.common.base.Strings;
+import com.templeosrs.TempleOSRSConfig;
 import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.util.TempleOSRSClan;
 import static com.templeosrs.util.TempleOSRSService.CLAN_PAGE;
@@ -39,6 +40,14 @@ public class TempleOSRSClans extends PluginPanel
 
 	private final TempleOSRSPlugin plugin;
 
+	private final TempleOSRSConfig config;
+
+	private TempleOSRSClanMembers clanLeaders;
+
+	public TempleOSRSClanMembers clanMembers;
+
+	public TempleOSRSClanAchievements clanAchievements;
+
 	private final JButton verifyButton;
 
 	private final PluginErrorPanel errorPanel = new PluginErrorPanel();
@@ -50,10 +59,11 @@ public class TempleOSRSClans extends PluginPanel
 	private JButton clanButton;
 
 	@Inject
-	public TempleOSRSClans(TempleOSRSPlugin plugin, Client client)
+	public TempleOSRSClans(TempleOSRSConfig config, TempleOSRSPlugin plugin, Client client)
 	{
 		this.plugin = plugin;
 		this.client = client;
+		this.config = config;
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
@@ -222,9 +232,21 @@ public class TempleOSRSClans extends PluginPanel
 
 		SwingUtilities.invokeLater(() -> {
 			add(new TempleOSRSClanOverview(info));
-			add(new TempleOSRSClanMembers(plugin, "Leaders", leaders));
-			add(new TempleOSRSClanMembers(plugin, "Members", members));
-			add(new TempleOSRSClanAchievements());
+
+			clanLeaders = new TempleOSRSClanMembers(plugin, "Leaders", leaders);
+			add(clanLeaders);
+
+			clanMembers = new TempleOSRSClanMembers(plugin, "Members", members);
+			if(config.clanMembers())
+			{
+				add(clanMembers);
+			}
+
+			clanAchievements = new TempleOSRSClanAchievements();
+			if(config.clanAchievements())
+			{
+				add(clanAchievements);
+			}
 		});
 
 		completed();
