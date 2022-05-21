@@ -12,13 +12,13 @@ import net.runelite.client.ui.FontManager;
 
 public class TempleOSRSOverview extends JPanel
 {
-	public JPanel playerOverview;
+	public final JPanel playerOverview;
 
-	public TempleOSRSOverviewLabel EXP;
+	public final TempleOSRSOverviewSection EXP;
 
-	public TempleOSRSOverviewLabel EHP;
+	public final TempleOSRSOverviewSection EHP;
 
-	public TempleOSRSOverviewLabel EHB;
+	public final TempleOSRSOverviewSection EHB;
 
 	public TempleOSRSOverview()
 	{
@@ -42,11 +42,11 @@ public class TempleOSRSOverview extends JPanel
 
 		playerOverview = new JPanel();
 		playerOverview.setBorder(new EmptyBorder(5, 5, 5, 5));
-		playerOverview.setLayout(new GridLayout(3, 1, 0, 5));
+		playerOverview.setLayout(new GridLayout(3, 1));
 
-		EHP = new TempleOSRSOverviewLabel("Ehp", "Efficient Hours Played");
-		EHB = new TempleOSRSOverviewLabel("Ehb", "Efficient Hours Bossed");
-		EXP = new TempleOSRSOverviewLabel("Xp", "Total Experience");
+		EHP = new TempleOSRSOverviewSection("Ehp", "Efficient Hours Played", ColorScheme.DARKER_GRAY_COLOR);
+		EHB = new TempleOSRSOverviewSection("Ehb", "Efficient Hours Bossed", ColorScheme.DARK_GRAY_HOVER_COLOR);
+		EXP = new TempleOSRSOverviewSection("Xp", "Total Experience", ColorScheme.DARKER_GRAY_COLOR);
 
 		playerOverview.add(EHP);
 		playerOverview.add(EHB);

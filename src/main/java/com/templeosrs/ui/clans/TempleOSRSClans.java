@@ -26,13 +26,15 @@ import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.util.LinkBrowser;
 
-public class TempleOSRSGroups extends PluginPanel
+public class TempleOSRSClans extends PluginPanel
 {
 	private static final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
 
 	public final IconTextField clanLookup;
 
 	private final Client client;
+
+	private final TempleOSRSClanInfo overview;
 
 	private final JButton verifyButton;
 
@@ -41,7 +43,7 @@ public class TempleOSRSGroups extends PluginPanel
 	private JButton clanButton;
 
 	@Inject
-	public TempleOSRSGroups(Client client)
+	public TempleOSRSClans(Client client)
 	{
 		this.client = client;
 
@@ -74,7 +76,10 @@ public class TempleOSRSGroups extends PluginPanel
 
 		fetchLayout.add(verifyLayout);
 
+		overview = new TempleOSRSClanInfo();
+
 		layoutPanel.add(fetchLayout);
+		layoutPanel.add(overview);
 
 		add(layoutPanel);
 	}

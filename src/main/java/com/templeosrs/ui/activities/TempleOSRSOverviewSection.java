@@ -13,20 +13,20 @@ import net.runelite.client.ui.FontManager;
 import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 import net.runelite.client.util.QuantityFormatter;
 
-public class TempleOSRSOverviewLabel extends JPanel
+public class TempleOSRSOverviewSection extends JPanel
 {
 	JLabel total;
 
 	JLabel rank;
 
-	TempleOSRSOverviewLabel(String label, String tooltip)
+	TempleOSRSOverviewSection(String label, String tooltip, Color color)
 	{
 		this.total = createNewJLabel(label + " Total");
 		this.rank = createNewJLabel(label + " Rank");
 
 		setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 		setBorder(new EmptyBorder(0, 10, 0, 0));
-		setBackground(ColorScheme.SCROLL_TRACK_COLOR);
+		setBackground(color);
 		setLayout(new GridLayout(1, 3));
 
 		JLabel field = new JLabel(label.toUpperCase(), SwingConstants.LEFT);
@@ -56,7 +56,6 @@ public class TempleOSRSOverviewLabel extends JPanel
 		JLabel label = new JLabel(DEFAULT);
 
 		label.setFont(FontManager.getRunescapeSmallFont());
-		label.setForeground(Color.WHITE);
 		label.setToolTipText(tooltip);
 
 		return label;

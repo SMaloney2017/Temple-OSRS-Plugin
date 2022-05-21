@@ -2,7 +2,7 @@ package com.templeosrs.ui;
 
 import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.ui.activities.TempleOSRSRanks;
-import com.templeosrs.ui.clans.TempleOSRSGroups;
+import com.templeosrs.ui.clans.TempleOSRSClans;
 import com.templeosrs.ui.competitions.TempleOSRSCompetitions;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
@@ -36,7 +36,7 @@ public class TempleOSRSPanel extends PluginPanel
 
 	public final TempleOSRSRanks ranks;
 
-	public final TempleOSRSGroups groups;
+	public final TempleOSRSClans groups;
 
 	public final TempleOSRSCompetitions competitions;
 
@@ -49,7 +49,7 @@ public class TempleOSRSPanel extends PluginPanel
 	public final MaterialTab competitionsTab;
 
 	@Inject
-	public TempleOSRSPanel(TempleOSRSRanks ranks, TempleOSRSGroups clans, TempleOSRSCompetitions comps)
+	public TempleOSRSPanel(TempleOSRSRanks ranks, TempleOSRSClans clans, TempleOSRSCompetitions comps)
 	{
 		this.ranks = ranks;
 		this.groups = clans;
