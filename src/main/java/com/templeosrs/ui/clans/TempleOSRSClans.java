@@ -236,16 +236,16 @@ public class TempleOSRSClans extends PluginPanel
 			clanLeaders = new TempleOSRSClanMembers(plugin, "Leaders", leaders);
 			add(clanLeaders);
 
-			clanMembers = new TempleOSRSClanMembers(plugin, "Members", members);
-			if (config.clanMembers())
-			{
-				add(clanMembers);
-			}
-
 			clanAchievements = new TempleOSRSClanAchievements();
 			if (config.clanAchievements())
 			{
 				add(clanAchievements);
+			}
+
+			clanMembers = new TempleOSRSClanMembers(plugin, "Members", members);
+			if (config.clanMembers())
+			{
+				add(clanMembers);
 			}
 		});
 
