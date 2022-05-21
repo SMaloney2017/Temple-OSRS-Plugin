@@ -23,6 +23,7 @@ public class TempleOSRSClanMembers extends JPanel
 	public final JPanel clanMembers;
 
 	public final JPanel layoutPanel;
+
 	TempleOSRSClanMembers(TempleOSRSPlugin plugin, String heading, String[] members)
 	{
 		setLayout(new BorderLayout());
