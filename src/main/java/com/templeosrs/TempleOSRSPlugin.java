@@ -128,8 +128,9 @@ public class TempleOSRSPlugin extends Plugin
 			if (client != null)
 			{
 				menuManager.get().removePlayerMenuItem(TEMPLE);
-				clans.clanMembers.setVisible(false);
-				clans.clanAchievements.setVisible(false);
+				clans.remove(clans.clanMembers);
+				clans.remove(clans.clanAchievements);
+
 				if (config.playerLookup())
 				{
 					menuManager.get().addPlayerMenuItem(TEMPLE);
@@ -137,12 +138,12 @@ public class TempleOSRSPlugin extends Plugin
 
 				if (config.clanMembers())
 				{
-					clans.clanMembers.setVisible(true);
+					clans.add(clans.clanMembers);
 				}
 
 				if (config.clanAchievements())
 				{
-					clans.clanAchievements.setVisible(true);
+					clans.add(clans.clanAchievements);
 				}
 			}
 		}
