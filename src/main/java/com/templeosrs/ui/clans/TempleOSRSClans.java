@@ -6,6 +6,7 @@ import com.templeosrs.util.TempleOSRSClan;
 import static com.templeosrs.util.TempleOSRSService.CLAN_PAGE;
 import static com.templeosrs.util.TempleOSRSService.HOST;
 import static com.templeosrs.util.TempleOSRSService.fetchClanAsync;
+import com.templeosrs.util.claninfo.TempleOSRSClanInfo;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -217,8 +218,10 @@ public class TempleOSRSClans extends PluginPanel
 
 		String[] leaders = result.clanOverview.data.leaders;
 		String[] members = result.clanOverview.data.members;
+		TempleOSRSClanInfo info = result.clanOverview.data.info;
 
 		SwingUtilities.invokeLater(() -> {
+			add(new TempleOSRSClanOverview(info));
 			add(new TempleOSRSClanMembers(plugin, "Leaders", leaders));
 			add(new TempleOSRSClanMembers(plugin, "Members", members));
 			add(new TempleOSRSClanAchievements());
