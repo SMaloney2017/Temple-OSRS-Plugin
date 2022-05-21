@@ -14,6 +14,12 @@ public interface TempleOSRSConfig extends Config
 		position = 0
 	)
 	String menuOptions = "menuOptions";
+	@ConfigSection(
+		name = "Clan Options",
+		description = "Clan Options",
+		position = 3
+	)
+	String clanOptions = "clanOptions";
 
 	@ConfigItem(
 		keyName = "autocomplete",
@@ -38,13 +44,6 @@ public interface TempleOSRSConfig extends Config
 	{
 		return false;
 	}
-
-	@ConfigSection(
-		name = "Clan Options",
-		description = "Clan Options",
-		position = 3
-	)
-	String clanOptions = "clanOptions";
 
 	@ConfigItem(
 		keyName = "clanKey",

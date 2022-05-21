@@ -42,17 +42,17 @@ public class TempleOSRSClans extends PluginPanel
 
 	private final TempleOSRSConfig config;
 
-	private TempleOSRSClanMembers clanLeaders;
-
-	public TempleOSRSClanMembers clanMembers;
-
-	public TempleOSRSClanAchievements clanAchievements;
-
 	private final JButton verifyButton;
 
 	private final PluginErrorPanel errorPanel = new PluginErrorPanel();
 
 	private final JPanel fetchLayout;
+
+	public TempleOSRSClanMembers clanMembers;
+
+	public TempleOSRSClanAchievements clanAchievements;
+
+	private TempleOSRSClanMembers clanLeaders;
 
 	private JButton searchButton;
 
@@ -237,13 +237,13 @@ public class TempleOSRSClans extends PluginPanel
 			add(clanLeaders);
 
 			clanMembers = new TempleOSRSClanMembers(plugin, "Members", members);
-			if(config.clanMembers())
+			if (config.clanMembers())
 			{
 				add(clanMembers);
 			}
 
 			clanAchievements = new TempleOSRSClanAchievements();
-			if(config.clanAchievements())
+			if (config.clanAchievements())
 			{
 				add(clanAchievements);
 			}
