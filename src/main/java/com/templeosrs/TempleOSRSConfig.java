@@ -80,6 +80,6 @@ public interface TempleOSRSConfig extends Config
 	)
 	default boolean clanMembers()
 	{
-		return true;
+		return false;
 	}
 }
