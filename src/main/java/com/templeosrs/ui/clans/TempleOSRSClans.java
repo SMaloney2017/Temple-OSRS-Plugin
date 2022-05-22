@@ -27,7 +27,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import net.runelite.api.Client;
-import net.runelite.api.clan.ClanChannel;
 import net.runelite.api.clan.ClanMember;
 import net.runelite.api.clan.ClanSettings;
 import net.runelite.client.ui.ColorScheme;
@@ -236,14 +235,6 @@ public class TempleOSRSClans extends PluginPanel
 			return;
 		}
 
-		ClanChannel localClan = client.getClanChannel();
-
-		String fetchedName = result.clanOverview.data.info.name;
-		if (localClan != null && Objects.equals(fetchedName, localClan.getName()))
-		{
-			verifyButton.setEnabled(true);
-		}
-
 		String[] leaders = result.clanOverview.data.leaders;
 		String[] members = result.clanOverview.data.members;
 		TempleOSRSClanInfo info = result.clanOverview.data.info;
@@ -308,6 +299,13 @@ public class TempleOSRSClans extends PluginPanel
 			return;
 		}
 
+		ClanSettings localClan = client.getClanSettings();
+
+		if (localClan == null)
+		{
+			return;
+		}
+
 		final int confirmation = JOptionPane.showOptionDialog(verifyButton, "This will sync your clan's TempleOSRS members-list to all members in your clan.",
 			"Are you sure?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
 			null, new String[]{
@@ -320,32 +318,27 @@ public class TempleOSRSClans extends PluginPanel
 			return;
 		}
 
-		ClanSettings localClan = client.getClanSettings();
-
 		List<String> clanList = new ArrayList<>();
 
-		if (localClan != null)
+		for (ClanMember member : localClan.getMembers())
 		{
-			for (ClanMember member : localClan.getMembers())
-			{
-				clanList.add(format(member.getName()));
-			}
-
-			loading();
-
-			new Thread(() -> {
-				try
-				{
-					String clanID = clanLookup.getText();
-					postClanMembersAsync(clanID, config.clanKey(), clanList).whenCompleteAsync((result, err) -> response(clanID, result, err));
-				}
-				catch (Exception ignored)
-				{
-					error();
-				}
-			}).start();
-
+			clanList.add(format(member.getName()));
 		}
+
+		loading();
+
+		new Thread(() -> {
+			try
+			{
+				String clanID = clanLookup.getText();
+				postClanMembersAsync(clanID, config.clanKey(), clanList).whenCompleteAsync((result, err) -> response(clanID, result, err));
+			}
+			catch (Exception ignored)
+			{
+				error();
+			}
+		}).start();
+
 	}
 
 	private void response(String clanID, Response response, Throwable err)
@@ -397,6 +390,7 @@ public class TempleOSRSClans extends PluginPanel
 	{
 		searchButton.setEnabled(true);
 		clanButton.setEnabled(true);
+		verifyButton.setEnabled(true);
 		clanLookup.setIcon(IconTextField.Icon.SEARCH);
 		clanLookup.setEditable(true);
 	}
