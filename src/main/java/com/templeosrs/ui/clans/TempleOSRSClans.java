@@ -279,9 +279,14 @@ public class TempleOSRSClans extends PluginPanel
 	private void reset()
 	{
 		verifyButton.setEnabled(false);
+
 		clanLeaders = null;
 		clanMembers = null;
 		clanAchievements = null;
+
+		/* Invoke garbage collector to avoid errors */
+		System.gc();
+
 		removeAll();
 		add(fetchLayout);
 		add(errorPanel);
