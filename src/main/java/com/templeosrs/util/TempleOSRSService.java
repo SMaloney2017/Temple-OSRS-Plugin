@@ -97,8 +97,9 @@ public class TempleOSRSService
 		return JSON;
 	}
 
-	public static CompletableFuture<Response> postClanMembersAsync(String clanID, String verification, List<String> members) throws Exception
+	public static CompletableFuture<TempleOSRSSync> postClanMembersAsync(String clanID, String verification, List<String> members) throws Exception
 	{
+		String JSON = null;
 		OkHttpClient client = new OkHttpClient();
 
 		RequestBody formBody = new FormBody.Builder()
@@ -114,10 +115,16 @@ public class TempleOSRSService
 
 		Call call = client.newCall(request);
 		Response response = call.execute();
-		response.close();
+		ResponseBody body = response.body();
 
-		CompletableFuture<Response> future = new CompletableFuture<>();
-		future.complete(response);
+		if (body != null)
+		{
+			JSON = body.string();
+			response.close();
+		}
+
+		CompletableFuture<TempleOSRSSync> future = new CompletableFuture<>();
+		future.complete(new TempleOSRSSync(JSON));
 		return future;
 	}
 }

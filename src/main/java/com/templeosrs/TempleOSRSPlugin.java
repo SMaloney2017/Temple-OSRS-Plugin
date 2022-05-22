@@ -104,7 +104,6 @@ public class TempleOSRSPlugin extends Plugin
 		if (config.playerLookup() && client != null)
 		{
 			menuManager.get().addPlayerMenuItem(TEMPLE);
-			System.out.println("test");
 		}
 	}
 

@@ -8,6 +8,7 @@ import static com.templeosrs.util.TempleOSRSService.CLAN_PAGE;
 import static com.templeosrs.util.TempleOSRSService.HOST;
 import static com.templeosrs.util.TempleOSRSService.fetchClanAsync;
 import static com.templeosrs.util.TempleOSRSService.postClanMembersAsync;
+import com.templeosrs.util.TempleOSRSSync;
 import com.templeosrs.util.claninfo.TempleOSRSClanAchievementSkill;
 import com.templeosrs.util.claninfo.TempleOSRSClanInfo;
 import java.awt.BorderLayout;
@@ -35,7 +36,6 @@ import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.PluginErrorPanel;
 import net.runelite.client.util.LinkBrowser;
-import okhttp3.Response;
 
 public class TempleOSRSClans extends PluginPanel
 {
@@ -92,7 +92,6 @@ public class TempleOSRSClans extends PluginPanel
 
 		verifyButton = createNewButton("Sync Members", "Sync all members of the clan you are currently in (Requires key)");
 		verifyButton.addActionListener(e -> verify());
-		verifyButton.setEnabled(false);
 		verifyLayout.add(verifyButton);
 
 		fetchLayout.add(verifyLayout);
@@ -306,7 +305,7 @@ public class TempleOSRSClans extends PluginPanel
 			return;
 		}
 
-		final int confirmation = JOptionPane.showOptionDialog(verifyButton, "This will sync your clan's TempleOSRS members-list to all members in your clan.",
+		final int confirmation = JOptionPane.showOptionDialog(verifyButton, "This will sync the fetched clan's TempleOSRS members-list to all members in the current account's clan.",
 			"Are you sure?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
 			null, new String[]{
 				"Yes",
@@ -327,10 +326,11 @@ public class TempleOSRSClans extends PluginPanel
 
 		loading();
 
+		String clanID = clanLookup.getText();
+
 		new Thread(() -> {
 			try
 			{
-				String clanID = clanLookup.getText();
 				postClanMembersAsync(clanID, config.clanKey(), clanList).whenCompleteAsync((result, err) -> response(clanID, result, err));
 			}
 			catch (Exception ignored)
@@ -341,11 +341,11 @@ public class TempleOSRSClans extends PluginPanel
 
 	}
 
-	private void response(String clanID, Response response, Throwable err)
+	private void response(String clanID, TempleOSRSSync response, Throwable err)
 	{
-		if (Objects.isNull(response) || Objects.nonNull(err))
+		if (Objects.isNull(response) || Objects.nonNull(err) || response.error)
 		{
-			error();
+			syncingError();
 			return;
 		}
 		reload(clanID);
@@ -353,8 +353,6 @@ public class TempleOSRSClans extends PluginPanel
 
 	private void reset()
 	{
-		verifyButton.setEnabled(false);
-
 		clanLeaders = null;
 		clanMembers = null;
 		clanAchievements = null;
@@ -371,10 +369,19 @@ public class TempleOSRSClans extends PluginPanel
 	{
 		searchButton.setEnabled(true);
 		clanButton.setEnabled(true);
-		verifyButton.setEnabled(false);
+		verifyButton.setEnabled(true);
 		clanLookup.setIcon(IconTextField.Icon.ERROR);
 		clanLookup.setEditable(true);
 		reset();
+	}
+
+	private void syncingError()
+	{
+		searchButton.setEnabled(true);
+		clanButton.setEnabled(true);
+		verifyButton.setEnabled(true);
+		clanLookup.setIcon(IconTextField.Icon.ERROR);
+		clanLookup.setEditable(true);
 	}
 
 	private void loading()
