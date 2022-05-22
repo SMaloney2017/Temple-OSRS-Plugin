@@ -45,6 +45,11 @@ public class TempleOSRSClanAchievementRow extends JPanel
 		JLabel iconLabel = new JLabel();
 		iconLabel.setBorder(new EmptyBorder(0, 5, 0, 0));
 
-		ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
-	}
+		System.out.println(username);
+
+		try
+		{
+			ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
+		}catch(Exception e){e.printStackTrace(); System.out.println(iconPath);}
+		}
 }
