@@ -90,7 +90,7 @@ public class TempleOSRSClans extends PluginPanel
 		verifyLayout.setBorder(new EmptyBorder(0, 0, 5, 0));
 		verifyLayout.setOpaque(false);
 
-		verifyButton = createNewButton("Sync Members", "Sync members of the clan you are currently in (Requires key)");
+		verifyButton = createNewButton("Sync Members", "Sync all members of the clan you are currently in (Requires key)");
 		verifyButton.addActionListener(e -> verify());
 		verifyButton.setEnabled(false);
 		verifyLayout.add(verifyButton);
@@ -298,6 +298,11 @@ public class TempleOSRSClans extends PluginPanel
 	private void verify()
 	{
 		if(client == null)
+		{
+			return;
+		}
+
+		if(Strings.isNullOrEmpty(config.clanKey()))
 		{
 			return;
 		}
