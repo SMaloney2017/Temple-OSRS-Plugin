@@ -7,12 +7,14 @@ import com.templeosrs.util.TempleOSRSClan;
 import static com.templeosrs.util.TempleOSRSService.CLAN_PAGE;
 import static com.templeosrs.util.TempleOSRSService.HOST;
 import static com.templeosrs.util.TempleOSRSService.fetchClanAsync;
+import com.templeosrs.util.claninfo.TempleOSRSClanAchievementSkill;
 import com.templeosrs.util.claninfo.TempleOSRSClanInfo;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import javax.inject.Inject;
@@ -223,6 +225,7 @@ public class TempleOSRSClans extends PluginPanel
 		String[] leaders = result.clanOverview.data.leaders;
 		String[] members = result.clanOverview.data.members;
 		TempleOSRSClanInfo info = result.clanOverview.data.info;
+		List<TempleOSRSClanAchievementSkill> clanActivity = result.clanAchievements.data;
 
 		SwingUtilities.invokeLater(() -> {
 			add(new TempleOSRSClanOverview(info));
@@ -230,7 +233,7 @@ public class TempleOSRSClans extends PluginPanel
 			clanLeaders = new TempleOSRSClanMembers(plugin, "Leaders", leaders);
 			add(clanLeaders);
 
-			clanAchievements = new TempleOSRSClanAchievements();
+			clanAchievements = new TempleOSRSClanAchievements(clanActivity);
 			if (config.clanAchievements())
 			{
 				add(clanAchievements);

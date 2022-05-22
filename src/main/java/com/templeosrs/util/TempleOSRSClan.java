@@ -3,7 +3,6 @@ package com.templeosrs.util;
 import com.google.gson.Gson;
 import com.templeosrs.util.claninfo.TempleOSRSAchievementData;
 import com.templeosrs.util.claninfo.TempleOSRSClanOverview;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class TempleOSRSClan

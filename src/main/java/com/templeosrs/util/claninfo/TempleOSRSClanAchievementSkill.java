@@ -4,19 +4,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class TempleOSRSClanAchievementSkill
 {
-	@SerializedName("username")
+	@SerializedName("Username")
 	public String username;
 
-	@SerializedName("date")
+	@SerializedName("Date")
 	public String date;
 
-	@SerializedName("skill")
+	@SerializedName("Skill")
 	public String skill;
 
-	@SerializedName("type")
+	@SerializedName("Type")
 	public String type;
 
-	@SerializedName("xp")
+	@SerializedName("Xp")
 	public Long xp;
 }
 
