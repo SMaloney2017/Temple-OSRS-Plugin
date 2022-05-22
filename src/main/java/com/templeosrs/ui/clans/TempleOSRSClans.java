@@ -7,6 +7,7 @@ import com.templeosrs.util.TempleOSRSClan;
 import static com.templeosrs.util.TempleOSRSService.CLAN_PAGE;
 import static com.templeosrs.util.TempleOSRSService.HOST;
 import static com.templeosrs.util.TempleOSRSService.fetchClanAsync;
+import static com.templeosrs.util.TempleOSRSService.postClanMembersAsync;
 import com.templeosrs.util.claninfo.TempleOSRSClanAchievementSkill;
 import com.templeosrs.util.claninfo.TempleOSRSClanInfo;
 import java.awt.BorderLayout;
@@ -14,6 +15,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -25,12 +27,15 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import net.runelite.api.Client;
 import net.runelite.api.clan.ClanChannel;
+import net.runelite.api.clan.ClanMember;
+import net.runelite.api.clan.ClanSettings;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.PluginErrorPanel;
 import net.runelite.client.util.LinkBrowser;
+import okhttp3.Response;
 
 public class TempleOSRSClans extends PluginPanel
 {
@@ -276,7 +281,46 @@ public class TempleOSRSClans extends PluginPanel
 
 	private void verify()
 	{
+		if(client == null)
+		{
+			return;
+		}
 
+		ClanSettings localClan = client.getClanSettings();
+
+		List<String> clanList =  new ArrayList<>();
+
+		if (localClan != null)
+		{
+			for(ClanMember member : localClan.getMembers())
+			{
+				clanList.add(format(member.getName()));
+			}
+
+			loading();
+
+			new Thread(() -> {
+				try
+				{
+					postClanMembersAsync(clanLookup.getText(), config.clanKey(), clanList).whenCompleteAsync(this::postResponse);
+				}
+				catch (Exception ignored)
+				{
+					error();
+				}
+			}).start();
+
+		}
+	}
+
+	private void postResponse(Response response, Throwable err)
+	{
+		if (Objects.isNull(response) || Objects.nonNull(err))
+		{
+			error();
+			return;
+		}
+		completed();
 	}
 
 	private void reset()
@@ -320,5 +364,10 @@ public class TempleOSRSClans extends PluginPanel
 		clanButton.setEnabled(true);
 		clanLookup.setIcon(IconTextField.Icon.SEARCH);
 		clanLookup.setEditable(true);
+	}
+
+	private String format(String text)
+	{
+		return text.replace('\u00A0', ' ');
 	}
 }
