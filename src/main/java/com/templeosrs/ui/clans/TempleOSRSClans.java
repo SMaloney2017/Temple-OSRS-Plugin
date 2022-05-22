@@ -298,12 +298,12 @@ public class TempleOSRSClans extends PluginPanel
 
 	private void verify()
 	{
-		if(client == null)
+		if (client == null)
 		{
 			return;
 		}
 
-		if(Strings.isNullOrEmpty(config.clanKey()))
+		if (Strings.isNullOrEmpty(config.clanKey()))
 		{
 			return;
 		}
@@ -322,11 +322,11 @@ public class TempleOSRSClans extends PluginPanel
 
 		ClanSettings localClan = client.getClanSettings();
 
-		List<String> clanList =  new ArrayList<>();
+		List<String> clanList = new ArrayList<>();
 
 		if (localClan != null)
 		{
-			for(ClanMember member : localClan.getMembers())
+			for (ClanMember member : localClan.getMembers())
 			{
 				clanList.add(format(member.getName()));
 			}

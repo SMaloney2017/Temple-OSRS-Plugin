@@ -43,7 +43,7 @@ public class TempleOSRSService
 
 		Call playerSkillsCall = client.newCall(playerSkillsRequest);
 		ResponseBody playerSkillsResponse = playerSkillsCall.execute().body();
-		if(playerSkillsResponse != null)
+		if (playerSkillsResponse != null)
 		{
 			playerSkillsOverviewJSON = playerSkillsResponse.string();
 			playerSkillsResponse.close();
@@ -56,7 +56,7 @@ public class TempleOSRSService
 
 		Call playerBossingCall = client.newCall(playerBossingRequest);
 		ResponseBody playerBossingResponse = playerBossingCall.execute().body();
-		if(playerBossingResponse != null)
+		if (playerBossingResponse != null)
 		{
 			playerBossingOverviewJSON = playerBossingResponse.string();
 			playerBossingResponse.close();
@@ -88,7 +88,7 @@ public class TempleOSRSService
 
 		Call call = client.newCall(overviewRequest);
 		ResponseBody response = call.execute().body();
-		if(response != null)
+		if (response != null)
 		{
 			JSON = response.string();
 			response.close();

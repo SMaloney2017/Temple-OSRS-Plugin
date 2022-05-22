@@ -42,7 +42,7 @@ public class TempleOSRSClanAchievements extends JPanel
 
 		layoutPanel.add(infoSelection);
 
-		if(clanActivityList != null)
+		if (clanActivityList != null)
 		{
 			JPanel clanActivity = new JPanel();
 			clanActivity.setLayout(new GridLayout(0, 1, 0, 2));
