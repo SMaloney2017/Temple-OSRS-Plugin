@@ -45,7 +45,7 @@ public class TempleOSRSClanAchievements extends JPanel
 		JPanel clanActivity = new JPanel();
 		clanActivity.setLayout(new GridLayout(0, 1, 0, 2));
 
-		for(int i = 0; i < clanActivityList.size(); i++)
+		for (int i = 0; i < clanActivityList.size(); i++)
 		{
 			TempleOSRSClanAchievementSkill skill = clanActivityList.get(i);
 			HiscoreSkillType type = skill.type.equals("Skill") ? HiscoreSkillType.SKILL : HiscoreSkillType.BOSS;

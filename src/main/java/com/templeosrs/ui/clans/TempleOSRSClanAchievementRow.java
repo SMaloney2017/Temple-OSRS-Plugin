@@ -3,19 +3,14 @@ package com.templeosrs.ui.clans;
 import com.templeosrs.TempleOSRSPlugin;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.FontManager;
-import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.QuantityFormatter;
 
@@ -56,7 +51,7 @@ public class TempleOSRSClanAchievementRow extends JPanel
 		JLabel usernameLabel = createNewJLabel(name);
 		row.add(usernameLabel);
 
-		String xpType = type.equals(HiscoreSkillType.SKILL) ? QuantityFormatter.quantityToStackSize(xp) + " XP": QuantityFormatter.quantityToStackSize(xp) + " KC";
+		String xpType = type.equals(HiscoreSkillType.SKILL) ? QuantityFormatter.quantityToStackSize(xp) + " XP" : QuantityFormatter.quantityToStackSize(xp) + " KC";
 		JLabel xpLabel = createNewJLabel(xpType);
 		xpLabel.setHorizontalAlignment(JLabel.CENTER);
 		row.add(xpLabel);
