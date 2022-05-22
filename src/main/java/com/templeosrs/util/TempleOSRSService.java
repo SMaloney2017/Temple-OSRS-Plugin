@@ -18,6 +18,9 @@ public class TempleOSRSService
 
 	private static final String CLAN_OVERVIEW = "/api/group_info.php?id=";
 
+	private static final String CLAN_ACHIEVEMENTS = "/api/group_achievements.php?id=";
+
+
 	private static final String BOSSES = "&tracking=bosses";
 
 	private static final String DURATION = "&duration=";
@@ -58,12 +61,18 @@ public class TempleOSRSService
 	{
 		String clanOverviewURL = HOST + CLAN_OVERVIEW + clanID;
 
+		String clanAchievementsURL = HOST + CLAN_ACHIEVEMENTS + clanID;
+
 		String clanOverviewJSON;
+
+		String clanAchievementsJSON;
 
 		clanOverviewJSON = getJsonFromURL(clanOverviewURL);
 
+		clanAchievementsJSON = getJsonFromURL(clanAchievementsURL);
+
 		CompletableFuture<TempleOSRSClan> future = new CompletableFuture<>();
-		future.complete(new TempleOSRSClan(clanOverviewJSON));
+		future.complete(new TempleOSRSClan(clanOverviewJSON, clanAchievementsJSON));
 		return future;
 	}
 }

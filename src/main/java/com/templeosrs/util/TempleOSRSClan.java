@@ -1,7 +1,9 @@
 package com.templeosrs.util;
 
 import com.google.gson.Gson;
+import com.templeosrs.util.claninfo.TempleOSRSAchievementData;
 import com.templeosrs.util.claninfo.TempleOSRSClanOverview;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class TempleOSRSClan
@@ -12,11 +14,15 @@ public class TempleOSRSClan
 
 	public TempleOSRSClanOverview clanOverview;
 
-	TempleOSRSClan(String clanOverviewJSON)
+	public TempleOSRSAchievementData clanAchievements;
+
+	TempleOSRSClan(String clanOverviewJSON, String clanAchievementsJSON)
 	{
 		clanOverview = gson.fromJson(clanOverviewJSON, TempleOSRSClanOverview.class);
 
-		if (Objects.nonNull(clanOverview.error))
+		clanAchievements = gson.fromJson(clanAchievementsJSON, TempleOSRSAchievementData.class);
+
+		if (Objects.nonNull(clanOverview.error) || Objects.nonNull(clanAchievements.error))
 		{
 			error = true;
 		}
