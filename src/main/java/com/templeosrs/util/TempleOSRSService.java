@@ -69,54 +69,32 @@ public class TempleOSRSService
 
 	public static CompletableFuture<TempleOSRSClan> fetchClanAsync(String clanID) throws Exception
 	{
-		String clanOverviewJSON = fetchClanOverviewAsync(clanID);
-		String clanAchievementsJSON = fetchClanAchievementsAsync(clanID);
+		String clanOverviewJSON = fetchClanData(HOST + CLAN_OVERVIEW + clanID);
+		String clanAchievementsJSON = fetchClanData(HOST + CLAN_ACHIEVEMENTS + clanID);
 
 		CompletableFuture<TempleOSRSClan> future = new CompletableFuture<>();
 		future.complete(new TempleOSRSClan(clanOverviewJSON, clanAchievementsJSON));
 		return future;
 	}
 
-	private static String fetchClanOverviewAsync(String clanID) throws Exception
+	private static String fetchClanData(String URL) throws Exception
 	{
-		String clanOverviewJSON = null;
+		String JSON = null;
 		OkHttpClient client = new OkHttpClient();
 
-		String clanOverviewURL = HOST + CLAN_OVERVIEW + clanID;
 		Request overviewRequest = new Request.Builder()
-			.url(clanOverviewURL)
+			.url(URL)
 			.build();
 
-		Call overviewCall = client.newCall(overviewRequest);
-		ResponseBody overviewResponse = overviewCall.execute().body();
-		if(overviewResponse != null)
+		Call call = client.newCall(overviewRequest);
+		ResponseBody response = call.execute().body();
+		if(response != null)
 		{
-			clanOverviewJSON = overviewResponse.string();
-			overviewResponse.close();
+			JSON = response.string();
+			response.close();
 		}
 
-		return clanOverviewJSON;
-	}
-
-	private static String fetchClanAchievementsAsync(String clanID) throws Exception
-	{
-		String clanAchievementsJSON = null;
-		OkHttpClient client = new OkHttpClient();
-
-		String clanAchievementsURL = HOST + CLAN_ACHIEVEMENTS + clanID;
-		Request achievementsRequest = new Request.Builder()
-			.url(clanAchievementsURL)
-			.build();
-
-		Call achievementsCall = client.newCall(achievementsRequest);
-		ResponseBody achievementsResponse = achievementsCall.execute().body();
-		if(achievementsResponse != null)
-		{
-			clanAchievementsJSON = achievementsResponse.string();
-			achievementsResponse.close();
-		}
-
-		return clanAchievementsJSON;
+		return JSON;
 	}
 
 	public static CompletableFuture<Response> postClanMembersAsync(String clanID, String verification, List<String> members) throws Exception
