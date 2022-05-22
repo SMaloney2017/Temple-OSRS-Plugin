@@ -194,11 +194,27 @@ public class TempleOSRSClans extends PluginPanel
 		}).start();
 	}
 
-	private void rebuild(String ClanID, TempleOSRSClan result, Throwable err)
+	private void reload(String clanID)
+	{
+		loading();
+
+		reset();
+
+		try
+		{
+			fetchClanAsync(clanID).whenCompleteAsync((result, err) -> rebuild(clanID, result, err));
+		}
+		catch (Exception ignored)
+		{
+			error();
+		}
+	}
+
+	private void rebuild(String clanID, TempleOSRSClan result, Throwable err)
 	{
 		remove(errorPanel);
 
-		if (!clanLookup.getText().equals(ClanID))
+		if (!clanLookup.getText().equals(clanID))
 		{
 			completed();
 			return;
@@ -302,7 +318,8 @@ public class TempleOSRSClans extends PluginPanel
 			new Thread(() -> {
 				try
 				{
-					postClanMembersAsync(clanLookup.getText(), config.clanKey(), clanList).whenCompleteAsync(this::postResponse);
+					String clanID = clanLookup.getText();
+					postClanMembersAsync(clanID, config.clanKey(), clanList).whenCompleteAsync((result, err) -> response(clanID, result, err));
 				}
 				catch (Exception ignored)
 				{
@@ -313,14 +330,14 @@ public class TempleOSRSClans extends PluginPanel
 		}
 	}
 
-	private void postResponse(Response response, Throwable err)
+	private void response(String clanID, Response response, Throwable err)
 	{
 		if (Objects.isNull(response) || Objects.nonNull(err))
 		{
 			error();
 			return;
 		}
-		completed();
+		reload(clanID);
 	}
 
 	private void reset()
