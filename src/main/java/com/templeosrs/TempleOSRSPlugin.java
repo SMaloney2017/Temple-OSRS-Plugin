@@ -133,7 +133,7 @@ public class TempleOSRSPlugin extends Plugin
 					menuManager.get().addPlayerMenuItem(TEMPLE);
 				}
 
-				if(clans.clanAchievements != null)
+				if (clans.clanAchievements != null)
 				{
 					clans.remove(clans.clanAchievements);
 					if (config.clanAchievements())
@@ -142,7 +142,7 @@ public class TempleOSRSPlugin extends Plugin
 					}
 				}
 
-				if(clans.clanMembers != null)
+				if (clans.clanMembers != null)
 				{
 					clans.remove(clans.clanMembers);
 					if (config.clanMembers())
