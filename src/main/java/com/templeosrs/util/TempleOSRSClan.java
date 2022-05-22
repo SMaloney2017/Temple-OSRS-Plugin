@@ -21,7 +21,7 @@ public class TempleOSRSClan
 
 		clanAchievements = gson.fromJson(clanAchievementsJSON, TempleOSRSAchievementData.class);
 
-		if (Objects.nonNull(clanOverview.error) || Objects.nonNull(clanAchievements.error))
+		if (Objects.nonNull(clanOverview.error))
 		{
 			error = true;
 		}
