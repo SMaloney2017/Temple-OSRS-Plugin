@@ -69,8 +69,17 @@ public class TempleOSRSService
 
 	public static CompletableFuture<TempleOSRSClan> fetchClanAsync(String clanID) throws Exception
 	{
+		String clanOverviewJSON = fetchClanOverviewAsync(clanID);
+		String clanAchievementsJSON = fetchClanAchievementsAsync(clanID);
+
+		CompletableFuture<TempleOSRSClan> future = new CompletableFuture<>();
+		future.complete(new TempleOSRSClan(clanOverviewJSON, clanAchievementsJSON));
+		return future;
+	}
+
+	private static String fetchClanOverviewAsync(String clanID) throws Exception
+	{
 		String clanOverviewJSON = null;
-		String clanAchievementsJSON = null;
 		OkHttpClient client = new OkHttpClient();
 
 		String clanOverviewURL = HOST + CLAN_OVERVIEW + clanID;
@@ -86,6 +95,14 @@ public class TempleOSRSService
 			overviewResponse.close();
 		}
 
+		return clanOverviewJSON;
+	}
+
+	private static String fetchClanAchievementsAsync(String clanID) throws Exception
+	{
+		String clanAchievementsJSON = null;
+		OkHttpClient client = new OkHttpClient();
+
 		String clanAchievementsURL = HOST + CLAN_ACHIEVEMENTS + clanID;
 		Request achievementsRequest = new Request.Builder()
 			.url(clanAchievementsURL)
@@ -99,9 +116,7 @@ public class TempleOSRSService
 			achievementsResponse.close();
 		}
 
-		CompletableFuture<TempleOSRSClan> future = new CompletableFuture<>();
-		future.complete(new TempleOSRSClan(clanOverviewJSON, clanAchievementsJSON));
-		return future;
+		return clanAchievementsJSON;
 	}
 
 	public static CompletableFuture<Response> postClanMembersAsync(String clanID, String verification, List<String> members) throws Exception
