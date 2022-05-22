@@ -3,16 +3,20 @@ package com.templeosrs.ui.clans;
 import com.templeosrs.util.claninfo.TempleOSRSClanAchievementSkill;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
+import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 
 public class TempleOSRSClanAchievements extends JPanel
 {
@@ -46,7 +50,17 @@ public class TempleOSRSClanAchievements extends JPanel
 			TempleOSRSClanAchievementSkill skill = clanActivityList.get(i);
 			HiscoreSkillType type = skill.type.equals("Skill") ? HiscoreSkillType.SKILL : HiscoreSkillType.BOSS;
 			TempleOSRSClanAchievementRow row = new TempleOSRSClanAchievementRow(skill.username, skill.date, skill.skill, type, skill.xp, COLORS[i % 2]);
-			add(row);
+			clanActivity.add(row);
 		}
+
+		layoutPanel.add(clanActivity, BorderLayout.SOUTH);
+
+		setPreferredSize(new Dimension(PANEL_WIDTH, 250));
+
+		final JScrollPane scroll = new JScrollPane(layoutPanel);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+		add(scroll);
 	}
 }
