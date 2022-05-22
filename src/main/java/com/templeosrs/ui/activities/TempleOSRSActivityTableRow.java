@@ -66,6 +66,7 @@ public class TempleOSRSActivityTableRow extends JPanel
 	{
 		this.name = skillName;
 		this.type = type;
+
 		setLayout(new BorderLayout());
 		setBackground(color);
 
