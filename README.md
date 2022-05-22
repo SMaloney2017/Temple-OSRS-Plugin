@@ -20,7 +20,8 @@
 
 > 1. ⚠️~~Thread is locked up while fetching player data.~~
 >    * **FIXED:** Created new thread to handle data fetching/ panel rebuilding
-> 2. 📓 Searching for players who have recently changed names and have yet to update their TempleOSRS profile will cause issues.
-> 3. 📓 Players without data-points on temple return nothing.
+> 2. 🐛 Searching for players who have recently changed names and have yet to update their TempleOSRS profile return nothing.
+> 3. 🐛 Players without data-points on temple return nothing.
 >    * **POTENTIAL FIX:** Send request to update player before fetching user.
 > 4. 📓 Fetching clans with larger member-counts causes a short delay while changing tabs.
+>    * **COMPROMISE:** ~~Add togglable display of clan-members.~~
