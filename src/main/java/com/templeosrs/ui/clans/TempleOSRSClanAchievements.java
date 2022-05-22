@@ -42,25 +42,32 @@ public class TempleOSRSClanAchievements extends JPanel
 
 		layoutPanel.add(infoSelection);
 
-		JPanel clanActivity = new JPanel();
-		clanActivity.setLayout(new GridLayout(0, 1, 0, 2));
-
-		for (int i = 0; i < clanActivityList.size(); i++)
+		if(clanActivityList != null)
 		{
-			TempleOSRSClanAchievementSkill skill = clanActivityList.get(i);
-			HiscoreSkillType type = skill.type.equals("Skill") ? HiscoreSkillType.SKILL : HiscoreSkillType.BOSS;
-			TempleOSRSClanAchievementRow row = new TempleOSRSClanAchievementRow(skill.username, skill.date, skill.skill, type, skill.xp, COLORS[i % 2]);
-			clanActivity.add(row);
+			JPanel clanActivity = new JPanel();
+			clanActivity.setLayout(new GridLayout(0, 1, 0, 2));
+
+			for (int i = 0; i < clanActivityList.size(); i++)
+			{
+				TempleOSRSClanAchievementSkill skill = clanActivityList.get(i);
+				HiscoreSkillType type = skill.type.equals("Skill") ? HiscoreSkillType.SKILL : HiscoreSkillType.BOSS;
+				TempleOSRSClanAchievementRow row = new TempleOSRSClanAchievementRow(skill.username, skill.date, skill.skill, type, skill.xp, COLORS[i % 2]);
+				clanActivity.add(row);
+			}
+
+			layoutPanel.add(clanActivity, BorderLayout.SOUTH);
+
+			setPreferredSize(new Dimension(PANEL_WIDTH, 250));
+
+			final JScrollPane scroll = new JScrollPane(layoutPanel);
+			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+			add(scroll);
 		}
-
-		layoutPanel.add(clanActivity, BorderLayout.SOUTH);
-
-		setPreferredSize(new Dimension(PANEL_WIDTH, 250));
-
-		final JScrollPane scroll = new JScrollPane(layoutPanel);
-		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-		add(scroll);
+		else
+		{
+			add(layoutPanel);
+		}
 	}
 }
