@@ -127,23 +127,31 @@ public class TempleOSRSPlugin extends Plugin
 		{
 			if (client != null)
 			{
+				try
+				{
+					clans.remove(clans.clanMembers);
+					clans.remove(clans.clanAchievements);
+
+					if (config.clanAchievements())
+					{
+						clans.add(clans.clanAchievements);
+					}
+
+					if (config.clanMembers())
+					{
+						clans.add(clans.clanMembers);
+					}
+				}
+				catch(Exception ignored)
+				{
+
+				}
+
 				menuManager.get().removePlayerMenuItem(TEMPLE);
-				clans.remove(clans.clanMembers);
-				clans.remove(clans.clanAchievements);
 
 				if (config.playerLookup())
 				{
 					menuManager.get().addPlayerMenuItem(TEMPLE);
-				}
-
-				if (config.clanAchievements())
-				{
-					clans.add(clans.clanAchievements);
-				}
-
-				if (config.clanMembers())
-				{
-					clans.add(clans.clanMembers);
 				}
 			}
 		}
