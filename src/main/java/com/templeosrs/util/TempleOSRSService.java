@@ -46,6 +46,7 @@ public class TempleOSRSService
 		if(playerSkillsResponse != null)
 		{
 			playerSkillsOverviewJSON = playerSkillsResponse.string();
+			playerSkillsResponse.close();
 		}
 
 		String playerBossingOverviewURL = HOST + PLAYER_OVERVIEW + player + BOSSES + DURATION + duration;
@@ -58,6 +59,7 @@ public class TempleOSRSService
 		if(playerBossingResponse != null)
 		{
 			playerBossingOverviewJSON = playerBossingResponse.string();
+			playerBossingResponse.close();
 		}
 
 		CompletableFuture<TempleOSRSPlayer> future = new CompletableFuture<>();
@@ -81,6 +83,7 @@ public class TempleOSRSService
 		if(overviewResponse != null)
 		{
 			clanOverviewJSON = overviewResponse.string();
+			overviewResponse.close();
 		}
 
 		String clanAchievementsURL = HOST + CLAN_ACHIEVEMENTS + clanID;
@@ -93,6 +96,7 @@ public class TempleOSRSService
 		if(achievementsResponse != null)
 		{
 			clanAchievementsJSON = achievementsResponse.string();
+			achievementsResponse.close();
 		}
 
 		CompletableFuture<TempleOSRSClan> future = new CompletableFuture<>();
