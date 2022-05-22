@@ -352,6 +352,9 @@ public class TempleOSRSRanks extends PluginPanel
 		skills.reset();
 		bosses.reset();
 		overview.reset();
+
+		repaint();
+		revalidate();
 	}
 
 	private void error()

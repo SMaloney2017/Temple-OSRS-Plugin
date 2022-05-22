@@ -247,6 +247,9 @@ public class TempleOSRSClans extends PluginPanel
 		});
 
 		completed();
+
+		revalidate();
+		repaint();
 	}
 
 	private void open()
@@ -284,12 +287,12 @@ public class TempleOSRSClans extends PluginPanel
 		clanMembers = null;
 		clanAchievements = null;
 
-		/* Invoke garbage collector to avoid errors */
-		System.gc();
-
 		removeAll();
 		add(fetchLayout);
 		add(errorPanel);
+
+		repaint();
+		revalidate();
 	}
 
 	private void error()

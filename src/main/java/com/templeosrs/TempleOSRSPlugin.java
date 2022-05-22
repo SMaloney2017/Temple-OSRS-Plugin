@@ -141,6 +141,9 @@ public class TempleOSRSPlugin extends Plugin
 					{
 						clans.add(clans.clanMembers);
 					}
+
+					clans.repaint();
+					clans.revalidate();
 				}
 				catch (Exception ignored)
 				{

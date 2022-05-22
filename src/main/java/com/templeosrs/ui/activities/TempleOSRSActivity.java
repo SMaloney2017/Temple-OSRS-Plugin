@@ -165,9 +165,12 @@ public class TempleOSRSActivity extends JPanel
 	public void reset()
 	{
 		total = 0;
+
 		overall.reset();
 		sortPanel.reset();
+
 		removeAll();
+
 		initialize();
 	}
 
@@ -181,6 +184,8 @@ public class TempleOSRSActivity extends JPanel
 			entry.setBackground(COLORS[i++ % 2]);
 			add(entry);
 		}
+
+		repaint();
 		revalidate();
 	}
 
