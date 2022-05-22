@@ -142,7 +142,7 @@ public class TempleOSRSPlugin extends Plugin
 						clans.add(clans.clanMembers);
 					}
 				}
-				catch(Exception ignored)
+				catch (Exception ignored)
 				{
 
 				}
