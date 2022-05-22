@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -303,6 +304,18 @@ public class TempleOSRSClans extends PluginPanel
 		}
 
 		if(Strings.isNullOrEmpty(config.clanKey()))
+		{
+			return;
+		}
+
+		final int confirmation = JOptionPane.showOptionDialog(verifyButton, "This will sync your clan's TempleOSRS members-list to all members in your clan.",
+			"Are you sure?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+			null, new String[]{
+				"Yes",
+				"No"
+			}, "No");
+
+		if (confirmation != JOptionPane.YES_OPTION)
 		{
 			return;
 		}
