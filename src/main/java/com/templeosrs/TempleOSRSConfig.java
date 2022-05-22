@@ -50,6 +50,7 @@ public interface TempleOSRSConfig extends Config
 		name = "Clan Key",
 		description = "Required key to edit group members using the TempleOSRS API",
 		position = 4,
+		secret = true,
 		section = clanOptions
 	)
 	default String clanKey()
