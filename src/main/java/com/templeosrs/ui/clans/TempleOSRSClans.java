@@ -67,10 +67,6 @@ public class TempleOSRSClans extends PluginPanel
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-		JPanel layoutPanel = new JPanel();
-		layoutPanel.setLayout(new BoxLayout(layoutPanel, BoxLayout.Y_AXIS));
-		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-
 		fetchLayout = new JPanel();
 		fetchLayout.setLayout(new BoxLayout(fetchLayout, BoxLayout.Y_AXIS));
 		fetchLayout.setBorder(new EmptyBorder(5, 5, 0, 5));
@@ -94,11 +90,9 @@ public class TempleOSRSClans extends PluginPanel
 
 		fetchLayout.add(verifyLayout);
 
-		layoutPanel.add(fetchLayout);
-
 		errorPanel.setContent("Clans", "You have not fetched clan information yet.");
 
-		add(layoutPanel);
+		add(fetchLayout);
 		add(errorPanel);
 	}
 
