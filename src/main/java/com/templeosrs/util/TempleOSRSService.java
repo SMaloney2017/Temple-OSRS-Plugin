@@ -114,6 +114,7 @@ public class TempleOSRSService
 
 		Call call = client.newCall(request);
 		Response response = call.execute();
+		response.close();
 
 		CompletableFuture<Response> future = new CompletableFuture<>();
 		future.complete(response);
