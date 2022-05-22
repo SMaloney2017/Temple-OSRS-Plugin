@@ -1,6 +1,7 @@
 package com.templeosrs.ui.activities;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -30,15 +31,12 @@ public class TempleOSRSOverview extends JPanel
 		layoutPanel.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
 
 		JLabel playerInfoLabel = new JLabel("Overview");
+		playerInfoLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		playerInfoLabel.setBorder(new EmptyBorder(5, 5, 0, 0));
 		playerInfoLabel.setFont(FontManager.getRunescapeBoldFont());
 		playerInfoLabel.setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
 
-		JPanel infoSelection = new JPanel();
-		infoSelection.setLayout(new BoxLayout(infoSelection, BoxLayout.Y_AXIS));
-		infoSelection.add(playerInfoLabel);
-
-		layoutPanel.add(infoSelection);
+		layoutPanel.add(playerInfoLabel);
 
 		playerOverview = new JPanel();
 		playerOverview.setBorder(new EmptyBorder(5, 5, 5, 5));

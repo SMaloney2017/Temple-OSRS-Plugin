@@ -3,6 +3,7 @@ package com.templeosrs.ui.clans;
 import com.templeosrs.TempleOSRSPlugin;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
@@ -34,15 +35,12 @@ public class TempleOSRSClanMembers extends JPanel
 		layoutPanel.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
 
 		JLabel clanHeaderLabel = new JLabel(heading);
+		clanHeaderLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		clanHeaderLabel.setBorder(new EmptyBorder(5, 5, 5, 0));
 		clanHeaderLabel.setFont(FontManager.getRunescapeBoldFont());
 		clanHeaderLabel.setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
 
-		JPanel infoSelection = new JPanel();
-		infoSelection.setLayout(new BoxLayout(infoSelection, BoxLayout.Y_AXIS));
-		infoSelection.add(clanHeaderLabel);
-
-		layoutPanel.add(infoSelection);
+		layoutPanel.add(clanHeaderLabel);
 
 		clanMembers = new JPanel();
 		clanMembers.setLayout(new GridLayout(0, 1, 0, 2));

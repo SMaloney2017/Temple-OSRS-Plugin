@@ -3,6 +3,7 @@ package com.templeosrs.ui.clans;
 import com.templeosrs.util.claninfo.TempleOSRSClanAchievementSkill;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
@@ -32,15 +33,12 @@ public class TempleOSRSClanAchievements extends JPanel
 		layoutPanel.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
 
 		JLabel achievementHeaderLabel = new JLabel("Recent Activity");
+		achievementHeaderLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		achievementHeaderLabel.setBorder(new EmptyBorder(5, 5, 5, 0));
 		achievementHeaderLabel.setFont(FontManager.getRunescapeBoldFont());
 		achievementHeaderLabel.setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
 
-		JPanel infoSelection = new JPanel();
-		infoSelection.setLayout(new BoxLayout(infoSelection, BoxLayout.Y_AXIS));
-		infoSelection.add(achievementHeaderLabel);
-
-		layoutPanel.add(infoSelection);
+		layoutPanel.add(achievementHeaderLabel);
 
 		if (clanActivityList != null)
 		{
