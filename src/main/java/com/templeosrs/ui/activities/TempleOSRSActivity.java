@@ -31,8 +31,8 @@ package com.templeosrs.ui.activities;
 
 import com.google.common.collect.ImmutableList;
 import com.templeosrs.util.TempleOSRSPlayer;
-import com.templeosrs.util.TempleOSRSSkill;
-import static com.templeosrs.util.TempleOSRSSkill.*;
+import com.templeosrs.util.TempleOSRSHiscoreSkill;
+import static com.templeosrs.util.TempleOSRSHiscoreSkill.*;
 import com.templeosrs.util.playerinfo.TempleOSRSPlayerData;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -50,7 +50,7 @@ import net.runelite.client.ui.ColorScheme;
 
 public class TempleOSRSActivity extends JPanel
 {
-	private static final List<TempleOSRSSkill> SKILLS = ImmutableList.of(
+	private static final List<TempleOSRSHiscoreSkill> SKILLS = ImmutableList.of(
 		ATTACK, DEFENCE, STRENGTH,
 		HITPOINTS, RANGED, PRAYER,
 		MAGIC, COOKING, WOODCUTTING,
@@ -61,7 +61,7 @@ public class TempleOSRSActivity extends JPanel
 		HUNTER, CONSTRUCTION
 	);
 
-	private static final List<TempleOSRSSkill> BOSSES = ImmutableList.of(
+	private static final List<TempleOSRSHiscoreSkill> BOSSES = ImmutableList.of(
 		ABYSSAL_SIRE, ALCHEMICAL_HYDRA, BARROWS_CHESTS,
 		BRYOPHYTA, CALLISTO, CERBERUS,
 		CHAMBERS_OF_XERIC, CHAMBERS_OF_XERIC_CHALLENGE_MODE, CHAOS_ELEMENTAL,
@@ -118,11 +118,11 @@ public class TempleOSRSActivity extends JPanel
 		add(sortPanel);
 		add(overall);
 
-		List<TempleOSRSSkill> list = (hiscoreSkillType.equals(HiscoreSkillType.SKILL) ? SKILLS : BOSSES);
+		List<TempleOSRSHiscoreSkill> list = (hiscoreSkillType.equals(HiscoreSkillType.SKILL) ? SKILLS : BOSSES);
 
 		for (int i = 0; i < list.size(); i++)
 		{
-			TempleOSRSSkill skill = list.get(i);
+			TempleOSRSHiscoreSkill skill = list.get(i);
 			String formattedKey = skill.getName().replaceAll("[^A-Za-z0-9]", "").toLowerCase();
 
 			TempleOSRSActivityTableRow row = new TempleOSRSActivityTableRow(formattedKey, skill.getName(), COLORS[i % 2], hiscoreSkillType);
@@ -136,7 +136,7 @@ public class TempleOSRSActivity extends JPanel
 	{
 		TempleOSRSPlayerData playerData = hiscoreSkillType.equals(HiscoreSkillType.SKILL) ? result.playerSkillsOverview.data : result.playerBossesOverview.data;
 
-		for (TempleOSRSSkill skill : TempleOSRSSkill.values())
+		for (TempleOSRSHiscoreSkill skill : TempleOSRSHiscoreSkill.values())
 		{
 			String formattedKey = skill.getName().replaceAll("[^A-Za-z0-9]", "").toLowerCase();
 
