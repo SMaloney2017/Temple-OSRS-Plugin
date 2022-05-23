@@ -2,7 +2,7 @@ package com.templeosrs.util.playerinfo;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TempleOSRSSkill
+public class TempleOSRSPlayerSkill
 {
 	@SerializedName("index")
 	public Integer index;

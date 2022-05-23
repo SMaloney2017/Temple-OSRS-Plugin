@@ -1,7 +1,7 @@
 package com.templeosrs.util;
 
 import com.google.gson.Gson;
-import com.templeosrs.util.compinfo.TempleOSRSComp;
+import com.templeosrs.util.compinfo.TempleOSRSCompOverview;
 import java.util.Objects;
 
 public class TempleOSRSCompetition
@@ -11,11 +11,11 @@ public class TempleOSRSCompetition
 
 	public boolean error = false;
 
-	public TempleOSRSComp clanOverview;
+	public TempleOSRSCompOverview clanOverview;
 
 	TempleOSRSCompetition(String competitionJSON)
 	{
-		clanOverview = gson.fromJson(competitionJSON, TempleOSRSComp.class);
+		clanOverview = gson.fromJson(competitionJSON, TempleOSRSCompOverview.class);
 
 
 		if (Objects.nonNull(clanOverview.error))

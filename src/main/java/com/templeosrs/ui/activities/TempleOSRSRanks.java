@@ -36,7 +36,7 @@ import static com.templeosrs.util.TempleOSRSService.HOST;
 import static com.templeosrs.util.TempleOSRSService.PLAYER_PAGE;
 import static com.templeosrs.util.TempleOSRSService.fetchUserGainsAsync;
 import com.templeosrs.util.playerinfo.TempleOSRSPlayerData;
-import com.templeosrs.util.playerinfo.TempleOSRSSkill;
+import com.templeosrs.util.playerinfo.TempleOSRSPlayerSkill;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.KeyListener;
@@ -293,9 +293,9 @@ public class TempleOSRSRanks extends PluginPanel
 		TempleOSRSPlayerData bossingData = result.playerBossesOverview.data;
 		TempleOSRSPlayerData skillsData = result.playerSkillsOverview.data;
 
-		TempleOSRSSkill ehbData = bossingData.table.get("Ehb");
-		TempleOSRSSkill ehpData = skillsData.table.get("Ehp");
-		TempleOSRSSkill xpData = skillsData.table.get("Overall");
+		TempleOSRSPlayerSkill ehbData = bossingData.table.get("Ehb");
+		TempleOSRSPlayerSkill ehpData = skillsData.table.get("Ehp");
+		TempleOSRSPlayerSkill xpData = skillsData.table.get("Overall");
 
 		double ehbRankTotal = Objects.nonNull(ehbData.rankTotal) ? ehbData.rankTotal : 0;
 		double ehbTotal = Objects.nonNull(ehbData.xpTotal) ? ehbData.xpTotal : 0;

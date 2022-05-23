@@ -7,7 +7,7 @@ import java.util.List;
 public class TempleOSRSAchievementData
 {
 	@SerializedName("data")
-	public List<TempleOSRSClanAchievementSkill> data = null;
+	public List<TempleOSRSClanAchievement> data = null;
 
 	@SerializedName("error")
 	public TempleOSRSError error;

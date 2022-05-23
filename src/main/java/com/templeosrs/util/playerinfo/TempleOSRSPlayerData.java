@@ -9,7 +9,7 @@ public class TempleOSRSPlayerData
 	public TempleOSRSPlayerInfo info;
 
 	@SerializedName("table")
-	public Map<String, TempleOSRSSkill> table;
+	public Map<String, TempleOSRSPlayerSkill> table;
 
 	@SerializedName("graph")
 	public TempleOSRSPlayerGraph graph;

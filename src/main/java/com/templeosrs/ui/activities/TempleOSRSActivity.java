@@ -34,6 +34,7 @@ import com.templeosrs.util.TempleOSRSPlayer;
 import com.templeosrs.util.TempleOSRSHiscoreSkill;
 import static com.templeosrs.util.TempleOSRSHiscoreSkill.*;
 import com.templeosrs.util.playerinfo.TempleOSRSPlayerData;
+import com.templeosrs.util.playerinfo.TempleOSRSPlayerSkill;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -143,7 +144,7 @@ public class TempleOSRSActivity extends JPanel
 			if (map.containsKey(formattedKey))
 			{
 				TempleOSRSActivityTableRow row = map.get(formattedKey);
-				com.templeosrs.util.playerinfo.TempleOSRSSkill skillData = playerData.table.get(skill.getName());
+				TempleOSRSPlayerSkill skillData = playerData.table.get(skill.getName());
 
 				long total = Objects.nonNull(skillData.xp) ? skillData.xp.longValue() : 0;
 				long levels = Objects.nonNull(skillData.level) ? skillData.level.longValue() : 0;

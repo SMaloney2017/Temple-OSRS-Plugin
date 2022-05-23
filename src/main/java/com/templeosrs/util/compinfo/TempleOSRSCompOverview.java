@@ -3,7 +3,7 @@ package com.templeosrs.util.compinfo;
 import com.google.gson.annotations.SerializedName;
 import com.templeosrs.util.TempleOSRSError;
 
-public class TempleOSRSComp
+public class TempleOSRSCompOverview
 {
 	@SerializedName("data")
 	public TempleOSRSCompData data;

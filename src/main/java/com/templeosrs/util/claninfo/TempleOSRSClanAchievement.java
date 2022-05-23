@@ -2,7 +2,7 @@ package com.templeosrs.util.claninfo;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TempleOSRSClanAchievementSkill
+public class TempleOSRSClanAchievement
 {
 	@SerializedName("Username")
 	public String username;

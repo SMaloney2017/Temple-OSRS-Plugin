@@ -9,7 +9,7 @@ import static com.templeosrs.util.TempleOSRSService.HOST;
 import static com.templeosrs.util.TempleOSRSService.fetchClanAsync;
 import static com.templeosrs.util.TempleOSRSService.postClanMembersAsync;
 import com.templeosrs.util.TempleOSRSSync;
-import com.templeosrs.util.claninfo.TempleOSRSClanAchievementSkill;
+import com.templeosrs.util.claninfo.TempleOSRSClanAchievement;
 import com.templeosrs.util.claninfo.TempleOSRSClanInfo;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -236,7 +236,7 @@ public class TempleOSRSClans extends PluginPanel
 		String[] leaders = result.clanOverview.data.leaders;
 		String[] members = result.clanOverview.data.members;
 		TempleOSRSClanInfo info = result.clanOverview.data.info;
-		List<TempleOSRSClanAchievementSkill> clanActivity = result.clanAchievements.data;
+		List<TempleOSRSClanAchievement> clanActivity = result.clanAchievements.data;
 
 		SwingUtilities.invokeLater(() -> {
 			add(new TempleOSRSClanOverview(info));
