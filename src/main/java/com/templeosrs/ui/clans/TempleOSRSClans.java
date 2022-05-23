@@ -95,10 +95,9 @@ public class TempleOSRSClans extends PluginPanel
 		verifyLayout.add(verifyButton);
 
 		fetchLayout.add(verifyLayout);
+		add(fetchLayout);
 
 		errorPanel.setContent("Clans", "You have not fetched clan information yet.");
-
-		add(fetchLayout);
 		add(errorPanel);
 	}
 

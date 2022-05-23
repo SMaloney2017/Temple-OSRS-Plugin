@@ -100,10 +100,8 @@ public class TempleOSRSRanks extends PluginPanel
 		bosses = new TempleOSRSActivity(HiscoreSkillType.BOSS);
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
-
-		JPanel layoutPanel = new JPanel();
-		layoutPanel.setLayout(new BoxLayout(layoutPanel, BoxLayout.Y_AXIS));
-		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		JPanel fetchLayout = new JPanel();
 		fetchLayout.setLayout(new BoxLayout(fetchLayout, BoxLayout.Y_AXIS));
@@ -118,8 +116,10 @@ public class TempleOSRSRanks extends PluginPanel
 
 		TempleOSRSDuration timeSelection = new TempleOSRSDuration(this);
 		fetchLayout.add(timeSelection);
+		add(fetchLayout);
 
 		overview = new TempleOSRSOverview();
+		add(overview);
 
 		JPanel display = new JPanel();
 		MaterialTabGroup tabGroup = new MaterialTabGroup(display);
@@ -129,15 +129,10 @@ public class TempleOSRSRanks extends PluginPanel
 
 		tabGroup.addTab(skillsTab);
 		tabGroup.addTab(bossesTab);
-
 		tabGroup.select(skillsTab);
+		add(tabGroup);
 
-		layoutPanel.add(fetchLayout);
-		layoutPanel.add(overview);
-		layoutPanel.add(tabGroup);
-		layoutPanel.add(display);
-
-		add(layoutPanel);
+		add(display);
 
 		addInputKeyListener(this.nameAutocompleter);
 	}
