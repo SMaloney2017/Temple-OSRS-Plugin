@@ -11,8 +11,8 @@
 > 2. ✅ **COMPLETED:** ~~Right-click menu option to lookup player.~~
 > 3. ⚙️ **IN PROGRESS:** Add support for other TempleOSRS API Endpoints. (Competitions, Groups)
 >     * ✅ ~~Implemented class skeleton for Groups/ Competitions~~
->     * 🔧 Design Clan's tab (~~Fetch clan, Overview, leaders, members, members lookup~~, members sync)
->     * **FUTURE:** Design Competitions's tab (Fetch competition, add to watchlist, competition rankings, members lookup)
+>     * ✅ ~~Design Clan's tab (Fetch clan, Overview, leaders, members, members lookup, members sync)~~
+>     * 🔧 Design Competitions's tab (Fetch competition, add to watchlist, competition rankings, members lookup)
 > 4. ✅ **COMPLETED:** ~~Save a Snapshot of the current view.~~
 > 5. 💡 Add toggle to hide skills/bosses without gains.
 
