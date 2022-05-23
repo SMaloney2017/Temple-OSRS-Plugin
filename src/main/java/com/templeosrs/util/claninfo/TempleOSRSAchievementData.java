@@ -1,6 +1,7 @@
 package com.templeosrs.util.claninfo;
 
 import com.google.gson.annotations.SerializedName;
+import com.templeosrs.util.TempleOSRSError;
 import java.util.List;
 
 public class TempleOSRSAchievementData
@@ -9,5 +10,5 @@ public class TempleOSRSAchievementData
 	public List<TempleOSRSClanAchievementSkill> data = null;
 
 	@SerializedName("error")
-	public TempleOSRSClanError error;
+	public TempleOSRSError error;
 }

@@ -30,54 +30,9 @@ public class TempleOSRSService
 
 	private static final String CLAN_EDIT = "api/edit_group.php?";
 
-	public static CompletableFuture<TempleOSRSPlayer> fetchUserGainsAsync(String player, String duration) throws Exception
-	{
-		String playerSkillsOverviewJSON = null;
-		String playerBossingOverviewJSON = null;
-		OkHttpClient client = new OkHttpClient();
+	private static final String COMPETITION = "competition_info.php?id=";
 
-		String playerSkillsOverviewURL = HOST + PLAYER_OVERVIEW + player + DURATION + duration;
-		Request playerSkillsRequest = new Request.Builder()
-			.url(playerSkillsOverviewURL)
-			.build();
-
-		Call playerSkillsCall = client.newCall(playerSkillsRequest);
-		ResponseBody playerSkillsResponse = playerSkillsCall.execute().body();
-		if (playerSkillsResponse != null)
-		{
-			playerSkillsOverviewJSON = playerSkillsResponse.string();
-			playerSkillsResponse.close();
-		}
-
-		String playerBossingOverviewURL = HOST + PLAYER_OVERVIEW + player + BOSSES + DURATION + duration;
-		Request playerBossingRequest = new Request.Builder()
-			.url(playerBossingOverviewURL)
-			.build();
-
-		Call playerBossingCall = client.newCall(playerBossingRequest);
-		ResponseBody playerBossingResponse = playerBossingCall.execute().body();
-		if (playerBossingResponse != null)
-		{
-			playerBossingOverviewJSON = playerBossingResponse.string();
-			playerBossingResponse.close();
-		}
-
-		CompletableFuture<TempleOSRSPlayer> future = new CompletableFuture<>();
-		future.complete(new TempleOSRSPlayer(playerSkillsOverviewJSON, playerBossingOverviewJSON));
-		return future;
-	}
-
-	public static CompletableFuture<TempleOSRSClan> fetchClanAsync(String clanID) throws Exception
-	{
-		String clanOverviewJSON = fetchClanData(HOST + CLAN_OVERVIEW + clanID);
-		String clanAchievementsJSON = fetchClanData(HOST + CLAN_ACHIEVEMENTS + clanID);
-
-		CompletableFuture<TempleOSRSClan> future = new CompletableFuture<>();
-		future.complete(new TempleOSRSClan(clanOverviewJSON, clanAchievementsJSON));
-		return future;
-	}
-
-	private static String fetchClanData(String URL) throws Exception
+	private static String fetchData(String URL) throws Exception
 	{
 		String JSON = null;
 		OkHttpClient client = new OkHttpClient();
@@ -95,6 +50,35 @@ public class TempleOSRSService
 		}
 
 		return JSON;
+	}
+
+	public static CompletableFuture<TempleOSRSPlayer> fetchUserGainsAsync(String player, String duration) throws Exception
+	{
+		String playerSkillsOverviewJSON = fetchData(HOST + PLAYER_OVERVIEW + player + DURATION + duration);
+		String playerBossingOverviewJSON = fetchData(HOST + PLAYER_OVERVIEW + player + BOSSES + DURATION + duration);
+
+		CompletableFuture<TempleOSRSPlayer> future = new CompletableFuture<>();
+		future.complete(new TempleOSRSPlayer(playerSkillsOverviewJSON, playerBossingOverviewJSON));
+		return future;
+	}
+
+	public static CompletableFuture<TempleOSRSClan> fetchClanAsync(String clanID) throws Exception
+	{
+		String clanOverviewJSON = fetchData(HOST + CLAN_OVERVIEW + clanID);
+		String clanAchievementsJSON = fetchData(HOST + CLAN_ACHIEVEMENTS + clanID);
+
+		CompletableFuture<TempleOSRSClan> future = new CompletableFuture<>();
+		future.complete(new TempleOSRSClan(clanOverviewJSON, clanAchievementsJSON));
+		return future;
+	}
+
+	public static CompletableFuture<TempleOSRSCompetition> fetchCompetitionAsync(String competitionID) throws Exception
+	{
+		String competitionJSON = fetchData(HOST + COMPETITION + competitionID);
+		CompletableFuture<TempleOSRSCompetition> future = new CompletableFuture<>();
+
+		future.complete(new TempleOSRSCompetition(competitionJSON));
+		return future;
 	}
 
 	public static CompletableFuture<TempleOSRSSync> postClanMembersAsync(String clanID, String verification, List<String> members) throws Exception
