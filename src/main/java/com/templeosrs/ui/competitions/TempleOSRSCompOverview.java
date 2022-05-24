@@ -136,6 +136,7 @@ public class TempleOSRSCompOverview extends JPanel
 
 		ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
 		iconLabel.setIcon(icon);
+		iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		iconLabel.setToolTipText(info.skill);
 
 		layoutPanel.add(iconLabel);
