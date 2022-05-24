@@ -1,0 +1,32 @@
+package com.templeosrs.util;
+
+import com.google.gson.Gson;
+import com.templeosrs.util.compinfo.TempleCompetitionOverview;
+import java.util.Objects;
+
+public class TempleCompetition
+{
+
+	private final static Gson gson = new Gson();
+
+	public boolean error = false;
+
+	public TempleCompetitionOverview compOverview;
+
+	TempleCompetition(String competitionJSON)
+	{
+		try
+		{
+			compOverview = gson.fromJson(competitionJSON, TempleCompetitionOverview.class);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		if (Objects.nonNull(compOverview.error))
+		{
+			error = true;
+		}
+	}
+
+}

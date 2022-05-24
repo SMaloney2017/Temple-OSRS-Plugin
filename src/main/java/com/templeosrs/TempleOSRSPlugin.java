@@ -26,10 +26,10 @@
 package com.templeosrs;
 
 import com.google.inject.Provides;
-import com.templeosrs.ui.TempleOSRSPanel;
-import com.templeosrs.ui.activities.TempleOSRSRanks;
-import com.templeosrs.ui.clans.TempleOSRSClans;
-import com.templeosrs.ui.competitions.TempleOSRSCompetitions;
+import com.templeosrs.ui.TemplePanel;
+import com.templeosrs.ui.activities.TempleRanks;
+import com.templeosrs.ui.clans.TempleClans;
+import com.templeosrs.ui.competitions.TempleCompetitions;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.swing.SwingUtilities;
@@ -64,13 +64,13 @@ public class TempleOSRSPlugin extends Plugin
 
 	private static NavigationButton navButton;
 
-	public TempleOSRSRanks ranks;
+	public TempleRanks ranks;
 
-	public TempleOSRSClans clans;
+	public TempleClans clans;
 
-	public TempleOSRSCompetitions competitions;
+	public TempleCompetitions competitions;
 
-	public TempleOSRSPanel panel;
+	public TemplePanel panel;
 
 	@Inject
 	private Client client;
@@ -87,11 +87,11 @@ public class TempleOSRSPlugin extends Plugin
 	@Override
 	protected void startUp()
 	{
-		ranks = injector.getInstance(TempleOSRSRanks.class);
-		clans = injector.getInstance(TempleOSRSClans.class);
-		competitions = injector.getInstance(TempleOSRSCompetitions.class);
+		ranks = injector.getInstance(TempleRanks.class);
+		clans = injector.getInstance(TempleClans.class);
+		competitions = injector.getInstance(TempleCompetitions.class);
 
-		panel = new TempleOSRSPanel(ranks, clans, competitions);
+		panel = new TemplePanel(ranks, clans, competitions);
 		navButton = NavigationButton.builder()
 			.tooltip("TempleOSRS")
 			.icon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "skills/skill_icon_ehp1.png"))
