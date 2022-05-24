@@ -29,7 +29,7 @@ public class TempleOSRSRankings extends JPanel
 	TempleOSRSRankings(TempleOSRSPlugin plugin, List<TempleOSRSCompParticipant> participantList)
 	{
 		setLayout(new GridLayout(0, 1));
-		setBorder(new EmptyBorder(5, 5, 5, 5));
+		setBorder(new EmptyBorder(3, 3, 3, 3));
 		setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 
 		JPanel layoutPanel = new JPanel();
@@ -52,9 +52,10 @@ public class TempleOSRSRankings extends JPanel
 
 		layoutPanel.add(compRankings, BorderLayout.SOUTH);
 
-		TitledBorder custom = BorderFactory.createTitledBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)), "Competition Rankings");
-		custom.setTitleColor(ColorScheme.PROGRESS_COMPLETE_COLOR);
-		custom.setTitleFont(FontManager.getRunescapeFont());
+		TitledBorder custom = BorderFactory.createTitledBorder(/*BorderFactory.createCompoundBorder( */BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR)/*, new EmptyBorder(5, 5, 5, 5))*/, "Competition Rankings");
+		custom.setTitleColor(ColorScheme.GRAND_EXCHANGE_LIMIT);
+		custom.setTitleJustification(TitledBorder.CENTER);
+		custom.setTitleFont(FontManager.getRunescapeSmallFont());
 
 		if (i > 15)
 		{
