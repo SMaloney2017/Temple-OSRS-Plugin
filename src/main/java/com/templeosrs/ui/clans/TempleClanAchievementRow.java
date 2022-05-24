@@ -16,7 +16,7 @@ import net.runelite.client.util.QuantityFormatter;
 
 public class TempleClanAchievementRow extends JPanel
 {
-	TempleClanAchievementRow(String name, String date, String skill, HiscoreSkillType type, long xp, Color color)
+	TempleClanAchievementRow(String name, String skill, HiscoreSkillType type, long xp, Color color)
 	{
 		setLayout(new BorderLayout());
 

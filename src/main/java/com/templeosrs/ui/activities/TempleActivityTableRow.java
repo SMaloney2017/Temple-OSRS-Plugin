@@ -128,13 +128,8 @@ public class TempleActivityTableRow extends JPanel
 
 	void reset()
 	{
-		skillGain.setText(DEFAULT);
-		skillGain.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
-
-		rankGain.setText(DEFAULT);
-		rankGain.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
-
-		ehpGain.setText(DEFAULT);
-		ehpGain.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		skillGain.reset();
+		rankGain.reset();
+		ehpGain.reset();
 	}
 }

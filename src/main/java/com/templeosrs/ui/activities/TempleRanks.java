@@ -283,12 +283,12 @@ public class TempleRanks extends PluginPanel
 	{
 		skills.update(result);
 		bosses.update(result);
-		rebuildConstants(result);
+		rebuildOverall(result);
 
 		completed();
 	}
 
-	private void rebuildConstants(TemplePlayer result)
+	private void rebuildOverall(TemplePlayer result)
 	{
 		TemplePlayerData bossingData = result.playerBossesOverview.data;
 		TemplePlayerData skillsData = result.playerSkillsOverview.data;

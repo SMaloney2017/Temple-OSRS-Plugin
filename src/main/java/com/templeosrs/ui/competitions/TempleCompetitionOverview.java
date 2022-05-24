@@ -33,11 +33,12 @@ public class TempleCompetitionOverview extends JPanel
 		layoutPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)));
 		layoutPanel.setOpaque(false);
 
-		JLabel compName = new JLabel(info.name);
+		String name = info.name;
+		JLabel compName = new JLabel(name);
 		compName.setFont(FontManager.getRunescapeBoldFont());
 		compName.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		compName.setAlignmentX(Component.CENTER_ALIGNMENT);
-		compName.setToolTipText(info.name);
+		compName.setToolTipText(name);
 		layoutPanel.add(compName);
 
 		JPanel fieldLayout = new JPanel();
@@ -62,13 +63,15 @@ public class TempleCompetitionOverview extends JPanel
 		statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		statusLayout.add(statusLabel);
 
-		JLabel status = new JLabel(info.statusText);
+		String statusText = info.statusText;
+		JLabel status = new JLabel(statusText);
 		status.setFont(FontManager.getRunescapeSmallFont());
-		if (info.statusText.equals("Finished"))
+
+		if (statusText.equals("Finished"))
 		{
 			status.setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
 		}
-		else if (info.statusText.equals("In progress"))
+		else if (statusText.equals("In progress"))
 		{
 			status.setForeground(ColorScheme.PROGRESS_INPROGRESS_COLOR);
 		}
@@ -76,6 +79,7 @@ public class TempleCompetitionOverview extends JPanel
 		{
 			status.setForeground(ColorScheme.PROGRESS_ERROR_COLOR);
 		}
+
 		statusLayout.add(status);
 
 		layoutPanel.add(statusLayout);
@@ -83,6 +87,8 @@ public class TempleCompetitionOverview extends JPanel
 		layoutPanel.add(fieldLayout);
 
 		String iconPath;
+
+		/* Find better way to get skill icon */
 
 		switch (info.skill)
 		{
@@ -106,7 +112,6 @@ public class TempleCompetitionOverview extends JPanel
 				iconPath = "overall.png";
 				break;
 		}
-
 
 		for (TempleHiscoreSkill skill : SKILLS)
 		{

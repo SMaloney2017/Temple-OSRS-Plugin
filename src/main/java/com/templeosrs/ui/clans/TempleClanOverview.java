@@ -70,92 +70,27 @@ public class TempleClanOverview extends JPanel
 
 		if (Objects.nonNull(info.discordLink))
 		{
-			ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png"));
-			JLabel discord = new JLabel();
-			discord.setPreferredSize(new Dimension(16, 16));
-			discord.setIcon(icon);
-			discord.addMouseListener(new MouseAdapter()
-			{
-				@Override
-				public void mouseClicked(MouseEvent e)
-				{
-					String url = ("https://discord.com/invite/" + info.discordLink).trim();
-					SwingUtilities.invokeLater(() -> LinkBrowser.browse(url));
-				}
-			});
-			clanSocials.add(discord);
+			createSocialsButton("https://discord.com/invite/" + info.discordLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png")));
 		}
 
 		if (Objects.nonNull(info.twitterLink))
 		{
-			ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/twitter.png"));
-			JLabel twitter = new JLabel();
-			twitter.setPreferredSize(new Dimension(16, 16));
-			twitter.setIcon(icon);
-			twitter.addMouseListener(new MouseAdapter()
-			{
-				@Override
-				public void mouseClicked(MouseEvent e)
-				{
-					String url = ("https://twitter.com/" + info.twitterLink).trim();
-					SwingUtilities.invokeLater(() -> LinkBrowser.browse(url));
-				}
-			});
-			clanSocials.add(twitter);
+			createSocialsButton("https://twitter.com/" + info.twitterLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/twitter.png")));
 		}
 
 		if (Objects.nonNull(info.youtubeLink))
 		{
-			ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/youtube.png"));
-			JLabel youtube = new JLabel();
-			youtube.setPreferredSize(new Dimension(16, 16));
-			youtube.setIcon(icon);
-			youtube.addMouseListener(new MouseAdapter()
-			{
-				@Override
-				public void mouseClicked(MouseEvent e)
-				{
-					String url = ("https://www.youtube.com/channel/" + info.youtubeLink).trim();
-					SwingUtilities.invokeLater(() -> LinkBrowser.browse(url));
-				}
-			});
-			clanSocials.add(youtube);
+			createSocialsButton("https://www.youtube.com/channel/" + info.youtubeLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/youtube.png")));
 		}
 
 		if (Objects.nonNull(info.forumLink))
 		{
-			ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/forums.png"));
-			JLabel forum = new JLabel();
-			forum.setPreferredSize(new Dimension(16, 16));
-			forum.setIcon(icon);
-			forum.addMouseListener(new MouseAdapter()
-			{
-				@Override
-				public void mouseClicked(MouseEvent e)
-				{
-					String url = ("https://secure.runescape.com/m=forum/sl=0/forums?" + info.forumLink).trim();
-					SwingUtilities.invokeLater(() -> LinkBrowser.browse(url));
-				}
-			});
-			clanSocials.add(forum);
+			createSocialsButton("https://secure.runescape.com/m=forum/sl=0/forums?" + info.forumLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/forums.png")));
 		}
 
 		if (Objects.nonNull(info.twitchLink))
 		{
-			ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png"));
-			JLabel twitch = new JLabel();
-			twitch.setPreferredSize(new Dimension(16, 16));
-			twitch.setIcon(icon);
-			twitch.addMouseListener(new MouseAdapter()
-			{
-				@Override
-				public void mouseClicked(MouseEvent e)
-				{
-					String url = ("https://www.twitch.tv/" + info.twitchLink).trim();
-					SwingUtilities.invokeLater(() -> LinkBrowser.browse(url));
-				}
-			});
-			clanSocials.add(twitch);
+			createSocialsButton("https://www.twitch.tv/" + info.twitchLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png")));
 		}
 
 		if (clanSocials.getComponentCount() > 0)
@@ -164,5 +99,22 @@ public class TempleClanOverview extends JPanel
 		}
 
 		add(layoutPanel);
+	}
+
+	private void createSocialsButton(String link, ImageIcon icon)
+	{
+		JLabel social = new JLabel();
+		social.setPreferredSize(new Dimension(16, 16));
+		social.setIcon(icon);
+		social.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				String url = link.trim();
+				SwingUtilities.invokeLater(() -> LinkBrowser.browse(url));
+			}
+		});
+		clanSocials.add(social);
 	}
 }

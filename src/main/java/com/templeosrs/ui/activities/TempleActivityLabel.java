@@ -50,4 +50,10 @@ public class TempleActivityLabel extends JLabel
 			setForeground(ColorScheme.PROGRESS_ERROR_COLOR);
 		}
 	}
+
+	void reset()
+	{
+		setText(DEFAULT);
+		setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+	}
 }

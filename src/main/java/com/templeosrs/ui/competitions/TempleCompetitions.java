@@ -68,7 +68,7 @@ public class TempleCompetitions extends PluginPanel
 
 		add(fetchLayout);
 
-		errorPanel.setContent("Clans", "You have not fetched clan information yet.");
+		errorPanel.setContent("Competitions", "You have not fetched competition information yet.");
 		add(errorPanel);
 	}
 
@@ -95,7 +95,7 @@ public class TempleCompetitions extends PluginPanel
 		buttonsLayout.setLayout(new FlowLayout());
 		buttonsLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 
-		searchButton = createNewButton("Search", "Search for competition by ID");
+		searchButton = createNewButton("Search", "Search for competition by ID (Found in TempleOSRS competition-page url)");
 		searchButton.addActionListener(e -> fetchCompetition());
 
 		competitionButton = createNewButton("Open Page", "Opens TempleOSRS competition page");
