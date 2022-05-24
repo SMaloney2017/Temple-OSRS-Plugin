@@ -30,7 +30,6 @@
 package com.templeosrs.ui.activities;
 
 import com.templeosrs.TempleOSRSPlugin;
-import static com.templeosrs.ui.TemplePanel.DEFAULT;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -40,7 +39,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import net.runelite.client.hiscore.HiscoreSkillType;
-import net.runelite.client.ui.ColorScheme;
 import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 import net.runelite.client.util.ImageUtil;
 

@@ -1,6 +1,6 @@
 package com.templeosrs.ui.activities;
 
-import static com.templeosrs.ui.TemplePanel.DEFAULT;
+import static com.templeosrs.ui.TempleOSRSPanel.DEFAULT;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;

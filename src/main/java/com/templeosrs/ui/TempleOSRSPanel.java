@@ -28,7 +28,7 @@ import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.LinkBrowser;
 
-public class TemplePanel extends PluginPanel
+public class TempleOSRSPanel extends PluginPanel
 {
 	public static final String DEFAULT = "--";
 
@@ -49,7 +49,7 @@ public class TemplePanel extends PluginPanel
 	public final MaterialTab competitionsTab;
 
 	@Inject
-	public TemplePanel(TempleRanks ranks, TempleClans clans, TempleCompetitions comps)
+	public TempleOSRSPanel(TempleRanks ranks, TempleClans clans, TempleCompetitions comps)
 	{
 		this.ranks = ranks;
 		this.groups = clans;

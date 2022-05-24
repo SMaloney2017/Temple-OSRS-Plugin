@@ -26,7 +26,7 @@
 package com.templeosrs;
 
 import com.google.inject.Provides;
-import com.templeosrs.ui.TemplePanel;
+import com.templeosrs.ui.TempleOSRSPanel;
 import com.templeosrs.ui.activities.TempleRanks;
 import com.templeosrs.ui.clans.TempleClans;
 import com.templeosrs.ui.competitions.TempleCompetitions;
@@ -70,7 +70,7 @@ public class TempleOSRSPlugin extends Plugin
 
 	public TempleCompetitions competitions;
 
-	public TemplePanel panel;
+	public TempleOSRSPanel panel;
 
 	@Inject
 	private Client client;
@@ -91,7 +91,7 @@ public class TempleOSRSPlugin extends Plugin
 		clans = injector.getInstance(TempleClans.class);
 		competitions = injector.getInstance(TempleCompetitions.class);
 
-		panel = new TemplePanel(ranks, clans, competitions);
+		panel = new TempleOSRSPanel(ranks, clans, competitions);
 		navButton = NavigationButton.builder()
 			.tooltip("TempleOSRS")
 			.icon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "skills/skill_icon_ehp1.png"))
