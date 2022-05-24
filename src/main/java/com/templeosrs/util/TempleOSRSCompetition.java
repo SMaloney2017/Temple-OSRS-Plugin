@@ -11,14 +11,15 @@ public class TempleOSRSCompetition
 
 	public boolean error = false;
 
-	public TempleOSRSCompOverview clanOverview;
+	public TempleOSRSCompOverview compOverview;
 
 	TempleOSRSCompetition(String competitionJSON)
 	{
-		clanOverview = gson.fromJson(competitionJSON, TempleOSRSCompOverview.class);
-
-
-		if (Objects.nonNull(clanOverview.error))
+		try
+		{
+			compOverview = gson.fromJson(competitionJSON, TempleOSRSCompOverview.class);
+		}catch (Exception e){ e.printStackTrace();}
+		if (Objects.nonNull(compOverview.error))
 		{
 			error = true;
 		}

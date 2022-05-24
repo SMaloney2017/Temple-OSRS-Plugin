@@ -51,7 +51,7 @@ import net.runelite.client.ui.ColorScheme;
 
 public class TempleOSRSActivity extends JPanel
 {
-	private static final List<TempleOSRSHiscoreSkill> SKILLS = ImmutableList.of(
+	public static final List<TempleOSRSHiscoreSkill> SKILLS = ImmutableList.of(
 		ATTACK, DEFENCE, STRENGTH,
 		HITPOINTS, RANGED, PRAYER,
 		MAGIC, COOKING, WOODCUTTING,
@@ -62,7 +62,7 @@ public class TempleOSRSActivity extends JPanel
 		HUNTER, CONSTRUCTION
 	);
 
-	private static final List<TempleOSRSHiscoreSkill> BOSSES = ImmutableList.of(
+	public static final List<TempleOSRSHiscoreSkill> BOSSES = ImmutableList.of(
 		ABYSSAL_SIRE, ALCHEMICAL_HYDRA, BARROWS_CHESTS,
 		BRYOPHYTA, CALLISTO, CERBERUS,
 		CHAMBERS_OF_XERIC, CHAMBERS_OF_XERIC_CHALLENGE_MODE, CHAOS_ELEMENTAL,

@@ -9,5 +9,5 @@ public class TempleOSRSCompData
 	public TempleOSRSCompInfo info;
 
 	@SerializedName("participants")
-	public List<TempleOSRSParticipant> participants = null;
+	public List<TempleOSRSCompParticipant> participants = null;
 }

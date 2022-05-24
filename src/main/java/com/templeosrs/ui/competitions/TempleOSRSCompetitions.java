@@ -1,30 +1,49 @@
 package com.templeosrs.ui.competitions;
 
+import com.google.common.base.Strings;
+import com.templeosrs.util.TempleOSRSCompetition;
+import static com.templeosrs.util.TempleOSRSService.fetchCompetitionAsync;
+import com.templeosrs.util.compinfo.TempleOSRSCompInfo;
+import com.templeosrs.util.compinfo.TempleOSRSCompParticipant;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.Objects;
+import java.util.regex.Pattern;
 import javax.inject.Inject;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import net.runelite.api.Client;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
+import net.runelite.client.ui.components.PluginErrorPanel;
 
 public class TempleOSRSCompetitions extends PluginPanel
 {
+	private static final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
+
 	public final IconTextField competitionLookup;
+
+	private final Client client;
+
+	private final PluginErrorPanel errorPanel = new PluginErrorPanel();
 
 	private JButton searchButton;
 
 	private JButton competitionButton;
 
 	@Inject
-	public TempleOSRSCompetitions()
+	public TempleOSRSCompetitions(Client client)
 	{
+		this.client = client;
+
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 //		TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Competition");
@@ -43,6 +62,9 @@ public class TempleOSRSCompetitions extends PluginPanel
 		fetchLayout.add(buttons);
 
 		add(fetchLayout);
+
+		errorPanel.setContent("Clans", "You have not fetched clan information yet.");
+		add(errorPanel);
 	}
 
 	private IconTextField buildTextField()
@@ -105,8 +127,77 @@ public class TempleOSRSCompetitions extends PluginPanel
 		return newButton;
 	}
 
-	private void fetchCompetition()
+	public void fetchCompetition()
 	{
+		final String compID = competitionLookup.getText();
+
+		if (Strings.isNullOrEmpty(compID))
+		{
+			return;
+		}
+
+		if (!isNumeric.matcher(compID).matches())
+		{
+			error();
+			return;
+		}
+
+		loading();
+
+		reset();
+
+		new Thread(() -> {
+			try
+			{
+				fetchCompetitionAsync(compID).whenCompleteAsync((result, err) -> rebuild(compID, result, err));
+			}
+			catch (Exception ignored)
+			{
+				error();
+			}
+		}).start();
+	}
+
+	private void rebuild(String clanID, TempleOSRSCompetition result, Throwable err)
+	{
+		remove(errorPanel);
+
+		if (!competitionLookup.getText().equals(clanID))
+		{
+			completed();
+			return;
+		}
+
+		if (Objects.isNull(result) || Objects.nonNull(err) || result.error)
+		{
+			error();
+			return;
+		}
+		rebuild(result);
+	}
+
+	private void rebuild(TempleOSRSCompetition result)
+	{
+		if (client == null)
+		{
+			return;
+		}
+
+		TempleOSRSCompInfo info = result.compOverview.data.info;
+		List<TempleOSRSCompParticipant> participants = result.compOverview.data.participants;
+		SwingUtilities.invokeLater(() -> {
+			TempleOSRSRankings rankings = new TempleOSRSRankings(participants);
+
+			TempleOSRSCompOverview compOverview  = new TempleOSRSCompOverview(info, rankings.i);
+
+			add(compOverview);
+			add(rankings);
+		});
+
+		completed();
+
+		revalidate();
+		repaint();
 	}
 
 	private void open()

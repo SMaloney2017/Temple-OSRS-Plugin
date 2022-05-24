@@ -30,7 +30,7 @@ public class TempleOSRSService
 
 	private static final String CLAN_EDIT = "api/edit_group.php?";
 
-	private static final String COMPETITION = "competition_info.php?id=";
+	private static final String COMPETITION = "api/competition_info.php?id=";
 
 	private static String fetchData(String URL) throws Exception
 	{

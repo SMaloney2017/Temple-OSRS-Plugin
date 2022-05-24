@@ -94,7 +94,7 @@ public class TempleOSRSPlugin extends Plugin
 		panel = new TempleOSRSPanel(ranks, clans, competitions);
 		navButton = NavigationButton.builder()
 			.tooltip("TempleOSRS")
-			.icon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "ehp.png"))
+			.icon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "skills/skill_icon_ehp1.png"))
 			.priority(5)
 			.panel(panel)
 			.build();

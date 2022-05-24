@@ -45,6 +45,7 @@ public class TempleOSRSClanOverview extends JPanel
 		clanName.setFont(FontManager.getRunescapeBoldFont());
 		clanName.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		clanName.setAlignmentX(Component.CENTER_ALIGNMENT);
+		layoutPanel.add(clanName);
 
 		JPanel fieldLayout = new JPanel();
 		fieldLayout.setLayout(new FlowLayout());
@@ -60,10 +61,7 @@ public class TempleOSRSClanOverview extends JPanel
 		count.setFont(FontManager.getRunescapeSmallFont());
 		fieldLayout.add(count);
 
-		JPanel infoSelection = new JPanel();
-		infoSelection.setLayout(new BoxLayout(infoSelection, BoxLayout.Y_AXIS));
-		infoSelection.add(clanName);
-		infoSelection.add(fieldLayout);
+		layoutPanel.add(fieldLayout);
 
 		clanSocials = new JPanel();
 		clanSocials.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
@@ -161,9 +159,10 @@ public class TempleOSRSClanOverview extends JPanel
 			clanSocials.add(twitch);
 		}
 
-		infoSelection.add(clanSocials);
-
-		layoutPanel.add(infoSelection);
+		if (clanSocials.getComponentCount() > 0)
+		{
+			layoutPanel.add(clanSocials);
+		}
 
 		add(layoutPanel);
 	}
