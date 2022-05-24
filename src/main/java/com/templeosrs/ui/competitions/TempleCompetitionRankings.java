@@ -23,7 +23,6 @@ import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 
 public class TempleCompetitionRankings extends JPanel
 {
-
 	private static final Color[] COLORS = {ColorScheme.SCROLL_TRACK_COLOR, ColorScheme.DARK_GRAY_HOVER_COLOR};
 
 	public int i = 0;
