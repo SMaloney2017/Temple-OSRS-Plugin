@@ -2,8 +2,9 @@
 
 > A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.php). <br>
 
-![1652985302](https://user-images.githubusercontent.com/60162255/169375155-3bf2767d-865a-4c9e-8e8f-52ff9c2e109b.png)
-![1653190939](https://user-images.githubusercontent.com/60162255/169677657-ede1ef70-2dc8-4ab9-a1aa-23fa3e02b29c.png)
+![image](https://user-images.githubusercontent.com/60162255/169375155-3bf2767d-865a-4c9e-8e8f-52ff9c2e109b.png)
+![image](https://user-images.githubusercontent.com/60162255/169677657-ede1ef70-2dc8-4ab9-a1aa-23fa3e02b29c.png)
+![image](https://user-images.githubusercontent.com/60162255/169951048-81a59620-81d3-4ec6-a756-aad5854c0474.png)
 
 ### To-Do / Potential Features
 
@@ -11,8 +12,8 @@
 > 2. ✅ **COMPLETED:** ~~Right-click menu option to lookup player.~~
 > 3. ⚙️ **IN PROGRESS:** Add support for other TempleOSRS API Endpoints. (Competitions, Groups)
 >     * ✅ ~~Implemented class skeleton for Groups/ Competitions~~
->     * ✅ ~~Design Clan's tab (Fetch clan, Overview, leaders, members, members lookup, members sync)~~
->     * 🔧 Design Competition's tab ~~(Fetch competition, competition rankings, members lookup,~~ add to watchlist)
+>     * ✅ ~~Design *Clans tab* (Fetch clan, Overview, leaders, members, member lookup, members sync)~~
+>     * 🔧 Design *Competitions tab* ~~(Fetch competition, competition rankings, participant lookup,~~ add to watchlist)
 > 4. ✅ **COMPLETED:** ~~Save a Snapshot of the current view.~~
 > 5. 💡 Add toggle to hide skills/bosses without gains.
 
