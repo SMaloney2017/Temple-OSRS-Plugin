@@ -3,6 +3,8 @@ package com.templeosrs.ui.competitions;
 import com.google.common.base.Strings;
 import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.util.TempleOSRSCompetition;
+import static com.templeosrs.util.TempleOSRSService.COMPETITION_PAGE;
+import static com.templeosrs.util.TempleOSRSService.HOST;
 import static com.templeosrs.util.TempleOSRSService.fetchCompetitionAsync;
 import com.templeosrs.util.compinfo.TempleOSRSCompInfo;
 import com.templeosrs.util.compinfo.TempleOSRSCompParticipant;
@@ -25,6 +27,7 @@ import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.PluginErrorPanel;
+import net.runelite.client.util.LinkBrowser;
 
 public class TempleOSRSCompetitions extends PluginPanel
 {
@@ -54,7 +57,7 @@ public class TempleOSRSCompetitions extends PluginPanel
 
 		fetchLayout = new JPanel();
 		fetchLayout.setLayout(new BoxLayout(fetchLayout, BoxLayout.Y_AXIS));
-		fetchLayout.setBorder(new EmptyBorder(5, 5, 0, 5));
+		fetchLayout.setBorder(new EmptyBorder(5, 5, 5, 5));
 		fetchLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 
 		competitionLookup = buildTextField();
@@ -204,6 +207,24 @@ public class TempleOSRSCompetitions extends PluginPanel
 
 	private void open()
 	{
+		String compID = competitionLookup.getText();
+		if (Strings.isNullOrEmpty(compID))
+		{
+			return;
+		}
+
+		if (!isNumeric.matcher(compID).matches())
+		{
+			error();
+			return;
+		}
+
+		loading();
+
+		String compPageURL = HOST + COMPETITION_PAGE + compID;
+		SwingUtilities.invokeLater(() -> LinkBrowser.browse(compPageURL));
+
+		completed();
 	}
 
 	private void reset()

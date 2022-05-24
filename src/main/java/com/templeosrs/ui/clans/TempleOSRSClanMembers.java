@@ -54,18 +54,13 @@ public class TempleOSRSClanMembers extends JPanel
 		if (members.length > 10)
 		{
 			setPreferredSize(new Dimension(PANEL_WIDTH, 250));
-
-			final JScrollPane scroll = new JScrollPane(layoutPanel);
-			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			scroll.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
-
-			add(scroll);
 		}
-		else
-		{
-			layoutPanel.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
-			add(layoutPanel);
-		}
+
+		final JScrollPane scroll = new JScrollPane(layoutPanel);
+		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		scroll.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
+
+		add(scroll);
 	}
 }

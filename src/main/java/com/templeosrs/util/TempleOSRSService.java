@@ -18,6 +18,8 @@ public class TempleOSRSService
 
 	public static final String CLAN_PAGE = "groups/overview.php?id=";
 
+	public static final String COMPETITION_PAGE = "/competitions/standings.php?id=";
+
 	private static final String PLAYER_OVERVIEW = "player/view/overview_skilling_view.php?player=";
 
 	private static final String BOSSES = "&tracking=bosses";

@@ -34,6 +34,7 @@ public class TempleOSRSCompetitionRow extends JPanel
 		row.add(name);
 
 		JLabel xp = new JLabel(QuantityFormatter.quantityToStackSize(player.xpGained.longValue()));
+		xp.setBorder(new EmptyBorder(0, 5, 0, 0));
 		xp.setFont(FontManager.getRunescapeSmallFont());
 		row.add(xp);
 

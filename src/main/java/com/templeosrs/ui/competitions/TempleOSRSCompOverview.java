@@ -34,7 +34,6 @@ public class TempleOSRSCompOverview extends JPanel
 		layoutPanel.setOpaque(false);
 
 		JLabel compName = new JLabel(info.name);
-		compName.setBorder(new EmptyBorder(5, 0, 0, 0));
 		compName.setFont(FontManager.getRunescapeBoldFont());
 		compName.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		compName.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -134,7 +133,6 @@ public class TempleOSRSCompOverview extends JPanel
 		}
 
 		JLabel iconLabel = new JLabel();
-		iconLabel.setBorder(new EmptyBorder(0, 0, 5, 0));
 
 		ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
 		iconLabel.setIcon(icon);

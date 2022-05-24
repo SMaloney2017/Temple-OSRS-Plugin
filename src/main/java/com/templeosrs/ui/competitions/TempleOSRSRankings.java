@@ -56,22 +56,16 @@ public class TempleOSRSRankings extends JPanel
 		custom.setTitleColor(ColorScheme.PROGRESS_COMPLETE_COLOR);
 		custom.setTitleFont(FontManager.getRunescapeFont());
 
-		if (i > 10)
+		if (i > 15)
 		{
-			setPreferredSize(new Dimension(PANEL_WIDTH, 250));
-
-			final JScrollPane scroll = new JScrollPane(layoutPanel);
-			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			scroll.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
-			scroll.setBorder(custom);
-
-			add(scroll, BorderLayout.SOUTH);
+			setPreferredSize(new Dimension(PANEL_WIDTH, 375));
 		}
-		else
-		{
-			layoutPanel.setBorder(custom);
-			add(layoutPanel, BorderLayout.SOUTH);
-		}
+
+		final JScrollPane scroll = new JScrollPane(layoutPanel);
+		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		scroll.setBorder(custom);
+
+		add(scroll);
 	}
 }

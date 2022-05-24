@@ -25,6 +25,7 @@ public class TempleOSRSRankingsHeader extends JPanel
 		add(label);
 
 		JLabel gain = new JLabel("Total");
+		gain.setBorder(new EmptyBorder(0, 5, 0, 0));
 		gain.setFont(FontManager.getRunescapeSmallFont());
 		add(gain);
 	}
