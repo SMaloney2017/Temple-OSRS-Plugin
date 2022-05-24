@@ -19,7 +19,7 @@ import net.runelite.client.util.QuantityFormatter;
 
 public class TempleOSRSCompetitionRow extends JPanel
 {
-	TempleOSRSCompetitionRow(TempleOSRSPlugin plugin, int i, TempleOSRSCompParticipant player, Color color)
+	TempleOSRSCompetitionRow(TempleOSRSPlugin plugin, TempleOSRSCompParticipant player, int i, Color color)
 	{
 		setLayout(new BorderLayout());
 
@@ -28,7 +28,7 @@ public class TempleOSRSCompetitionRow extends JPanel
 		row.setBackground(color);
 		row.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 
-		JLabel name = new JLabel((++i) + ". " + player.username);
+		JLabel name = new JLabel(i + ". " + player.username);
 		name.setBorder(new EmptyBorder(0, 5, 0, 0));
 		name.setFont(FontManager.getRunescapeSmallFont());
 		row.add(name);
@@ -36,6 +36,7 @@ public class TempleOSRSCompetitionRow extends JPanel
 		JLabel xp = new JLabel(QuantityFormatter.quantityToStackSize(player.xpGained.longValue()));
 		xp.setBorder(new EmptyBorder(0, 5, 0, 0));
 		xp.setFont(FontManager.getRunescapeSmallFont());
+		xp.setToolTipText("<html>Start: <span style='color:#32a0fa'>" + QuantityFormatter.quantityToStackSize(player.startXp.longValue()) + "</span><br>End: <span style='color:#32a0fa'>" + QuantityFormatter.quantityToStackSize(player.endXp.longValue()) + "</span></html>");
 		row.add(xp);
 
 		JPopupMenu menu = new JPopupMenu();

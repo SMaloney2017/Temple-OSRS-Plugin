@@ -44,7 +44,7 @@ public class TempleOSRSRankings extends JPanel
 		{
 			if (Objects.nonNull(player.xpGained) && player.xpGained > 0)
 			{
-				TempleOSRSCompetitionRow row = new TempleOSRSCompetitionRow(plugin, i, player, COLORS[i % 2]);
+				TempleOSRSCompetitionRow row = new TempleOSRSCompetitionRow(plugin, player, i + 1, COLORS[i % 2]);
 				compRankings.add(row);
 				i++;
 			}
