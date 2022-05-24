@@ -31,10 +31,10 @@ package com.templeosrs.ui.activities;
 
 import com.google.common.base.Strings;
 import com.templeosrs.util.NameAutocompleter;
-import com.templeosrs.util.TemplePlayer;
 import static com.templeosrs.util.TempleFetchService.HOST;
 import static com.templeosrs.util.TempleFetchService.PLAYER_PAGE;
 import static com.templeosrs.util.TempleFetchService.fetchUserGainsAsync;
+import com.templeosrs.util.TemplePlayer;
 import com.templeosrs.util.playerinfo.TemplePlayerData;
 import com.templeosrs.util.playerinfo.TemplePlayerSkill;
 import java.awt.Dimension;
