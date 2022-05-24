@@ -56,19 +56,14 @@ public class TempleOSRSClanAchievements extends JPanel
 			if (clanActivityList.size() > 10)
 			{
 				setPreferredSize(new Dimension(PANEL_WIDTH, 250));
-
-				final JScrollPane scroll = new JScrollPane(layoutPanel);
-				scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-				scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-				scroll.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
-
-				add(scroll);
 			}
-			else
-			{
-				layoutPanel.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
-				add(layoutPanel);
-			}
+
+			final JScrollPane scroll = new JScrollPane(layoutPanel);
+			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			scroll.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
+
+			add(scroll);
 		}
 	}
 }
