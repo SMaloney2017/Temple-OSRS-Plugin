@@ -27,6 +27,7 @@ public class TempleCompetitionRow extends JPanel
 		row.setLayout(new GridLayout());
 		row.setBackground(color);
 		row.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
+		row.setToolTipText("<html>Start: <span style='color:#32a0fa'>" + QuantityFormatter.quantityToStackSize(player.startXp.longValue()) + "</span><br>End: <span style='color:#32a0fa'>" + QuantityFormatter.quantityToStackSize(player.endXp.longValue()) + "</span></html>");
 
 		JLabel name = new JLabel(i + ". " + player.username);
 		name.setBorder(new EmptyBorder(0, 5, 0, 0));
@@ -36,7 +37,6 @@ public class TempleCompetitionRow extends JPanel
 		JLabel xp = new JLabel(QuantityFormatter.quantityToStackSize(player.xpGained.longValue()));
 		xp.setBorder(new EmptyBorder(0, 5, 0, 0));
 		xp.setFont(FontManager.getRunescapeSmallFont());
-		xp.setToolTipText("<html>Start: <span style='color:#32a0fa'>" + QuantityFormatter.quantityToStackSize(player.startXp.longValue()) + "</span><br>End: <span style='color:#32a0fa'>" + QuantityFormatter.quantityToStackSize(player.endXp.longValue()) + "</span></html>");
 		row.add(xp);
 
 		JPopupMenu menu = new JPopupMenu();
