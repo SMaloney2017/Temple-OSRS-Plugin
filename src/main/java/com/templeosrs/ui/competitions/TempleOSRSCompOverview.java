@@ -8,12 +8,13 @@ import com.templeosrs.util.compinfo.TempleOSRSCompInfo;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+import javax.swing.border.EtchedBorder;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.util.ImageUtil;
@@ -29,17 +30,20 @@ public class TempleOSRSCompOverview extends JPanel
 
 		JPanel layoutPanel = new JPanel();
 		layoutPanel.setLayout(new BoxLayout(layoutPanel, BoxLayout.Y_AXIS));
-		layoutPanel.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
+		layoutPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)));
+		layoutPanel.setOpaque(false);
 
 		JLabel compName = new JLabel(info.name);
 		compName.setBorder(new EmptyBorder(5, 0, 0, 0));
 		compName.setFont(FontManager.getRunescapeBoldFont());
 		compName.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		compName.setAlignmentX(Component.CENTER_ALIGNMENT);
+		compName.setToolTipText(info.name);
 		layoutPanel.add(compName);
 
 		JPanel fieldLayout = new JPanel();
 		fieldLayout.setLayout(new FlowLayout());
+		fieldLayout.setOpaque(false);
 
 		JLabel field = new JLabel("Participants:");
 		field.setFont(FontManager.getRunescapeSmallFont());
@@ -52,6 +56,7 @@ public class TempleOSRSCompOverview extends JPanel
 
 		JPanel statusLayout = new JPanel();
 		statusLayout.setLayout(new FlowLayout());
+		statusLayout.setOpaque(false);
 
 		JLabel statusLabel = new JLabel("Status:");
 		statusLabel.setFont(FontManager.getRunescapeSmallFont());
