@@ -73,7 +73,6 @@ public class TempleOSRSActivityTableRow extends JPanel
 		JPanel row = new JPanel();
 		row.setLayout(new GridLayout());
 		row.setOpaque(false);
-		row.setBorder(new EmptyBorder(2, 0, 2, 0));
 		row.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 
 		JPanel iconPanel = new JPanel();

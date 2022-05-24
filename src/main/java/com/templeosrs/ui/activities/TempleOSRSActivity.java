@@ -30,9 +30,9 @@
 package com.templeosrs.ui.activities;
 
 import com.google.common.collect.ImmutableList;
-import com.templeosrs.util.TempleOSRSPlayer;
 import com.templeosrs.util.TempleOSRSHiscoreSkill;
 import static com.templeosrs.util.TempleOSRSHiscoreSkill.*;
+import com.templeosrs.util.TempleOSRSPlayer;
 import com.templeosrs.util.playerinfo.TempleOSRSPlayerData;
 import com.templeosrs.util.playerinfo.TempleOSRSPlayerSkill;
 import java.awt.Color;

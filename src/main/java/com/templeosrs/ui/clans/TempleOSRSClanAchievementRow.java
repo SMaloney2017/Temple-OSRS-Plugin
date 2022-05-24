@@ -19,11 +19,10 @@ public class TempleOSRSClanAchievementRow extends JPanel
 	TempleOSRSClanAchievementRow(String name, String date, String skill, HiscoreSkillType type, long xp, Color color)
 	{
 		setLayout(new BorderLayout());
-		setBackground(color);
 
 		JPanel row = new JPanel();
 		row.setLayout(new GridLayout(1, 3));
-		row.setOpaque(false);
+		row.setBackground(color);
 		row.setBorder(new EmptyBorder(2, 0, 2, 0));
 		row.setPreferredSize(new Dimension(0, 25));
 

@@ -32,7 +32,7 @@ public class TempleOSRSCompOverview extends JPanel
 		layoutPanel.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
 
 		JLabel compName = new JLabel(info.name);
-		compName.setBorder(new EmptyBorder(5, 5, 0, 0));
+		compName.setBorder(new EmptyBorder(5, 0, 0, 0));
 		compName.setFont(FontManager.getRunescapeBoldFont());
 		compName.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		compName.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -42,16 +42,13 @@ public class TempleOSRSCompOverview extends JPanel
 		fieldLayout.setLayout(new FlowLayout());
 
 		JLabel field = new JLabel("Participants:");
-		field.setBorder(new EmptyBorder(5, 5, 0, 0));
 		field.setFont(FontManager.getRunescapeSmallFont());
 		field.setAlignmentX(Component.CENTER_ALIGNMENT);
 		fieldLayout.add(field);
 
 		JLabel count = new JLabel(String.valueOf(memberCount));
-		count.setBorder(new EmptyBorder(5, 0, 0, 0));
 		count.setFont(FontManager.getRunescapeSmallFont());
 		fieldLayout.add(count);
-
 
 		JPanel statusLayout = new JPanel();
 		statusLayout.setLayout(new FlowLayout());
@@ -62,7 +59,6 @@ public class TempleOSRSCompOverview extends JPanel
 		statusLayout.add(statusLabel);
 
 		JLabel status = new JLabel(info.statusText);
-		status.setBorder(new EmptyBorder(5, 0, 0, 0));
 		status.setFont(FontManager.getRunescapeSmallFont());
 		if (info.statusText.equals("Finished"))
 		{
@@ -78,11 +74,14 @@ public class TempleOSRSCompOverview extends JPanel
 		}
 		statusLayout.add(status);
 
+		layoutPanel.add(statusLayout);
+
 		layoutPanel.add(fieldLayout);
 
 		String iconPath;
 
-		switch (info.skill) {
+		switch (info.skill)
+		{
 			case "EHB":
 			case "EHP + EHB":
 				iconPath = "bosses/game_icon_ehb.png";
@@ -125,7 +124,6 @@ public class TempleOSRSCompOverview extends JPanel
 			if (skillName.equals(info.skill))
 			{
 				iconPath = "bosses/game_icon_" + formattedName + ".png";
-				System.out.println(iconPath);
 				break;
 			}
 		}

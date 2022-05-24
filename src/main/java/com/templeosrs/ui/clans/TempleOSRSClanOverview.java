@@ -65,7 +65,6 @@ public class TempleOSRSClanOverview extends JPanel
 
 		clanSocials = new JPanel();
 		clanSocials.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
-		clanSocials.setBorder(new EmptyBorder(0, 0, 0, 0));
 		clanSocials.setLayout(new FlowLayout());
 		clanSocials.setAlignmentX(Component.CENTER_ALIGNMENT);
 

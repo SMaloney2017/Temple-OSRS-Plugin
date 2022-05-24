@@ -1,5 +1,6 @@
 package com.templeosrs.ui.competitions;
 
+import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.util.compinfo.TempleOSRSCompParticipant;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,18 +22,19 @@ import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 public class TempleOSRSRankings extends JPanel
 {
 
-	private static final Color[] COLORS = {ColorScheme.DARKER_GRAY_COLOR, ColorScheme.DARK_GRAY_HOVER_COLOR};
+	private static final Color[] COLORS = {ColorScheme.SCROLL_TRACK_COLOR, ColorScheme.DARK_GRAY_HOVER_COLOR};
 
 	public int i = 0;
 
-	TempleOSRSRankings(List<TempleOSRSCompParticipant> participantList)
+	TempleOSRSRankings(TempleOSRSPlugin plugin, List<TempleOSRSCompParticipant> participantList)
 	{
 		setLayout(new GridLayout(0, 1));
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 
-		JPanel layoutPanel = new JPanel(new BorderLayout());
-		layoutPanel.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
+		JPanel layoutPanel = new JPanel();
+		layoutPanel.setLayout(new BorderLayout());
+		layoutPanel.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 
 		JLabel competitionHeaderLabel = new JLabel("Competition Rankings");
 		competitionHeaderLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -40,39 +42,39 @@ public class TempleOSRSRankings extends JPanel
 		competitionHeaderLabel.setFont(FontManager.getRunescapeBoldFont());
 		competitionHeaderLabel.setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
 
-		layoutPanel.add(competitionHeaderLabel);
+		layoutPanel.add(competitionHeaderLabel, BorderLayout.NORTH);
 
-		if (participantList != null)
+		JPanel compRankings = new JPanel();
+		compRankings.setLayout(new GridLayout(0, 1));
+		compRankings.add(new TempleOSRSRankingsHeader());
+
+		for (TempleOSRSCompParticipant player : participantList)
 		{
-			JPanel compRankings = new JPanel();
-			compRankings.setLayout(new GridLayout(0, 1, 0, 2));
-
-			for (TempleOSRSCompParticipant player : participantList)
+			if (Objects.nonNull(player.xpGained) && player.xpGained > 0)
 			{
-				if (Objects.nonNull(player.xpGained) && player.xpGained > 0)
-				{
-					TempleOSRSCompetitionRank row = new TempleOSRSCompetitionRank(player, COLORS[i % 2]);
-					compRankings.add(row);
-					i++;
-				}
+				TempleOSRSCompetitionRow row = new TempleOSRSCompetitionRow(plugin, i, player, COLORS[i % 2]);
+				compRankings.add(row);
+				i++;
 			}
+		}
 
-			layoutPanel.add(compRankings, BorderLayout.SOUTH);
+		layoutPanel.add(compRankings, BorderLayout.SOUTH);
 
-			if (compRankings.getComponentCount() > 10)
-			{
-				setPreferredSize(new Dimension(PANEL_WIDTH, 250));
+		if (i > 10)
+		{
+			setPreferredSize(new Dimension(PANEL_WIDTH, 250));
 
-				final JScrollPane scroll = new JScrollPane(layoutPanel);
-				scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-				scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			final JScrollPane scroll = new JScrollPane(layoutPanel);
+			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			scroll.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
 
-				add(scroll);
-			}
-			else
-			{
-				add(layoutPanel);
-			}
+			add(scroll);
+		}
+		else
+		{
+			layoutPanel.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
+			add(layoutPanel);
 		}
 	}
 }

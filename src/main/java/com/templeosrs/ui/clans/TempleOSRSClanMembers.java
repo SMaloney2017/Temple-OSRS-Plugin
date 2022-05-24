@@ -31,7 +31,6 @@ public class TempleOSRSClanMembers extends JPanel
 		setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 
 		layoutPanel = new JPanel(new BorderLayout());
-		layoutPanel.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
 
 		JLabel clanHeaderLabel = new JLabel(heading);
 		clanHeaderLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -59,11 +58,13 @@ public class TempleOSRSClanMembers extends JPanel
 			final JScrollPane scroll = new JScrollPane(layoutPanel);
 			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			scroll.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
 
 			add(scroll);
 		}
 		else
 		{
+			layoutPanel.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
 			add(layoutPanel);
 		}
 	}

@@ -1,6 +1,7 @@
 package com.templeosrs.ui.competitions;
 
 import com.google.common.base.Strings;
+import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.util.TempleOSRSCompetition;
 import static com.templeosrs.util.TempleOSRSService.fetchCompetitionAsync;
 import com.templeosrs.util.compinfo.TempleOSRSCompInfo;
@@ -33,24 +34,25 @@ public class TempleOSRSCompetitions extends PluginPanel
 
 	private final Client client;
 
+	private final TempleOSRSPlugin plugin;
+
 	private final PluginErrorPanel errorPanel = new PluginErrorPanel();
+
+	private final JPanel fetchLayout;
 
 	private JButton searchButton;
 
 	private JButton competitionButton;
 
 	@Inject
-	public TempleOSRSCompetitions(Client client)
+	public TempleOSRSCompetitions(TempleOSRSPlugin plugin, Client client)
 	{
 		this.client = client;
+		this.plugin = plugin;
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-//		TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Competition");
-//		title.setTitleJustification(TitledBorder.RIGHT);
-//		setBorder(title);
-
-		JPanel fetchLayout = new JPanel();
+		fetchLayout = new JPanel();
 		fetchLayout.setLayout(new BoxLayout(fetchLayout, BoxLayout.Y_AXIS));
 		fetchLayout.setBorder(new EmptyBorder(5, 5, 0, 5));
 		fetchLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
@@ -186,9 +188,9 @@ public class TempleOSRSCompetitions extends PluginPanel
 		TempleOSRSCompInfo info = result.compOverview.data.info;
 		List<TempleOSRSCompParticipant> participants = result.compOverview.data.participants;
 		SwingUtilities.invokeLater(() -> {
-			TempleOSRSRankings rankings = new TempleOSRSRankings(participants);
+			TempleOSRSRankings rankings = new TempleOSRSRankings(plugin, participants);
 
-			TempleOSRSCompOverview compOverview  = new TempleOSRSCompOverview(info, rankings.i);
+			TempleOSRSCompOverview compOverview = new TempleOSRSCompOverview(info, rankings.i);
 
 			add(compOverview);
 			add(rankings);
@@ -206,6 +208,12 @@ public class TempleOSRSCompetitions extends PluginPanel
 
 	private void reset()
 	{
+		removeAll();
+		add(fetchLayout);
+		add(errorPanel);
+
+		repaint();
+		revalidate();
 	}
 
 	private void error()

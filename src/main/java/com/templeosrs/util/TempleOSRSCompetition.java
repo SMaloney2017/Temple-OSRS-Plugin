@@ -18,7 +18,11 @@ public class TempleOSRSCompetition
 		try
 		{
 			compOverview = gson.fromJson(competitionJSON, TempleOSRSCompOverview.class);
-		}catch (Exception e){ e.printStackTrace();}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		if (Objects.nonNull(compOverview.error))
 		{
 			error = true;
