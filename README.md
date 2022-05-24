@@ -16,6 +16,7 @@
 >     * 🔧 Design *Competitions tab* ~~(Fetch competition, competition rankings, participant lookup,~~ add to watchlist)
 > 4. ✅ **COMPLETED:** ~~Save a Snapshot of the current view.~~
 > 5. 💡 Add toggle to hide skills/bosses without gains.
+> 6. ⚠️ Add rigorous comments.
 
 ### Bugs to fix/ Concerns
 
