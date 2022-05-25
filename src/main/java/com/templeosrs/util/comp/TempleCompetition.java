@@ -12,7 +12,7 @@ public class TempleCompetition
 
 	public TempleCompetitionOverview compOverview;
 
-	TempleCompetition(String competitionJSON)
+	public TempleCompetition(String competitionJSON)
 	{
 		try
 		{

@@ -13,7 +13,7 @@ public class TempleClan
 
 	public TempleClanAchievementData clanAchievements;
 
-	TempleClan(String clanOverviewJSON, String clanAchievementsJSON)
+	public TempleClan(String clanOverviewJSON, String clanAchievementsJSON)
 	{
 		clanOverview = gson.fromJson(clanOverviewJSON, TempleClanOverview.class);
 

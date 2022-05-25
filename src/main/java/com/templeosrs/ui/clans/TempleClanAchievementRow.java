@@ -16,7 +16,7 @@ import net.runelite.client.util.QuantityFormatter;
 
 public class TempleClanAchievementRow extends JPanel
 {
-	TempleClanAchievementRow(String name, String date, String skill, HiscoreSkillType type, long xp, Color color)
+	TempleClanAchievementRow(String name, String skill, HiscoreSkillType type, long xp, Color color)
 	{
 		setLayout(new BorderLayout());
 
@@ -50,7 +50,7 @@ public class TempleClanAchievementRow extends JPanel
 		JLabel usernameLabel = createNewJLabel(name);
 		row.add(usernameLabel);
 
-		String xpType = type.equals(HiscoreSkillType.SKILL) ? QuantityFormatter.quantityToStackSize(xp) + " XP" : QuantityFormatter.quantityToStackSize(xp) + " KC";
+		String xpType = QuantityFormatter.quantityToStackSize(xp);
 		JLabel xpLabel = createNewJLabel(xpType);
 		xpLabel.setHorizontalAlignment(JLabel.CENTER);
 		row.add(xpLabel);
