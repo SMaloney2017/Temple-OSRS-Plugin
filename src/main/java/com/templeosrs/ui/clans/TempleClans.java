@@ -26,13 +26,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
-import javax.swing.plaf.basic.BasicPanelUI;
-import javax.swing.plaf.basic.BasicProgressBarUI;
 import net.runelite.api.Client;
 import net.runelite.api.clan.ClanMember;
 import net.runelite.api.clan.ClanSettings;
@@ -250,8 +246,9 @@ public class TempleClans extends PluginPanel
 
 			add(new TempleClanOverview(info));
 
+			add(new TempleClanAchievements(clanActivity));
+
 			clanMembers = new TempleClanMembers(plugin, "Members", members);
-			clanAchievements = new TempleClanAchievements(clanActivity);
 			clanLeaders = new TempleClanMembers(plugin, "Leaders", leaders);
 
 			JPanel display = new JPanel();
@@ -263,8 +260,6 @@ public class TempleClans extends PluginPanel
 			tabGroup.addTab(leadersTab);
 			tabGroup.addTab(membersTab);
 			tabGroup.select(leadersTab);
-
-			add(clanAchievements);
 
 			add(tabGroup);
 			add(display);
