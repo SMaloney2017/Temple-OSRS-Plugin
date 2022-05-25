@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.EmptyBorder;
+import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 import net.runelite.client.util.QuantityFormatter;
@@ -36,6 +37,7 @@ public class TempleCompetitionRow extends JPanel
 
 		JLabel xp = new JLabel(QuantityFormatter.quantityToStackSize(player.xpGained.longValue()));
 		xp.setBorder(new EmptyBorder(0, 5, 0, 0));
+		xp.setForeground(ColorScheme.GRAND_EXCHANGE_PRICE);
 		xp.setFont(FontManager.getRunescapeSmallFont());
 		row.add(xp);
 
