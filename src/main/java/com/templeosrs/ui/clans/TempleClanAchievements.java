@@ -47,6 +47,7 @@ public class TempleClanAchievements extends JPanel
 
 			TitledBorder custom = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), "Recent Activity");
 			custom.setTitleColor(ColorScheme.GRAND_EXCHANGE_LIMIT);
+			custom.setTitleJustification(TitledBorder.CENTER);
 			custom.setTitleFont(FontManager.getRunescapeSmallFont());
 
 			if (clanActivityList.size() > 12)
