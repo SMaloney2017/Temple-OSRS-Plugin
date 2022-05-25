@@ -4,7 +4,6 @@ import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.ui.activities.TempleRanks;
 import com.templeosrs.ui.clans.TempleClans;
 import com.templeosrs.ui.competitions.TempleCompetitions;
-import com.templeosrs.util.favorite.TempleFavorite;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -146,7 +145,7 @@ public class TempleOSRSPanel extends PluginPanel
 		}
 	}
 
-	private void favorite(TempleFavorite item)
+	private void favorite()
 	{
 		File directory = new File(FAVORITES);
 		if (directory.exists() || directory.mkdirs())

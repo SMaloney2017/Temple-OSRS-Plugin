@@ -51,9 +51,9 @@ public class TempleClanMembers extends JPanel
 
 		layoutPanel.add(clanMembers, BorderLayout.SOUTH);
 
-		if (members.length > 10)
+		if (members.length > 12)
 		{
-			setPreferredSize(new Dimension(PANEL_WIDTH, 250));
+			setPreferredSize(new Dimension(PANEL_WIDTH, 300));
 		}
 
 		final JScrollPane scroll = new JScrollPane(layoutPanel);

@@ -53,9 +53,9 @@ public class TempleClanAchievements extends JPanel
 
 			layoutPanel.add(clanActivity, BorderLayout.SOUTH);
 
-			if (clanActivityList.size() > 10)
+			if (clanActivityList.size() > 12)
 			{
-				setPreferredSize(new Dimension(PANEL_WIDTH, 250));
+				setPreferredSize(new Dimension(PANEL_WIDTH, 300));
 			}
 
 			final JScrollPane scroll = new JScrollPane(layoutPanel);
