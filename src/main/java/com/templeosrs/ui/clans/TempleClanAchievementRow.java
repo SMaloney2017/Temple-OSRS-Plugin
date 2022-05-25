@@ -29,13 +29,13 @@ public class TempleClanAchievementRow extends JPanel
 		JPanel iconPanel = new JPanel();
 		iconPanel.setLayout(new BorderLayout());
 		iconPanel.setOpaque(false);
-		String iconPath;
 
 		String formattedName = skill.replaceAll("[^A-Za-z0-9]", "").toLowerCase();
 
+		String iconPath;
 		if (type.equals(HiscoreSkillType.SKILL))
 		{
-			iconPath = "skills/skill_icon_" + formattedName + "1.png";
+			iconPath = "skills/skill_icon_" + formattedName + ".png";
 		}
 		else
 		{

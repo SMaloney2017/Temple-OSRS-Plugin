@@ -80,7 +80,7 @@ public class TempleActivityTableRow extends JPanel
 
 		if (type.equals(HiscoreSkillType.SKILL))
 		{
-			iconPath = "skills/skill_icon_" + skillName + "1.png";
+			iconPath = "skills/skill_icon_" + skillName + ".png";
 		}
 		else if (type.equals(HiscoreSkillType.BOSS))
 		{

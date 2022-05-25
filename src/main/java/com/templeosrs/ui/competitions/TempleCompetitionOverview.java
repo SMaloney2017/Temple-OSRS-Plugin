@@ -1,8 +1,6 @@
 package com.templeosrs.ui.competitions;
 
 import com.templeosrs.TempleOSRSPlugin;
-import static com.templeosrs.ui.activities.TempleActivity.BOSSES;
-import static com.templeosrs.ui.activities.TempleActivity.SKILLS;
 import com.templeosrs.util.TempleHiscoreSkill;
 import com.templeosrs.util.compinfo.TempleCompetitionInfo;
 import java.awt.BorderLayout;
@@ -15,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.util.ImageUtil;
@@ -86,55 +85,21 @@ public class TempleCompetitionOverview extends JPanel
 
 		layoutPanel.add(fieldLayout);
 
+		TempleHiscoreSkill skill = TempleHiscoreSkill.values()[info.skillIndex];
+
+		String skillName = skill.getName();
+		String formattedName = skillName.replaceAll("[^A-Za-z0-9]", "").toLowerCase();
+
+		System.out.println(skillName + " " + skill.getType());
+
 		String iconPath;
-
-		/* Find better way to get skill icon */
-
-		switch (info.skill)
+		if (skill.getType().equals(HiscoreSkillType.SKILL))
 		{
-			case "EHB":
-			case "EHP + EHB":
-				iconPath = "bosses/game_icon_ehb.png";
-				break;
-			case "EHP":
-				iconPath = "skills/skill_icon_ehp1.png";
-				break;
-			case "F2P EHP":
-				iconPath = "skills/skill_icon_f2p.png";
-				break;
-			case "Lvl-3 EHP":
-				iconPath = "skills/skill_icon_lvl3.png";
-				break;
-			case "Iron EHP":
-				iconPath = "skills/skill_icon_ironehp1.png";
-				break;
-			default:
-				iconPath = "overall.png";
-				break;
+			iconPath = "skills/skill_icon_" + formattedName + ".png";
 		}
-
-		for (TempleHiscoreSkill skill : SKILLS)
+		else
 		{
-			String skillName = skill.getName();
-			String formattedName = skillName.replaceAll("[^A-Za-z0-9]", "").toLowerCase();
-
-			if (skillName.equals(info.skill))
-			{
-				iconPath = "skills/skill_icon_" + formattedName + "1.png";
-				break;
-			}
-		}
-
-		for (TempleHiscoreSkill skill : BOSSES)
-		{
-			String skillName = skill.getName();
-			String formattedName = skillName.replaceAll("[^A-Za-z0-9]", "").toLowerCase();
-
-			if (skillName.equals(info.skill))
-			{
-				iconPath = "bosses/game_icon_" + formattedName + ".png";
-				break;
-			}
+			iconPath = "bosses/game_icon_" + formattedName + ".png";
 		}
 
 		JLabel iconLabel = new JLabel();
