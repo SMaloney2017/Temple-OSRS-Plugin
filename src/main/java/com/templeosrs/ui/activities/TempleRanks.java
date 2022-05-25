@@ -47,11 +47,13 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.inject.Inject;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import net.runelite.api.Client;
 import net.runelite.api.Player;
 import net.runelite.client.hiscore.HiscoreSkillType;
@@ -105,8 +107,8 @@ public class TempleRanks extends PluginPanel
 
 		JPanel fetchLayout = new JPanel();
 		fetchLayout.setLayout(new BoxLayout(fetchLayout, BoxLayout.Y_AXIS));
-		fetchLayout.setBorder(new EmptyBorder(5, 5, 0, 5));
-		fetchLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		fetchLayout.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)));
+		fetchLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		playerLookup = buildTextField();
 		fetchLayout.add(playerLookup);
@@ -185,7 +187,7 @@ public class TempleRanks extends PluginPanel
 	{
 		JPanel buttonsLayout = new JPanel();
 		buttonsLayout.setLayout(new FlowLayout());
-		buttonsLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		buttonsLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		searchButton = createNewButton("Search", "Search for player profile");
 		searchButton.addActionListener(e -> fetchUser());

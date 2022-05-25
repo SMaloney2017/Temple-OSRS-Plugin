@@ -16,11 +16,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import javax.inject.Inject;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import net.runelite.api.Client;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
@@ -57,8 +59,8 @@ public class TempleCompetitions extends PluginPanel
 
 		fetchLayout = new JPanel();
 		fetchLayout.setLayout(new BoxLayout(fetchLayout, BoxLayout.Y_AXIS));
-		fetchLayout.setBorder(new EmptyBorder(5, 5, 5, 5));
-		fetchLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		fetchLayout.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)));
+		fetchLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		competitionLookup = buildTextField();
 		fetchLayout.add(competitionLookup);
@@ -93,7 +95,7 @@ public class TempleCompetitions extends PluginPanel
 	{
 		JPanel buttonsLayout = new JPanel();
 		buttonsLayout.setLayout(new FlowLayout());
-		buttonsLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		buttonsLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		searchButton = createNewButton("Search", "Search for competition by ID (Found in TempleOSRS competition-page url)");
 		searchButton.addActionListener(e -> fetchCompetition());

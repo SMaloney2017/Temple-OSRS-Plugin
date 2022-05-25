@@ -23,7 +23,7 @@ public class TempleRanksOverview extends JPanel
 	public TempleRanksOverview()
 	{
 		setLayout(new GridLayout(0, 1));
-		setBorder(new EmptyBorder(5, 0, 5, 0));
+		setBorder(new EmptyBorder(5, -2, 5, -2));
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		TitledBorder custom = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), "Player Overview");
@@ -36,6 +36,7 @@ public class TempleRanksOverview extends JPanel
 		layoutPanel.setBorder(custom);
 
 		playerOverview = new JPanel();
+		playerOverview.setBorder(new EmptyBorder(3, 3, 3, 3));
 		playerOverview.setLayout(new GridLayout(3, 1));
 		playerOverview.setOpaque(false);
 

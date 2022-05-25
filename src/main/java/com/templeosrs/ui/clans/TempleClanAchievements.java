@@ -10,7 +10,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import net.runelite.client.hiscore.HiscoreSkillType;
@@ -25,7 +24,6 @@ public class TempleClanAchievements extends JPanel
 	TempleClanAchievements(List<TempleClanAchievement> clanActivityList)
 	{
 		setLayout(new BorderLayout());
-		setBorder(new EmptyBorder(3, 3, 3, 3));
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		JPanel layoutPanel = new JPanel();

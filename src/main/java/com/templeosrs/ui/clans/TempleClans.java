@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import javax.inject.Inject;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -29,6 +30,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import net.runelite.api.Client;
 import net.runelite.api.clan.ClanMember;
 import net.runelite.api.clan.ClanSettings;
@@ -80,8 +82,8 @@ public class TempleClans extends PluginPanel
 
 		fetchLayout = new JPanel();
 		fetchLayout.setLayout(new BoxLayout(fetchLayout, BoxLayout.Y_AXIS));
-		fetchLayout.setBorder(new EmptyBorder(5, 5, 0, 5));
-		fetchLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		fetchLayout.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)));
+		fetchLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		clanLookup = buildTextField();
 		fetchLayout.add(clanLookup);
@@ -126,7 +128,7 @@ public class TempleClans extends PluginPanel
 	{
 		JPanel buttonsLayout = new JPanel();
 		buttonsLayout.setLayout(new FlowLayout());
-		buttonsLayout.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		buttonsLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		searchButton = createNewButton("Search", "Search for clan by ID (Found in TempleOSRS clan-page url)");
 		searchButton.addActionListener(e -> fetchClan());
