@@ -3,22 +3,22 @@ package com.templeosrs.ui.clans;
 import com.templeosrs.TempleOSRSPlugin;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import javax.swing.JLabel;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 
 public class TempleClanMembers extends JPanel
 {
-	private static final Color[] COLORS = {ColorScheme.DARKER_GRAY_COLOR, ColorScheme.DARK_GRAY_HOVER_COLOR};
+	private static final Color[] COLORS = {ColorScheme.DARK_GRAY_HOVER_COLOR, ColorScheme.DARKER_GRAY_COLOR};
 
 	public final JPanel clanMembers;
 
@@ -27,21 +27,15 @@ public class TempleClanMembers extends JPanel
 	TempleClanMembers(TempleOSRSPlugin plugin, String heading, String[] members)
 	{
 		setLayout(new BorderLayout());
-		setBorder(new EmptyBorder(5, 5, 5, 5));
-		setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		setBorder(new EmptyBorder(3, 3, 3, 3));
+		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-		layoutPanel = new JPanel(new BorderLayout());
-
-		JLabel clanHeaderLabel = new JLabel(heading);
-		clanHeaderLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		clanHeaderLabel.setBorder(new EmptyBorder(5, 5, 5, 0));
-		clanHeaderLabel.setFont(FontManager.getRunescapeBoldFont());
-		clanHeaderLabel.setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
-
-		layoutPanel.add(clanHeaderLabel);
+		layoutPanel = new JPanel();
+		layoutPanel.setLayout(new BorderLayout());
+		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		clanMembers = new JPanel();
-		clanMembers.setLayout(new GridLayout(0, 1, 0, 2));
+		clanMembers.setLayout(new GridLayout(0, 1));
 
 		for (int i = 0; i < members.length; i++)
 		{
@@ -51,16 +45,25 @@ public class TempleClanMembers extends JPanel
 
 		layoutPanel.add(clanMembers, BorderLayout.SOUTH);
 
+		TitledBorder custom = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), heading);
+		custom.setTitleColor(ColorScheme.PROGRESS_COMPLETE_COLOR);
+		custom.setTitleFont(FontManager.getRunescapeSmallFont());
+
 		if (members.length > 12)
 		{
 			setPreferredSize(new Dimension(PANEL_WIDTH, 300));
+
+			final JScrollPane scroll = new JScrollPane(layoutPanel);
+			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			scroll.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+			scroll.setBorder(custom);
+			add(scroll);
 		}
-
-		final JScrollPane scroll = new JScrollPane(layoutPanel);
-		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scroll.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
-		scroll.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
-
-		add(scroll);
+		else
+		{
+			layoutPanel.setBorder(custom);
+			add(layoutPanel);
+		}
 	}
 }

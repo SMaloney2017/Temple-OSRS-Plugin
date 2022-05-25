@@ -26,12 +26,12 @@ public class TempleRanksOverviewSection extends JPanel
 
 		setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 		setBorder(new EmptyBorder(0, 10, 0, 0));
-		setBackground(color);
 		setLayout(new GridLayout(1, 3));
+		setBackground(color);
 
 		JLabel field = new JLabel(label.toUpperCase(), SwingConstants.LEFT);
 		field.setFont(FontManager.getRunescapeSmallFont());
-		field.setForeground(ColorScheme.PROGRESS_ERROR_COLOR);
+		field.setForeground(ColorScheme.GRAND_EXCHANGE_PRICE);
 		field.setToolTipText(tooltip);
 
 		add(field);

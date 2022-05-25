@@ -25,6 +25,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import net.runelite.api.Client;
@@ -35,6 +37,8 @@ import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.PluginErrorPanel;
+import net.runelite.client.ui.components.materialtabs.MaterialTab;
+import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
 import net.runelite.client.util.LinkBrowser;
 
 public class TempleClans extends PluginPanel
@@ -239,22 +243,33 @@ public class TempleClans extends PluginPanel
 		List<TempleClanAchievement> clanActivity = result.clanAchievements.data;
 
 		SwingUtilities.invokeLater(() -> {
+
 			add(new TempleClanOverview(info));
 
-			clanLeaders = new TempleClanMembers(plugin, "Leaders", leaders);
-			add(clanLeaders);
-
-			clanAchievements = new TempleClanAchievements(clanActivity);
-			if (config.clanAchievements())
-			{
-				add(clanAchievements);
-			}
-
 			clanMembers = new TempleClanMembers(plugin, "Members", members);
-			if (config.clanMembers())
-			{
-				add(clanMembers);
-			}
+			clanAchievements = new TempleClanAchievements(clanActivity);
+			clanLeaders = new TempleClanMembers(plugin, "Leaders", leaders);
+
+			JPanel display = new JPanel();
+			MaterialTabGroup tabGroup = new MaterialTabGroup(display);
+			tabGroup.setFont(FontManager.getRunescapeSmallFont());
+
+			JScrollPane scroll = new JScrollPane(tabGroup);
+			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scroll.getViewport().setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
+			MaterialTab leadersTab = new MaterialTab("Leaders", tabGroup, clanLeaders);
+			MaterialTab activityTab = new MaterialTab("Activity", tabGroup, clanAchievements);
+			MaterialTab membersTab = new MaterialTab("Members", tabGroup, clanMembers);
+
+			tabGroup.addTab(leadersTab);
+			tabGroup.addTab(membersTab);
+			tabGroup.addTab(activityTab);
+			tabGroup.select(leadersTab);
+			add(scroll);
+
+			add(display);
 		});
 
 		completed();

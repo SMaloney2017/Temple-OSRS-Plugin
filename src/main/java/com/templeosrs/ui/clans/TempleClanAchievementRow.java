@@ -22,9 +22,9 @@ public class TempleClanAchievementRow extends JPanel
 
 		JPanel row = new JPanel();
 		row.setLayout(new GridLayout(1, 3));
-		row.setBackground(color);
 		row.setBorder(new EmptyBorder(2, 0, 2, 0));
 		row.setPreferredSize(new Dimension(0, 25));
+		row.setBackground(color);
 
 		JPanel iconPanel = new JPanel();
 		iconPanel.setLayout(new BorderLayout());

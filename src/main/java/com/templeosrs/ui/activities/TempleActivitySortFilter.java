@@ -27,7 +27,7 @@ public class TempleActivitySortFilter extends JPanel
 		label.setFont(FontManager.getRunescapeSmallFont());
 
 		setLayout(new GridLayout(0, 2));
-		setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		addMouseListener(new MouseAdapter()
 		{

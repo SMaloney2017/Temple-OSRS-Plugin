@@ -44,8 +44,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import javax.inject.Inject;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.ColorScheme;
 
@@ -81,7 +84,7 @@ public class TempleActivity extends JPanel
 		WINTERTODT, ZALCANO, ZULRAH
 	);
 
-	private static final Color[] COLORS = {ColorScheme.DARK_GRAY_HOVER_COLOR, ColorScheme.SCROLL_TRACK_COLOR};
+	private static final Color[] COLORS = {ColorScheme.DARKER_GRAY_COLOR, ColorScheme.DARK_GRAY_HOVER_COLOR};
 
 	final Map<String, TempleActivityTableRow> map = new HashMap<>();
 
@@ -101,8 +104,8 @@ public class TempleActivity extends JPanel
 		hiscoreSkillType = type;
 
 		setLayout(new GridLayout(0, 1));
-		setBorder(new EmptyBorder(5, 5, 5, 5));
-		setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)));
+		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		sortPanel = new TempleActivitySortHeader(this, hiscoreSkillType);
 

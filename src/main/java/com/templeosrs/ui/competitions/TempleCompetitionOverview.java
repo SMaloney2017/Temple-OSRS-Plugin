@@ -25,7 +25,7 @@ public class TempleCompetitionOverview extends JPanel
 	{
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(5, 5, 5, 5));
-		setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		JPanel layoutPanel = new JPanel();
 		layoutPanel.setLayout(new BoxLayout(layoutPanel, BoxLayout.Y_AXIS));

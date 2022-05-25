@@ -9,13 +9,14 @@ import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+import javax.swing.border.EtchedBorder;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
@@ -34,11 +35,12 @@ public class TempleClanOverview extends JPanel
 	{
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(5, 5, 5, 5));
-		setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		JPanel layoutPanel = new JPanel();
 		layoutPanel.setLayout(new BoxLayout(layoutPanel, BoxLayout.Y_AXIS));
-		layoutPanel.setBorder(new LineBorder(ColorScheme.SCROLL_TRACK_COLOR, 1));
+		layoutPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)));
+		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		clanName = new JLabel(info.name);
 		clanName.setBorder(new EmptyBorder(5, 5, 0, 0));
@@ -49,6 +51,7 @@ public class TempleClanOverview extends JPanel
 
 		JPanel fieldLayout = new JPanel();
 		fieldLayout.setLayout(new FlowLayout());
+		fieldLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		JLabel field = new JLabel("Members:");
 		field.setBorder(new EmptyBorder(5, 5, 0, 0));
@@ -67,6 +70,7 @@ public class TempleClanOverview extends JPanel
 		clanSocials.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 		clanSocials.setLayout(new FlowLayout());
 		clanSocials.setAlignmentX(Component.CENTER_ALIGNMENT);
+		clanSocials.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		if (Objects.nonNull(info.discordLink))
 		{

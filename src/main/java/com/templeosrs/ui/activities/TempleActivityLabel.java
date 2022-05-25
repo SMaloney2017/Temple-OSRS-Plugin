@@ -25,7 +25,7 @@ public class TempleActivityLabel extends JLabel
 		}
 		else if (value > 0)
 		{
-			setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
+			setForeground(ColorScheme.GRAND_EXCHANGE_PRICE);
 		}
 		else
 		{
@@ -43,7 +43,7 @@ public class TempleActivityLabel extends JLabel
 		}
 		else if (value > 0)
 		{
-			setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
+			setForeground(ColorScheme.GRAND_EXCHANGE_PRICE);
 		}
 		else
 		{
