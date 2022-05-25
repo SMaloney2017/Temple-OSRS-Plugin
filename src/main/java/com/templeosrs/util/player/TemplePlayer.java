@@ -9,14 +9,14 @@ public class TemplePlayer
 
 	public boolean error = false;
 
-	public TemplePlayerOverview playerSkillsOverview;
+	public TemplePlayerResponse playerSkillsOverview;
 
-	public TemplePlayerOverview playerBossesOverview;
+	public TemplePlayerResponse playerBossesOverview;
 
 	public TemplePlayer(String playerSkillsOverviewJSON, String playerBossingOverviewJSON)
 	{
-		playerSkillsOverview = gson.fromJson(playerSkillsOverviewJSON, TemplePlayerOverview.class);
-		playerBossesOverview = gson.fromJson(playerBossingOverviewJSON, TemplePlayerOverview.class);
+		playerSkillsOverview = gson.fromJson(playerSkillsOverviewJSON, TemplePlayerResponse.class);
+		playerBossesOverview = gson.fromJson(playerBossingOverviewJSON, TemplePlayerResponse.class);
 
 		if (Objects.nonNull(playerSkillsOverview.error) || Objects.nonNull(playerBossesOverview.error))
 		{

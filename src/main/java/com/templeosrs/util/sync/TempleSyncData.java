@@ -2,7 +2,7 @@ package com.templeosrs.util.sync;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TempleSyncResponseData
+public class TempleSyncData
 {
 	@SerializedName("added_names")
 	public Integer addedNames;

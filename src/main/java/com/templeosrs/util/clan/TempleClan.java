@@ -9,13 +9,13 @@ public class TempleClan
 
 	public boolean error = false;
 
-	public TempleClanOverview clanOverview;
+	public TempleClanResponse clanOverview;
 
 	public TempleClanAchievementData clanAchievements;
 
 	public TempleClan(String clanOverviewJSON, String clanAchievementsJSON)
 	{
-		clanOverview = gson.fromJson(clanOverviewJSON, TempleClanOverview.class);
+		clanOverview = gson.fromJson(clanOverviewJSON, TempleClanResponse.class);
 
 		clanAchievements = gson.fromJson(clanAchievementsJSON, TempleClanAchievementData.class);
 

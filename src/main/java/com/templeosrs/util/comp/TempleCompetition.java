@@ -10,13 +10,13 @@ public class TempleCompetition
 
 	public boolean error = false;
 
-	public TempleCompetitionOverview compOverview;
+	public TempleCompetitionResponse compOverview;
 
 	public TempleCompetition(String competitionJSON)
 	{
 		try
 		{
-			compOverview = gson.fromJson(competitionJSON, TempleCompetitionOverview.class);
+			compOverview = gson.fromJson(competitionJSON, TempleCompetitionResponse.class);
 		}
 		catch (Exception e)
 		{

@@ -6,7 +6,7 @@ import com.templeosrs.util.TempleError;
 public class TempleSyncResponse
 {
 	@SerializedName("data")
-	public TempleSyncResponseData data;
+	public TempleSyncData data;
 
 	@SerializedName("error")
 	public TempleError error;
