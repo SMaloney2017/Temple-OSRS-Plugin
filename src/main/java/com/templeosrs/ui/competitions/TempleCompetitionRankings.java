@@ -75,9 +75,9 @@ public class TempleCompetitionRankings extends JPanel
 		custom.setTitleJustification(TitledBorder.CENTER);
 		custom.setTitleFont(FontManager.getRunescapeSmallFont());
 
-		if (i > 12)
+		if (i > 15)
 		{
-			setPreferredSize(new Dimension(PANEL_WIDTH, 300));
+			setPreferredSize(new Dimension(PANEL_WIDTH, 425));
 
 			final JScrollPane scroll = new JScrollPane(layoutPanel);
 			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);

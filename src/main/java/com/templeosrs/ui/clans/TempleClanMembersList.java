@@ -48,9 +48,9 @@ public class TempleClanMembersList extends JPanel
 		custom.setTitleJustification(TitledBorder.CENTER);
 		custom.setTitleFont(FontManager.getRunescapeSmallFont());
 
-		if (members.length > 12)
+		if (members.length > 10)
 		{
-			setPreferredSize(new Dimension(PANEL_WIDTH, 300));
+			setPreferredSize(new Dimension(PANEL_WIDTH, 275));
 
 			final JScrollPane scroll = new JScrollPane(layoutPanel);
 			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
