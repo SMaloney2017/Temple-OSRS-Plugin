@@ -107,7 +107,6 @@ public class TempleActivity extends JPanel
 		sortPanel = new TempleActivitySortHeader(this, hiscoreSkillType);
 
 		overall = new TempleActivityTableRow("overall", "Overall", COLORS[1], HiscoreSkillType.OVERALL);
-		map.put("overall", overall);
 
 		initialize();
 	}
