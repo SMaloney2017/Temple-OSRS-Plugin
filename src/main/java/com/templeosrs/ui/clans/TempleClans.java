@@ -31,6 +31,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.plaf.basic.BasicPanelUI;
+import javax.swing.plaf.basic.BasicProgressBarUI;
 import net.runelite.api.Client;
 import net.runelite.api.clan.ClanMember;
 import net.runelite.api.clan.ClanSettings;
@@ -254,23 +256,17 @@ public class TempleClans extends PluginPanel
 
 			JPanel display = new JPanel();
 			MaterialTabGroup tabGroup = new MaterialTabGroup(display);
-			tabGroup.setFont(FontManager.getRunescapeSmallFont());
-
-			JScrollPane scroll = new JScrollPane(tabGroup);
-			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-			scroll.getViewport().setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 			MaterialTab leadersTab = new MaterialTab("Leaders", tabGroup, clanLeaders);
-			MaterialTab activityTab = new MaterialTab("Activity", tabGroup, clanAchievements);
 			MaterialTab membersTab = new MaterialTab("Members", tabGroup, clanMembers);
 
 			tabGroup.addTab(leadersTab);
 			tabGroup.addTab(membersTab);
-			tabGroup.addTab(activityTab);
 			tabGroup.select(leadersTab);
-			add(scroll);
 
+			add(clanAchievements);
+
+			add(tabGroup);
 			add(display);
 		});
 

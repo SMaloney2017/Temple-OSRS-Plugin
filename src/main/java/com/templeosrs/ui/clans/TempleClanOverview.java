@@ -34,7 +34,6 @@ public class TempleClanOverview extends JPanel
 	TempleClanOverview(TempleClanInfo info)
 	{
 		setLayout(new BorderLayout());
-		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		JPanel layoutPanel = new JPanel();
