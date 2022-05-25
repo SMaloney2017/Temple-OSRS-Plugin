@@ -30,7 +30,7 @@ public class TempleCompetitionRankings extends JPanel
 	TempleCompetitionRankings(TempleOSRSPlugin plugin, List<TempleCompetitionParticipant> participantList)
 	{
 		setLayout(new BorderLayout());
-		setBorder(new EmptyBorder(3, -2, 3, -2));
+		setBorder(new EmptyBorder(0, -2, 0, -2));
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		JPanel layoutPanel = new JPanel();

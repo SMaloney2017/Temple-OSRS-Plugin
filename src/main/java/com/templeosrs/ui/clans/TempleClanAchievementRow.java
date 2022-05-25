@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import net.runelite.client.hiscore.HiscoreSkillType;
+import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.QuantityFormatter;
@@ -52,6 +53,8 @@ public class TempleClanAchievementRow extends JPanel
 
 		String xpType = QuantityFormatter.quantityToStackSize(xp);
 		JLabel xpLabel = createNewJLabel(xpType);
+
+		xpLabel.setForeground(ColorScheme.GRAND_EXCHANGE_PRICE);
 		xpLabel.setHorizontalAlignment(JLabel.CENTER);
 		row.add(xpLabel);
 

@@ -44,7 +44,7 @@ public class TempleClanMembers extends JPanel
 		layoutPanel.add(clanMembers, BorderLayout.SOUTH);
 
 		TitledBorder custom = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), heading);
-		custom.setTitleColor(ColorScheme.PROGRESS_COMPLETE_COLOR);
+		custom.setTitleColor(ColorScheme.GRAND_EXCHANGE_LIMIT);
 		custom.setTitleFont(FontManager.getRunescapeSmallFont());
 
 		if (members.length > 12)
