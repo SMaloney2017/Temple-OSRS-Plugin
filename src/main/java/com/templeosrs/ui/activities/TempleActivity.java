@@ -136,8 +136,9 @@ public class TempleActivity extends JPanel
 	{
 		TemplePlayerData playerData = hiscoreSkillType.equals(HiscoreSkillType.SKILL) ? result.playerSkillsOverview.data : result.playerBossesOverview.data;
 
-		for (TempleHiscoreSkill skill : TempleHiscoreSkill.values())
+		for (Map.Entry<String, TemplePlayerSkill> entry : playerData.table.entrySet())
 		{
+			TempleHiscoreSkill skill = TempleHiscoreSkill.values()[entry.getValue().index];
 			String formattedKey = skill.getName().replaceAll("[^A-Za-z0-9]", "").toLowerCase();
 
 			if (map.containsKey(formattedKey))
