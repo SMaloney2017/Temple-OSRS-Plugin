@@ -45,7 +45,6 @@ import java.util.Map;
 import java.util.Objects;
 import javax.inject.Inject;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
