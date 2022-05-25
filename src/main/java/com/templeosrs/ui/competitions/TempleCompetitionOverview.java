@@ -90,8 +90,6 @@ public class TempleCompetitionOverview extends JPanel
 		String skillName = skill.getName();
 		String formattedName = skillName.replaceAll("[^A-Za-z0-9]", "").toLowerCase();
 
-		System.out.println(skillName + " " + skill.getType());
-
 		String iconPath;
 		if (skill.getType().equals(HiscoreSkillType.SKILL))
 		{
