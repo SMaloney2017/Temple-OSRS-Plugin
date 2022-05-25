@@ -58,10 +58,12 @@ public class TempleOSRSPanel extends PluginPanel
 		this.groups = clans;
 		this.competitions = comps;
 
+		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		getScrollPane().setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		JPanel layoutPanel = new JPanel();
 		layoutPanel.setLayout(new BoxLayout(layoutPanel, BoxLayout.Y_AXIS));
+		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		JPanel display = new JPanel();
 		tabGroup = new MaterialTabGroup(display);
@@ -87,7 +89,7 @@ public class TempleOSRSPanel extends PluginPanel
 	{
 		JPanel saveLayout = new JPanel(new BorderLayout());
 		saveLayout.setBorder(new EmptyBorder(5, 5, 5, 5));
-		saveLayout.setOpaque(false);
+		saveLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		JPopupMenu menu = new JPopupMenu();
 
