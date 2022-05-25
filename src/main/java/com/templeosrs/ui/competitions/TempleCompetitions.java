@@ -2,12 +2,12 @@ package com.templeosrs.ui.competitions;
 
 import com.google.common.base.Strings;
 import com.templeosrs.TempleOSRSPlugin;
-import com.templeosrs.util.TempleCompetition;
-import static com.templeosrs.util.TempleFetchService.COMPETITION_PAGE;
-import static com.templeosrs.util.TempleFetchService.HOST;
-import static com.templeosrs.util.TempleFetchService.fetchCompetitionAsync;
-import com.templeosrs.util.compinfo.TempleCompetitionInfo;
-import com.templeosrs.util.compinfo.TempleCompetitionParticipant;
+import com.templeosrs.util.comp.TempleCompetition;
+import static com.templeosrs.util.service.TempleFetchService.COMPETITION_PAGE;
+import static com.templeosrs.util.service.TempleFetchService.HOST;
+import static com.templeosrs.util.service.TempleFetchService.fetchCompetitionAsync;
+import com.templeosrs.util.comp.TempleCompetitionInfo;
+import com.templeosrs.util.comp.TempleCompetitionParticipant;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;

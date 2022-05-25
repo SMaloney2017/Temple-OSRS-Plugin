@@ -1,7 +1,7 @@
 package com.templeosrs.ui.competitions;
 
 import com.templeosrs.TempleOSRSPlugin;
-import com.templeosrs.util.compinfo.TempleCompetitionParticipant;
+import com.templeosrs.util.comp.TempleCompetitionParticipant;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;

@@ -1,7 +1,7 @@
-package com.templeosrs.util;
+package com.templeosrs.util.service;
 
 import com.google.gson.Gson;
-import com.templeosrs.util.claninfo.TempleClanResponse;
+import com.templeosrs.util.clan.TempleClanResponse;
 import java.util.Objects;
 
 public class TempleSyncResponse

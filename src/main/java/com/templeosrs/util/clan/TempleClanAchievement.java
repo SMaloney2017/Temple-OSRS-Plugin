@@ -1,4 +1,4 @@
-package com.templeosrs.util.claninfo;
+package com.templeosrs.util.clan;
 
 import com.google.gson.annotations.SerializedName;
 

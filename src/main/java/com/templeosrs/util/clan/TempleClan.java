@@ -1,8 +1,8 @@
-package com.templeosrs.util;
+package com.templeosrs.util.clan;
 
 import com.google.gson.Gson;
-import com.templeosrs.util.claninfo.TempleClanAchievementData;
-import com.templeosrs.util.claninfo.TempleClanOverview;
+import com.templeosrs.util.clan.TempleClanAchievementData;
+import com.templeosrs.util.clan.TempleClanOverview;
 import java.util.Objects;
 
 public class TempleClan

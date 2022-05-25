@@ -2,7 +2,7 @@ package com.templeosrs.ui.competitions;
 
 import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.util.TempleHiscoreSkill;
-import com.templeosrs.util.compinfo.TempleCompetitionInfo;
+import com.templeosrs.util.comp.TempleCompetitionInfo;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;

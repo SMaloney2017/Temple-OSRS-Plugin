@@ -1,5 +1,8 @@
-package com.templeosrs.util;
+package com.templeosrs.util.service;
 
+import com.templeosrs.util.clan.TempleClan;
+import com.templeosrs.util.comp.TempleCompetition;
+import com.templeosrs.util.player.TemplePlayer;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import okhttp3.Call;

@@ -1,6 +1,6 @@
 package com.templeosrs.ui.clans;
 
-import com.templeosrs.util.claninfo.TempleClanAchievement;
+import com.templeosrs.util.clan.TempleClanAchievement;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;

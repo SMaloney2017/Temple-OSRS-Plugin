@@ -1,7 +1,7 @@
 package com.templeosrs.ui.clans;
 
 import com.templeosrs.TempleOSRSPlugin;
-import com.templeosrs.util.claninfo.TempleClanInfo;
+import com.templeosrs.util.clan.TempleClanInfo;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;

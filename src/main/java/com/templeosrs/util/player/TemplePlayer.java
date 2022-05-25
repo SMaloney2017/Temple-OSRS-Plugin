@@ -1,7 +1,7 @@
-package com.templeosrs.util;
+package com.templeosrs.util.player;
 
 import com.google.gson.Gson;
-import com.templeosrs.util.playerinfo.TemplePlayerOverview;
+import com.templeosrs.util.player.TemplePlayerOverview;
 import java.util.Objects;
 
 public class TemplePlayer

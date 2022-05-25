@@ -1,12 +1,12 @@
-package com.templeosrs.util.claninfo;
+package com.templeosrs.util.comp;
 
 import com.google.gson.annotations.SerializedName;
 import com.templeosrs.util.TempleError;
 
-public class TempleClanResponse
+public class TempleCompetitionOverview
 {
 	@SerializedName("data")
-	public TempleClanResponseData data;
+	public TempleCompetitionData data;
 
 	@SerializedName("error")
 	public TempleError error;

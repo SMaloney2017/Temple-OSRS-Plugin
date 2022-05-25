@@ -1,7 +1,7 @@
-package com.templeosrs.util;
+package com.templeosrs.util.comp;
 
 import com.google.gson.Gson;
-import com.templeosrs.util.compinfo.TempleCompetitionOverview;
+import com.templeosrs.util.comp.TempleCompetitionOverview;
 import java.util.Objects;
 
 public class TempleCompetition
