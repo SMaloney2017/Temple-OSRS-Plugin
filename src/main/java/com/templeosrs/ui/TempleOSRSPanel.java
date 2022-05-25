@@ -4,6 +4,7 @@ import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.ui.activities.TempleRanks;
 import com.templeosrs.ui.clans.TempleClans;
 import com.templeosrs.ui.competitions.TempleCompetitions;
+import com.templeosrs.util.favorite.TempleFavorite;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -20,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import static net.runelite.client.RuneLite.RUNELITE_DIR;
 import static net.runelite.client.RuneLite.SCREENSHOT_DIR;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
@@ -32,7 +34,9 @@ public class TempleOSRSPanel extends PluginPanel
 {
 	public static final String DEFAULT = "--";
 
-	private static final String PATH = SCREENSHOT_DIR + File.separator + "TempleOSRS" + File.separator;
+	private static final String SCREENSHOTS = SCREENSHOT_DIR + File.separator + "TempleOSRS" + File.separator;
+
+	private static final String FAVORITES = RUNELITE_DIR + File.separator + "TempleOSRS" + File.separator;
 
 	public final TempleRanks ranks;
 
@@ -123,12 +127,12 @@ public class TempleOSRSPanel extends PluginPanel
 	{
 		String timestamp = String.valueOf(Instant.now().getEpochSecond());
 
-		File directory = new File(PATH);
+		File directory = new File(SCREENSHOTS);
 		if (directory.exists() || directory.mkdirs())
 		{
 			BufferedImage img = new BufferedImage(panel.getSize().width, panel.getSize().height, BufferedImage.TYPE_INT_RGB);
 			panel.paint(img.createGraphics());
-			File imageFile = new File(PATH + timestamp + ".png");
+			File imageFile = new File(SCREENSHOTS + timestamp + ".png");
 			try
 			{
 				if (imageFile.createNewFile())
@@ -139,6 +143,17 @@ public class TempleOSRSPanel extends PluginPanel
 			catch (Exception ignored)
 			{
 			}
+		}
+	}
+
+	private void favorite(TempleFavorite item)
+	{
+		File directory = new File(FAVORITES);
+		if (directory.exists() || directory.mkdirs())
+		{
+			/* 	read from file,
+			 * 	update json,
+			 * 	write file 	*/
 		}
 	}
 }
