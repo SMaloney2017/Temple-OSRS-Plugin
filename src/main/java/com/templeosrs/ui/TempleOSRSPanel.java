@@ -33,9 +33,9 @@ public class TempleOSRSPanel extends PluginPanel
 {
 	public static final String DEFAULT = "--";
 
-	private static final String SCREENSHOTS = SCREENSHOT_DIR + File.separator + "TempleOSRS" + File.separator;
+	private static final String SCREENSHOTS = SCREENSHOT_DIR + File.separator + "Temple-Snapshots" + File.separator;
 
-	private static final String FAVORITES = RUNELITE_DIR + File.separator + "TempleOSRS" + File.separator;
+	private static final String FAVORITES = RUNELITE_DIR + File.separator + "Temple-Favorites" + File.separator;
 
 	public final TempleRanks ranks;
 
