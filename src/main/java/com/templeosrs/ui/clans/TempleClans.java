@@ -37,8 +37,6 @@ import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.PluginErrorPanel;
-import net.runelite.client.ui.components.materialtabs.MaterialTab;
-import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
 import net.runelite.client.util.LinkBrowser;
 
 public class TempleClans extends PluginPanel
@@ -59,11 +57,9 @@ public class TempleClans extends PluginPanel
 
 	private final JPanel fetchLayout;
 
-	public TempleClanMembers clanMembers;
-
 	public TempleClanAchievements clanAchievements;
 
-	private TempleClanMembers clanLeaders;
+	public TempleClanMembers clanMembers;
 
 	private JButton searchButton;
 
@@ -246,23 +242,17 @@ public class TempleClans extends PluginPanel
 
 			add(new TempleClanOverview(info));
 
-			add(new TempleClanAchievements(clanActivity));
+			clanAchievements = new TempleClanAchievements(clanActivity);
+			if (config.clanAchievements())
+			{
+				add(clanAchievements);
+			}
 
-			clanMembers = new TempleClanMembers(plugin, "Members", members);
-			clanLeaders = new TempleClanMembers(plugin, "Leaders", leaders);
-
-			JPanel display = new JPanel();
-			MaterialTabGroup tabGroup = new MaterialTabGroup(display);
-
-			MaterialTab leadersTab = new MaterialTab("Leaders", tabGroup, clanLeaders);
-			MaterialTab membersTab = new MaterialTab("Members", tabGroup, clanMembers);
-
-			tabGroup.addTab(leadersTab);
-			tabGroup.addTab(membersTab);
-			tabGroup.select(leadersTab);
-
-			add(tabGroup);
-			add(display);
+			clanMembers = new TempleClanMembers(new TempleClanMembersList(plugin, "Leaders", leaders), new TempleClanMembersList(plugin, "Members", members));
+			if (config.clanAchievements())
+			{
+				add(clanMembers);
+			}
 		});
 
 		completed();
@@ -360,9 +350,8 @@ public class TempleClans extends PluginPanel
 
 	private void reset()
 	{
-		clanLeaders = null;
-		clanMembers = null;
 		clanAchievements = null;
+		clanMembers = null;
 
 		removeAll();
 		add(fetchLayout);
