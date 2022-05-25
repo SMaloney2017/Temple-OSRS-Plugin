@@ -1,6 +1,7 @@
 package com.templeosrs.ui.clans;
 
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.materialtabs.MaterialTab;
@@ -11,6 +12,7 @@ public class TempleClanMembers extends PluginPanel
 	public TempleClanMembers(TempleClanMembersList leaders, TempleClanMembersList members)
 	{
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		setBorder(new EmptyBorder(0, 0, 0, 0));
 
 		JPanel display = new JPanel();
 		MaterialTabGroup tabGroup = new MaterialTabGroup(display);
