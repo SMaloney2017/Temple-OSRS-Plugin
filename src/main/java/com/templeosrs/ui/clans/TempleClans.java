@@ -3,14 +3,14 @@ package com.templeosrs.ui.clans;
 import com.google.common.base.Strings;
 import com.templeosrs.TempleOSRSConfig;
 import com.templeosrs.TempleOSRSPlugin;
+import static com.templeosrs.util.TempleService.CLAN_PAGE;
+import static com.templeosrs.util.TempleService.HOST;
+import static com.templeosrs.util.TempleService.fetchClanAsync;
+import static com.templeosrs.util.TempleService.postClanMembersAsync;
 import com.templeosrs.util.clan.TempleClan;
 import com.templeosrs.util.clan.TempleClanAchievement;
 import com.templeosrs.util.clan.TempleClanInfo;
-import static com.templeosrs.util.service.TempleFetchService.CLAN_PAGE;
-import static com.templeosrs.util.service.TempleFetchService.HOST;
-import static com.templeosrs.util.service.TempleFetchService.fetchClanAsync;
-import static com.templeosrs.util.service.TempleFetchService.postClanMembersAsync;
-import com.templeosrs.util.service.TempleSyncResponse;
+import com.templeosrs.util.sync.TempleSync;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -338,7 +338,7 @@ public class TempleClans extends PluginPanel
 
 	}
 
-	private void response(String clanID, TempleSyncResponse response, Throwable err)
+	private void response(String clanID, TempleSync response, Throwable err)
 	{
 		if (Objects.isNull(response) || Objects.nonNull(err) || response.error)
 		{

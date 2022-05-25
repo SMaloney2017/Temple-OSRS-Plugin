@@ -1,8 +1,9 @@
-package com.templeosrs.util.service;
+package com.templeosrs.util;
 
 import com.templeosrs.util.clan.TempleClan;
 import com.templeosrs.util.comp.TempleCompetition;
 import com.templeosrs.util.player.TemplePlayer;
+import com.templeosrs.util.sync.TempleSync;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import okhttp3.Call;
@@ -13,7 +14,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class TempleFetchService
+public class TempleService
 {
 	public static final String HOST = "https://templeosrs.com/";
 
@@ -86,7 +87,7 @@ public class TempleFetchService
 		return future;
 	}
 
-	public static CompletableFuture<TempleSyncResponse> postClanMembersAsync(String clanID, String verification, List<String> members) throws Exception
+	public static CompletableFuture<TempleSync> postClanMembersAsync(String clanID, String verification, List<String> members) throws Exception
 	{
 		String JSON = null;
 		OkHttpClient client = new OkHttpClient();
@@ -112,8 +113,8 @@ public class TempleFetchService
 			response.close();
 		}
 
-		CompletableFuture<TempleSyncResponse> future = new CompletableFuture<>();
-		future.complete(new TempleSyncResponse(JSON));
+		CompletableFuture<TempleSync> future = new CompletableFuture<>();
+		future.complete(new TempleSync(JSON));
 		return future;
 	}
 }

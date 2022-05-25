@@ -1,8 +1,8 @@
-package com.templeosrs.util.clan;
+package com.templeosrs.util.sync;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TempleClanResponseData
+public class TempleSyncResponseData
 {
 	@SerializedName("added_names")
 	public Integer addedNames;

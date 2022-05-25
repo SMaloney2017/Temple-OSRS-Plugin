@@ -1,12 +1,12 @@
-package com.templeosrs.util.clan;
+package com.templeosrs.util.sync;
 
 import com.google.gson.annotations.SerializedName;
 import com.templeosrs.util.TempleError;
 
-public class TempleClanResponse
+public class TempleSyncResponse
 {
 	@SerializedName("data")
-	public TempleClanResponseData data;
+	public TempleSyncResponseData data;
 
 	@SerializedName("error")
 	public TempleError error;
