@@ -27,9 +27,9 @@ package com.templeosrs;
 
 import com.google.inject.Provides;
 import com.templeosrs.ui.TempleOSRSPanel;
-import com.templeosrs.ui.ranks.TempleRanks;
 import com.templeosrs.ui.clans.TempleClans;
 import com.templeosrs.ui.competitions.TempleCompetitions;
+import com.templeosrs.ui.ranks.TempleRanks;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.swing.SwingUtilities;
