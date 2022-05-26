@@ -92,6 +92,7 @@ public class TempleOSRSPanel extends PluginPanel
 		layoutPanel.setLayout(new BoxLayout(layoutPanel, BoxLayout.Y_AXIS));
 		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
+		/* material-tab-group for each API Endpoint (Players, Groups, Competitions)*/
 		JPanel display = new JPanel();
 		tabGroup = new MaterialTabGroup(display);
 
@@ -112,12 +113,14 @@ public class TempleOSRSPanel extends PluginPanel
 		add(layoutPanel);
 	}
 
+	/* build screenshots button */
 	private JPanel buildScreenshots()
 	{
 		JPanel saveLayout = new JPanel(new BorderLayout());
 		saveLayout.setBorder(new EmptyBorder(5, 5, 5, 5));
 		saveLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
+		/* create menu and menu-options */
 		JPopupMenu menu = new JPopupMenu();
 
 		JMenuItem takeScreenshot = new JMenuItem();
@@ -135,6 +138,7 @@ public class TempleOSRSPanel extends PluginPanel
 		});
 		menu.add(openFolder);
 
+		/* build button and add menu options to take-snapshot/open-snapshots-folder */
 		JButton screenshotButton = new JButton();
 		screenshotButton.setBorder(new EmptyBorder(5, 5, 5, 5));
 		screenshotButton.setIcon(new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "save.png")));
@@ -151,16 +155,23 @@ public class TempleOSRSPanel extends PluginPanel
 		return saveLayout;
 	}
 
+	/* take a perfectly cropped image of the plugin-layout */
 	private void screenshot(JPanel panel)
 	{
+		/* use epoch-time as unique file-name */
 		String timestamp = String.valueOf(Instant.now().getEpochSecond());
 
+		/* create directory if not exists,
+		 * continue if success */
 		File directory = new File(SCREENSHOTS);
 		if (directory.exists() || directory.mkdirs())
 		{
+			/* create image */
 			BufferedImage img = new BufferedImage(panel.getSize().width, panel.getSize().height, BufferedImage.TYPE_INT_RGB);
 			panel.paint(img.createGraphics());
 			File imageFile = new File(SCREENSHOTS + timestamp + ".png");
+
+			/* attempt to save image-file to directory */
 			try
 			{
 				if (imageFile.createNewFile())
