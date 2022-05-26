@@ -14,7 +14,6 @@
 >     * ✅ ~~Design *Clans tab* (Fetch clan, Overview, leaders, members, member lookup, members sync)~~
 >     * ✅ ~~Design *Competitions tab* (Fetch competition, competition rankings, participant lookup)~~
 > 4. ✅ **COMPLETED:** ~~Save a Snapshot of the current view.~~
-> 6. ⚠️ Add rigorous comments.
 
 ### Bugs to fix/ Concerns
 
