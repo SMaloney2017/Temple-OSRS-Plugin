@@ -398,7 +398,6 @@ public class TempleClans extends PluginPanel
 		verifyButton.setEnabled(true);
 		clanLookup.setIcon(IconTextField.Icon.ERROR);
 		clanLookup.setEditable(true);
-		reset();
 	}
 
 	/* sync error -> don't reset panel */
