@@ -60,38 +60,34 @@ public class TempleCompetitionRankings extends JPanel
 		/* add header to rankings-panel */
 		compRankings.add(compHeader);
 
-		/*
-		 * for each player in participant-list ->
-		 * { if gain is not null and > 0 ->
-		 * 	{
-		 * 	  create new competition-entry row,
-		 *     add row to rankings-panel
-		 * 	}
-		 * },
-		 * add rankings-panel to layout,
-		 * set preferred size/ scrollbar if applicable
-		 */
+		/* for each player in participant-list */
 		for (TempleCompetitionParticipant player : participantList)
 		{
+			/* if participant has some skill-gain for competition */
 			if (Objects.nonNull(player.xpGained) && player.xpGained > 0)
 			{
+				/* create and add new row for participant */
 				TempleCompetitionRow row = new TempleCompetitionRow(plugin, player, i + 1, COLORS[i % 2]);
 				compRankings.add(row);
 				i++;
 			}
 		}
 
+		/* add participant-list to layout */
 		layoutPanel.add(compRankings, BorderLayout.SOUTH);
 
+		/* create custom border */
 		TitledBorder custom = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), "Competition Rankings");
 		custom.setTitleColor(ColorScheme.GRAND_EXCHANGE_LIMIT);
 		custom.setTitleJustification(TitledBorder.CENTER);
 		custom.setTitleFont(FontManager.getRunescapeSmallFont());
 
+		/* if participant-count is too large -> add scroll-pane and set preferred dimensions */
 		if (i > 15)
 		{
 			setPreferredSize(new Dimension(PANEL_WIDTH, 425));
 
+			/* create and add scroll-pane */
 			final JScrollPane scroll = new JScrollPane(layoutPanel);
 			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);

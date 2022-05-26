@@ -28,20 +28,23 @@ public class TempleCompetitionRow extends JPanel
 		row.setLayout(new GridLayout());
 		row.setBackground(color);
 		row.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
+		/* add start-point and current-end-point as tooltip-text */
 		row.setToolTipText("<html>Start: <span style='color:#32a0fa'>" + QuantityFormatter.quantityToStackSize(player.startXp.longValue()) + "</span><br>End: <span style='color:#32a0fa'>" + QuantityFormatter.quantityToStackSize(player.endXp.longValue()) + "</span></html>");
 
+		/* add player and ranking */
 		JLabel name = new JLabel(i + ". " + player.username);
 		name.setBorder(new EmptyBorder(0, 5, 0, 0));
 		name.setFont(FontManager.getRunescapeSmallFont());
 		row.add(name);
 
+		/* add formatted total */
 		JLabel xp = new JLabel(QuantityFormatter.quantityToStackSize(player.xpGained.longValue()));
 		xp.setBorder(new EmptyBorder(0, 5, 0, 0));
 		xp.setForeground(ColorScheme.GRAND_EXCHANGE_PRICE);
 		xp.setFont(FontManager.getRunescapeSmallFont());
 		row.add(xp);
 
-		/* lookup player menu option on click mouse-event */
+		/* add on-click menu to row */
 		JPopupMenu menu = new JPopupMenu();
 
 		JMenuItem lookupPlayer = new JMenuItem();
@@ -49,6 +52,7 @@ public class TempleCompetitionRow extends JPanel
 		lookupPlayer.addActionListener(e -> plugin.fetchUser(player.username));
 		menu.add(lookupPlayer);
 
+		/* show lookup player menu option on click mouse-event */
 		row.addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent e)

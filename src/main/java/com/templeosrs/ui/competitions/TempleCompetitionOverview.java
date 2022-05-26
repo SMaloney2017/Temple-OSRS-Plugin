@@ -31,6 +31,7 @@ public class TempleCompetitionOverview extends JPanel
 		layoutPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)));
 		layoutPanel.setOpaque(false);
 
+		/* add competition name to layout */
 		String name = info.name;
 		JLabel compName = new JLabel(name);
 		compName.setFont(FontManager.getRunescapeBoldFont());
@@ -39,6 +40,7 @@ public class TempleCompetitionOverview extends JPanel
 		compName.setToolTipText(name);
 		layoutPanel.add(compName);
 
+		/* add participants-count to layout */
 		JPanel fieldLayout = new JPanel();
 		fieldLayout.setLayout(new FlowLayout());
 		fieldLayout.setOpaque(false);
@@ -56,6 +58,7 @@ public class TempleCompetitionOverview extends JPanel
 		statusLayout.setLayout(new FlowLayout());
 		statusLayout.setOpaque(false);
 
+		/* add status to layout */
 		JLabel statusLabel = new JLabel("Status:");
 		statusLabel.setFont(FontManager.getRunescapeSmallFont());
 		statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -65,6 +68,7 @@ public class TempleCompetitionOverview extends JPanel
 		JLabel status = new JLabel(statusText);
 		status.setFont(FontManager.getRunescapeSmallFont());
 
+		/* add set status-text color */
 		if (statusText.equals("Finished"))
 		{
 			status.setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
@@ -84,11 +88,13 @@ public class TempleCompetitionOverview extends JPanel
 
 		layoutPanel.add(fieldLayout);
 
+		/* get HiscoreSkill by index */
 		TempleHiscoreSkill skill = TempleHiscoreSkill.values()[info.skillIndex];
 
 		String skillName = skill.getName();
 		String formattedName = skillName.replaceAll("[^A-Za-z0-9]", "").toLowerCase();
 
+		/* determine skill's icon-path */
 		String iconPath;
 		if (skill.getType().equals(HiscoreSkillType.SKILL))
 		{
@@ -101,6 +107,7 @@ public class TempleCompetitionOverview extends JPanel
 
 		JLabel iconLabel = new JLabel();
 
+		/* add icon to layout */
 		ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
 		iconLabel.setIcon(icon);
 		iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);

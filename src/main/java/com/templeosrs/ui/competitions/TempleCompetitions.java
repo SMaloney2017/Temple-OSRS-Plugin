@@ -85,7 +85,9 @@ public class TempleCompetitions extends PluginPanel
 		lookup.setEditable(true);
 		lookup.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 		lookup.setBackground(ColorScheme.SCROLL_TRACK_COLOR);
+		/* fetch competition on action */
 		lookup.addActionListener(e -> fetchCompetition());
+		/* reset on clear */
 		lookup.addClearListener(() -> {
 			completed();
 			reset();
@@ -181,14 +183,13 @@ public class TempleCompetitions extends PluginPanel
 	{
 		remove(errorPanel);
 
-		/* search-text-field has changed since start of fetching player data */
 		if (!competitionLookup.getText().equals(clanID))
 		{
 			completed();
 			return;
 		}
 
-		/* result is null, error is not null, or error response */
+		/* result is null, exception thrown, or error response */
 		if (Objects.isNull(result) || Objects.nonNull(err) || result.error)
 		{
 			error();
@@ -209,7 +210,7 @@ public class TempleCompetitions extends PluginPanel
 
 		/* Event-Dispatch-Thread necessary for adding/ removing new components */
 		SwingUtilities.invokeLater(() -> {
-			/* create and add rankings. overview */
+			/* create and add rankings/ overview */
 			TempleCompetitionRankings rankings = new TempleCompetitionRankings(plugin, participants);
 
 			TempleCompetitionOverview compOverview = new TempleCompetitionOverview(info, rankings.i);
