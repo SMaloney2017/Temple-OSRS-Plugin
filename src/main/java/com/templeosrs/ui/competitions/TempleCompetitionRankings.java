@@ -61,16 +61,16 @@ public class TempleCompetitionRankings extends JPanel
 		compRankings.add(compHeader);
 
 		/*
-		* for each player in participant-list ->
-		* { if gain is not null and > 0 ->
-		* 	{
-		* 	  create new competition-entry row,
-		*     add row to rankings-panel
-		* 	}
-		* },
-		* add rankings-panel to layout,
-		* set preferred size/ scrollbar if applicable
-		*/
+		 * for each player in participant-list ->
+		 * { if gain is not null and > 0 ->
+		 * 	{
+		 * 	  create new competition-entry row,
+		 *     add row to rankings-panel
+		 * 	}
+		 * },
+		 * add rankings-panel to layout,
+		 * set preferred size/ scrollbar if applicable
+		 */
 		for (TempleCompetitionParticipant player : participantList)
 		{
 			if (Objects.nonNull(player.xpGained) && player.xpGained > 0)

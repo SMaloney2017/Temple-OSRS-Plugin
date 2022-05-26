@@ -1,4 +1,4 @@
-package com.templeosrs.ui.activities;
+package com.templeosrs.ui.ranks;
 
 import com.google.common.base.Strings;
 import com.templeosrs.util.NameAutocompleter;
@@ -240,10 +240,10 @@ public class TempleRanks extends PluginPanel
 		String period = TIMES.get(String.valueOf(TempleRanksDuration.jComboBox.getSelectedItem()));
 
 		/* create separate thread for completing player-fetch/ panel rebuilds,
-		*  try to fetch player gains,
-		*  when fetching completes, rebuild panel
-		*  if exception, set error status
-		*/
+		 *  try to fetch player gains,
+		 *  when fetching completes, rebuild panel
+		 *  if exception, set error status
+		 */
 		new Thread(() -> {
 			try
 			{

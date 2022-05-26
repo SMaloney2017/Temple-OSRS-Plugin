@@ -28,7 +28,7 @@
 package com.templeosrs.ui;
 
 import com.templeosrs.TempleOSRSPlugin;
-import com.templeosrs.ui.activities.TempleRanks;
+import com.templeosrs.ui.ranks.TempleRanks;
 import com.templeosrs.ui.clans.TempleClans;
 import com.templeosrs.ui.competitions.TempleCompetitions;
 import java.awt.BorderLayout;

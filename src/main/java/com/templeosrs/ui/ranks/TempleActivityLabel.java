@@ -1,4 +1,4 @@
-package com.templeosrs.ui.activities;
+package com.templeosrs.ui.ranks;
 
 import static com.templeosrs.ui.TempleOSRSPanel.DEFAULT;
 import javax.swing.JLabel;

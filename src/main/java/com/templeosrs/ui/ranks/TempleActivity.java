@@ -1,4 +1,4 @@
-package com.templeosrs.ui.activities;
+package com.templeosrs.ui.ranks;
 
 import com.google.common.collect.ImmutableList;
 import com.templeosrs.util.TempleHiscoreSkill;
@@ -97,12 +97,12 @@ public class TempleActivity extends JPanel
 		List<TempleHiscoreSkill> list = (hiscoreSkillType.equals(HiscoreSkillType.SKILL) ? SKILLS : BOSSES);
 
 		/*
-		* for each skill in the activity-list ->
-		* { create a new ActivityRow,
-		*	add entry <key, row> to map,
-		* 	add row to rows-list,
-		* 	add row to instance }
-		*/
+		 * for each skill in the activity-list ->
+		 * { create a new ActivityRow,
+		 *	add entry <key, row> to map,
+		 * 	add row to rows-list,
+		 * 	add row to instance }
+		 */
 		for (int i = 0; i < list.size(); i++)
 		{
 			TempleHiscoreSkill skill = list.get(i);
