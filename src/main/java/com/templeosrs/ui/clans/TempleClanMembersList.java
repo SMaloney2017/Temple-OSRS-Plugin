@@ -35,28 +35,29 @@ public class TempleClanMembersList extends JPanel
 		clanMembers = new JPanel();
 		clanMembers.setLayout(new GridLayout(0, 1));
 
-		/* for each member in list ->
-		 * { create and add row to members-panel },
-		 *  add members-panel to layout,
-		 *  set preferred size/ scrollbar if applicable
-		 */
+		/* for each member in members-list */
 		for (int i = 0; i < members.length; i++)
 		{
+			/* create a new member-row and add to clan-members list */
 			TempleClanMember user = new TempleClanMember(plugin, members[i], COLORS[i % 2]);
 			clanMembers.add(user);
 		}
 
+		/* add clan-members list to main layout */
 		layoutPanel.add(clanMembers, BorderLayout.SOUTH);
 
+		/* create custom border, add to (layout or scroll) */
 		TitledBorder custom = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), heading);
 		custom.setTitleColor(ColorScheme.GRAND_EXCHANGE_LIMIT);
 		custom.setTitleJustification(TitledBorder.CENTER);
 		custom.setTitleFont(FontManager.getRunescapeSmallFont());
 
+		/* if list is too large -> add scroll-pane and set preferred dimensions */
 		if (members.length > 10)
 		{
 			setPreferredSize(new Dimension(PANEL_WIDTH, 275));
 
+			/* create and add scroll-pane */
 			final JScrollPane scroll = new JScrollPane(layoutPanel);
 			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);

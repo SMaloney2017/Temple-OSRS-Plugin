@@ -41,28 +41,36 @@ public class TempleClanAchievements extends JPanel
 		 */
 		if (clanActivityList != null)
 		{
+			/* layout which holds all achievement-rows */
 			JPanel clanActivity = new JPanel();
 			clanActivity.setLayout(new GridLayout(0, 1));
 
+			/* for each achievement in activity-list */
 			for (int i = 0; i < clanActivityList.size(); i++)
 			{
 				TempleClanAchievement skill = clanActivityList.get(i);
 				HiscoreSkillType type = skill.type.equals("Skill") ? HiscoreSkillType.SKILL : HiscoreSkillType.BOSS;
+
+				/* create a new achievement-row and add to clan-activity layout */
 				TempleClanAchievementRow row = new TempleClanAchievementRow(skill.username, skill.skill, type, skill.xp, COLORS[i % 2]);
 				clanActivity.add(row);
 			}
 
+			/* add clan-activity list to main layout */
 			layoutPanel.add(clanActivity, BorderLayout.SOUTH);
 
+			/* create custom border */
 			TitledBorder custom = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), "Recent Activity");
 			custom.setTitleColor(ColorScheme.GRAND_EXCHANGE_LIMIT);
 			custom.setTitleJustification(TitledBorder.CENTER);
 			custom.setTitleFont(FontManager.getRunescapeSmallFont());
 
+			/* if list is too large -> add scroll-pane and set preferred dimensions */
 			if (clanActivityList.size() > 10)
 			{
 				setPreferredSize(new Dimension(PANEL_WIDTH, 275));
 
+				/* create and add scroll-pane */
 				final JScrollPane scroll = new JScrollPane(layoutPanel);
 				scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 				scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);

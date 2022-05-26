@@ -167,7 +167,7 @@ public class TempleClans extends PluginPanel
 		return newButton;
 	}
 
-	/* fetch player from search-text-field */
+	/* fetch clan from search-text-field */
 	public void fetchClan()
 	{
 		final String clanID = clanLookup.getText();
@@ -226,14 +226,13 @@ public class TempleClans extends PluginPanel
 	{
 		remove(errorPanel);
 
-		/* search-text-field has changed since start of fetching player data */
 		if (!clanLookup.getText().equals(clanID))
 		{
 			completed();
 			return;
 		}
 
-		/* result is null, error is not null, or error response */
+		/* result is null, exception thrown, or error response */
 		if (Objects.isNull(result) || Objects.nonNull(err) || result.error)
 		{
 			error();
@@ -323,7 +322,7 @@ public class TempleClans extends PluginPanel
 		}
 
 		/* add confirmation to sync clan-members with fetched clan (requires key) */
-		final int confirmation = JOptionPane.showOptionDialog(verifyButton, "This will sync the fetched clan's TempleOSRS members-list to all members in the current account's clan.",
+		final int confirmation = JOptionPane.showOptionDialog(verifyButton, "This will sync the fetched clan's TempleOSRS members-list to all members in the current account's clan (Requires Key).",
 			"Are you sure?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
 			null, new String[]{
 				"Yes",

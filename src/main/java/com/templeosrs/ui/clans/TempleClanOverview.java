@@ -41,6 +41,7 @@ public class TempleClanOverview extends JPanel
 		layoutPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)));
 		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
+		/* add name to layout */
 		clanName = new JLabel(info.name);
 		clanName.setBorder(new EmptyBorder(5, 5, 0, 0));
 		clanName.setFont(FontManager.getRunescapeBoldFont());
@@ -52,6 +53,7 @@ public class TempleClanOverview extends JPanel
 		fieldLayout.setLayout(new FlowLayout());
 		fieldLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
+		/* create and add members-count to layout */
 		JLabel field = new JLabel("Members:");
 		field.setBorder(new EmptyBorder(5, 5, 0, 0));
 		field.setFont(FontManager.getRunescapeSmallFont());
@@ -65,6 +67,7 @@ public class TempleClanOverview extends JPanel
 
 		layoutPanel.add(fieldLayout);
 
+		/* create and add socials to layout */
 		clanSocials = new JPanel();
 		clanSocials.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 		clanSocials.setLayout(new FlowLayout());
@@ -74,27 +77,32 @@ public class TempleClanOverview extends JPanel
 		/* if social link exists, create and add social-button to socials-panel */
 		if (Objects.nonNull(info.discordLink))
 		{
-			createSocialsButton("https://discord.com/invite/" + info.discordLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png")));
+			JLabel social = createSocialsButton("https://discord.com/invite/" + info.discordLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png")));
+			clanSocials.add(social);
 		}
 
 		if (Objects.nonNull(info.twitterLink))
 		{
-			createSocialsButton("https://twitter.com/" + info.twitterLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/twitter.png")));
+			JLabel social = createSocialsButton("https://twitter.com/" + info.twitterLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/twitter.png")));
+			clanSocials.add(social);
 		}
 
 		if (Objects.nonNull(info.youtubeLink))
 		{
-			createSocialsButton("https://www.youtube.com/channel/" + info.youtubeLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/youtube.png")));
+			JLabel social = createSocialsButton("https://www.youtube.com/channel/" + info.youtubeLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/youtube.png")));
+			clanSocials.add(social);
 		}
 
 		if (Objects.nonNull(info.forumLink))
 		{
-			createSocialsButton("https://secure.runescape.com/m=forum/sl=0/forums?" + info.forumLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/forums.png")));
+			JLabel social = createSocialsButton("https://secure.runescape.com/m=forum/sl=0/forums?" + info.forumLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/forums.png")));
+			clanSocials.add(social);
 		}
 
 		if (Objects.nonNull(info.twitchLink))
 		{
-			createSocialsButton("https://www.twitch.tv/" + info.twitchLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png")));
+			JLabel social = createSocialsButton("https://www.twitch.tv/" + info.twitchLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png")));
+			clanSocials.add(social);
 		}
 
 		/* if there is at least one social linked, add to layout */
@@ -106,12 +114,13 @@ public class TempleClanOverview extends JPanel
 		add(layoutPanel);
 	}
 
-	private void createSocialsButton(String link, ImageIcon icon)
+	private JLabel createSocialsButton(String link, ImageIcon icon)
 	{
 		JLabel social = new JLabel();
 		social.setPreferredSize(new Dimension(16, 16));
 		social.setIcon(icon);
-		/* on social-icon click mouse-event, open linked social */
+
+		/* on social-icon click mouse-event, open link to social */
 		social.addMouseListener(new MouseAdapter()
 		{
 			@Override
@@ -121,6 +130,6 @@ public class TempleClanOverview extends JPanel
 				SwingUtilities.invokeLater(() -> LinkBrowser.browse(url));
 			}
 		});
-		clanSocials.add(social);
+		return social;
 	}
 }

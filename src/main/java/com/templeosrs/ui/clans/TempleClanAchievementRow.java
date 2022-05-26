@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
+import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.QuantityFormatter;
 
@@ -24,13 +25,10 @@ public class TempleClanAchievementRow extends JPanel
 		JPanel row = new JPanel();
 		row.setLayout(new GridLayout(1, 3));
 		row.setBorder(new EmptyBorder(2, 0, 2, 0));
-		row.setPreferredSize(new Dimension(0, 25));
+		row.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 		row.setBackground(color);
 
-		JPanel iconPanel = new JPanel();
-		iconPanel.setLayout(new BorderLayout());
-		iconPanel.setOpaque(false);
-
+		/* format name for file-path */
 		String formattedName = skill.replaceAll("[^A-Za-z0-9]", "").toLowerCase();
 
 		/* determine icon-path */

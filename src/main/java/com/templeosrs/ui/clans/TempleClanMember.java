@@ -29,13 +29,14 @@ public class TempleClanMember extends JPanel
 		row.setBorder(new EmptyBorder(2, 5, 2, 0));
 		row.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 
+		/* add username to row */
 		JLabel username = new JLabel(name);
 		username.setFont(FontManager.getRunescapeSmallFont());
 		username.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 
 		row.add(username);
 
-		/* lookup player menu option on click mouse-event */
+		/* add on-click menu to row */
 		JPopupMenu menu = new JPopupMenu();
 
 		JMenuItem lookupPlayer = new JMenuItem();
@@ -43,6 +44,7 @@ public class TempleClanMember extends JPanel
 		lookupPlayer.addActionListener(e -> plugin.fetchUser(name));
 		menu.add(lookupPlayer);
 
+		/* show lookup player menu option on click mouse-event */
 		row.addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent e)
