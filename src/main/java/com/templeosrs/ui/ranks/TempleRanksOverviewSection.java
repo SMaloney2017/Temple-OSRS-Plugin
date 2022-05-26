@@ -29,6 +29,7 @@ public class TempleRanksOverviewSection extends JPanel
 		setLayout(new GridLayout(1, 3));
 		setBackground(color);
 
+		/* add labels to layout */
 		JLabel field = new JLabel(label.toUpperCase(), SwingConstants.LEFT);
 		field.setFont(FontManager.getRunescapeSmallFont());
 		field.setForeground(ColorScheme.GRAND_EXCHANGE_PRICE);

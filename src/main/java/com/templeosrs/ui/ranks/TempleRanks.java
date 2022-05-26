@@ -76,7 +76,6 @@ public class TempleRanks extends PluginPanel
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-		/* build player-fetch panel */
 		JPanel fetchLayout = new JPanel();
 		fetchLayout.setLayout(new BoxLayout(fetchLayout, BoxLayout.Y_AXIS));
 		fetchLayout.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)));
@@ -155,7 +154,7 @@ public class TempleRanks extends PluginPanel
 				}
 			}
 		});
-		/* reset icons and panel on search-text-field clear */
+		/* reset icons and panel on clear */
 		lookup.addClearListener(() -> {
 			completed();
 			reset();
@@ -182,7 +181,6 @@ public class TempleRanks extends PluginPanel
 		return buttonsLayout;
 	}
 
-	/* create a single, JButton with similar style */
 	public JButton createNewButton(String text, String tooltip)
 	{
 		JButton newButton = new JButton();
@@ -274,7 +272,7 @@ public class TempleRanks extends PluginPanel
 		rebuild(result);
 	}
 
-	/* update activities */
+	/* rebuild components */
 	private void rebuild(TemplePlayer result)
 	{
 		skills.update(result);
@@ -294,7 +292,7 @@ public class TempleRanks extends PluginPanel
 		TemplePlayerSkill ehpData = skillsData.table.get("Ehp");
 		TemplePlayerSkill xpData = skillsData.table.get("Overall");
 
-		/* get overall totals, ranks, and gains */
+		/* if not null, get overall totals, ranks, and gains for ehp/ehb/xp */
 		double ehbRankTotal = Objects.nonNull(ehbData.rankTotal) ? ehbData.rankTotal : 0;
 		double ehbTotal = Objects.nonNull(ehbData.xpTotal) ? ehbData.xpTotal : 0;
 

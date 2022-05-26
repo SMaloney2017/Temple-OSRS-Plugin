@@ -96,18 +96,13 @@ public class TempleActivity extends JPanel
 		/* get correct list of HiscoreSkills */
 		List<TempleHiscoreSkill> list = (hiscoreSkillType.equals(HiscoreSkillType.SKILL) ? SKILLS : BOSSES);
 
-		/*
-		 * for each skill in the activity-list ->
-		 * { create a new ActivityRow,
-		 *	add entry <key, row> to map,
-		 * 	add row to rows-list,
-		 * 	add row to instance }
-		 */
+		/* for each skill in list */
 		for (int i = 0; i < list.size(); i++)
 		{
 			TempleHiscoreSkill skill = list.get(i);
 			String formattedKey = skill.getName().replaceAll("[^A-Za-z0-9]", "").toLowerCase();
 
+			/* create a skill-row, add <key, row> to map, add row to rows-list */
 			TempleActivityTableRow row = new TempleActivityTableRow(formattedKey, skill.getName(), COLORS[i % 2], hiscoreSkillType);
 			map.put(formattedKey, row);
 			rows.add(row);
@@ -120,21 +115,17 @@ public class TempleActivity extends JPanel
 		/* determine and get type of json */
 		TemplePlayerData playerData = hiscoreSkillType.equals(HiscoreSkillType.SKILL) ? result.playerSkillsOverview.data : result.playerBossesOverview.data;
 
-		/*
-		 * for each entry in playerData ->
-		 * { get skill by index,
-		 * 	 create key,
-		 * 	 validate key is in map,
-		 * 	 get row by key,
-		 * 	 update row with values }
-		 */
+		/* for each entry in playerData */
 		for (Map.Entry<String, TemplePlayerSkill> entry : playerData.table.entrySet())
 		{
+			/* get the HiscoreSkill of that entry by index */
 			TempleHiscoreSkill skill = TempleHiscoreSkill.values()[entry.getValue().index];
 			String formattedKey = skill.getName().replaceAll("[^A-Za-z0-9]", "").toLowerCase();
 
+			/* if map contains this HighscoreSkill */
 			if (map.containsKey(formattedKey))
 			{
+				/* get the mapped, skill-row */
 				TempleActivityTableRow row = map.get(formattedKey);
 				TemplePlayerSkill skillData = playerData.table.get(skill.getName());
 
@@ -145,6 +136,7 @@ public class TempleActivity extends JPanel
 
 				this.total += total;
 
+				/* update skill-row's values */
 				row.update(total, levels, rank, ehp);
 			}
 		}

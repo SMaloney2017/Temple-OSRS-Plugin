@@ -27,7 +27,8 @@ public class TempleActivitySortHeader extends JPanel
 		setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 		setPreferredSize(new Dimension(PANEL_WIDTH, 20));
 
-		/* create sorting-filters with unique comparators (Name, Total, Rank, Ehp) */
+		/* create sorting-filters with unique comparators (Name, Total, Rank, Ehp),
+		 * reset all other filters on selection */
 		name = new TempleActivitySortFilter("Name");
 		name.addMouseListener(new MouseAdapter()
 		{
@@ -35,6 +36,7 @@ public class TempleActivitySortHeader extends JPanel
 			{
 				reset(total, rank, ehp);
 				Comparator<TempleActivityTableRow> comparator = name.increasing ? Comparator.comparing((TempleActivityTableRow row) -> row.name) : Comparator.comparing((TempleActivityTableRow row) -> row.name).reversed();
+				/* resort skills-panel on click */
 				panel.sort(comparator);
 			}
 		});
@@ -75,6 +77,7 @@ public class TempleActivitySortHeader extends JPanel
 		JPanel display = new JPanel();
 		display.setLayout(new GridLayout(1, 4));
 
+		/* add filters to sort-panel */
 		display.add(name);
 		display.add(total);
 		display.add(rank);

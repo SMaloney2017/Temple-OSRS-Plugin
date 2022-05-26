@@ -29,7 +29,7 @@ public class TempleActivitySortFilter extends JPanel
 		setLayout(new GridLayout(0, 2));
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-		/* on mouse-event, flip increasing/ descending icon of instance */
+		/* on mouse-event, flip ascending/ descending icon */
 		addMouseListener(new MouseAdapter()
 		{
 			public void mousePressed(MouseEvent me)

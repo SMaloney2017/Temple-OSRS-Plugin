@@ -41,14 +41,14 @@ public class TempleActivityTableRow extends JPanel
 
 		JPanel row = new JPanel();
 		row.setLayout(new GridLayout());
-		row.setOpaque(false);
 		row.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
+		row.setOpaque(false);
 
 		JPanel iconPanel = new JPanel();
 		iconPanel.setLayout(new BorderLayout());
 		iconPanel.setOpaque(false);
 
-		/* determine icon-path by skill type */
+		/* determine icon-path by skill type and formatted-name */
 		String iconPath;
 		if (type.equals(HiscoreSkillType.SKILL))
 		{

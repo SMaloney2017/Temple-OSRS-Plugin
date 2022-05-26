@@ -26,6 +26,7 @@ public class TempleRanksOverview extends JPanel
 		setBorder(new EmptyBorder(5, -2, 5, -2));
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
+		/* create custom border for player-overview */
 		TitledBorder custom = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), "Player Overview");
 		custom.setTitleColor(ColorScheme.GRAND_EXCHANGE_LIMIT);
 		custom.setTitleJustification(TitledBorder.CENTER);
