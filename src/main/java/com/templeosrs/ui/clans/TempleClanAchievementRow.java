@@ -41,9 +41,6 @@ public class TempleClanAchievementRow extends JPanel
 			iconPath = "bosses/game_icon_" + formattedName + ".png";
 		}
 
-		JLabel iconLabel = new JLabel();
-		iconLabel.setBorder(new EmptyBorder(0, 5, 0, 0));
-
 		ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
 
 		/* add username to row */
@@ -59,12 +56,12 @@ public class TempleClanAchievementRow extends JPanel
 		row.add(xpLabel);
 
 		/* add achievement-icon to row */
-		JLabel skillIcon = new JLabel();
-		skillIcon.setBorder(new EmptyBorder(0, 0, 0, 5));
-		skillIcon.setIcon(icon);
-		skillIcon.setToolTipText(skill);
-		skillIcon.setHorizontalAlignment(JLabel.RIGHT);
-		row.add(skillIcon);
+		JLabel iconLabel = new JLabel();
+		iconLabel.setBorder(new EmptyBorder(0, 0, 0, 5));
+		iconLabel.setIcon(icon);
+		iconLabel.setToolTipText(skill);
+		iconLabel.setHorizontalAlignment(JLabel.RIGHT);
+		row.add(iconLabel);
 
 		add(row);
 	}
