@@ -72,18 +72,18 @@ public class TempleOSRSPanel extends PluginPanel
 
 	public final MaterialTabGroup tabGroup;
 
-	public final MaterialTab skillsTab;
+	public final MaterialTab ranksTab;
 
 	public final MaterialTab groupsTab;
 
 	public final MaterialTab competitionsTab;
 
 	@Inject
-	public TempleOSRSPanel(TempleRanks ranks, TempleClans clans, TempleCompetitions comps)
+	public TempleOSRSPanel(TempleRanks ranks, TempleClans groups, TempleCompetitions competitions)
 	{
 		this.ranks = ranks;
-		this.groups = clans;
-		this.competitions = comps;
+		this.groups = groups;
+		this.competitions = competitions;
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		getScrollPane().setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -95,15 +95,15 @@ public class TempleOSRSPanel extends PluginPanel
 		JPanel display = new JPanel();
 		tabGroup = new MaterialTabGroup(display);
 
-		skillsTab = new MaterialTab("Ranks", tabGroup, ranks);
+		ranksTab = new MaterialTab("Ranks", tabGroup, ranks);
 		groupsTab = new MaterialTab("Clans", tabGroup, groups);
 		competitionsTab = new MaterialTab("Competitions", tabGroup, competitions);
 
-		tabGroup.addTab(skillsTab);
+		tabGroup.addTab(ranksTab);
 		tabGroup.addTab(groupsTab);
 		tabGroup.addTab(competitionsTab);
 
-		tabGroup.select(skillsTab);
+		tabGroup.select(ranksTab);
 
 		layoutPanel.add(tabGroup);
 		layoutPanel.add(display);
