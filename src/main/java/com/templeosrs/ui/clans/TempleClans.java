@@ -113,7 +113,9 @@ public class TempleClans extends PluginPanel
 		lookup.setEditable(true);
 		lookup.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 		lookup.setBackground(ColorScheme.SCROLL_TRACK_COLOR);
+		/* fetch clan on action */
 		lookup.addActionListener(e -> fetchClan());
+		/* reset on clear */
 		lookup.addClearListener(() -> {
 			completed();
 			reset();
