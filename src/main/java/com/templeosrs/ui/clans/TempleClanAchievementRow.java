@@ -12,7 +12,6 @@ import javax.swing.border.EmptyBorder;
 import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
-import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.QuantityFormatter;
 
