@@ -88,10 +88,13 @@ public class TempleOSRSPlugin extends Plugin
 	protected void startUp()
 	{
 		ranks = injector.getInstance(TempleRanks.class);
+
 		clans = injector.getInstance(TempleClans.class);
+
 		competitions = injector.getInstance(TempleCompetitions.class);
 
 		panel = new TempleOSRSPanel(ranks, clans, competitions);
+
 		navButton = NavigationButton.builder()
 			.tooltip("TempleOSRS")
 			.icon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "skills/skill_icon_ehp.png"))
@@ -133,6 +136,7 @@ public class TempleOSRSPlugin extends Plugin
 					menuManager.get().addPlayerMenuItem(TEMPLE);
 				}
 
+				/* first remove/ add clan-achievements before clan-members to retain order */
 				if (clans.clanAchievements != null)
 				{
 					clans.remove(clans.clanAchievements);
@@ -215,11 +219,13 @@ public class TempleOSRSPlugin extends Plugin
 	{
 		SwingUtilities.invokeLater(() ->
 		{
+			/* select nav-button to open Temple plugin */
 			if (!navButton.isSelected())
 			{
 				navButton.getOnSelect().run();
 			}
-			panel.tabGroup.select(panel.skillsTab);
+			/* select ranks-tab */
+			panel.tabGroup.select(panel.ranksTab);
 			ranks.fetchUser(username);
 		});
 	}
