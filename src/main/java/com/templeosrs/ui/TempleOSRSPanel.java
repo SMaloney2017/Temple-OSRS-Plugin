@@ -47,7 +47,6 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import static net.runelite.client.RuneLite.RUNELITE_DIR;
 import static net.runelite.client.RuneLite.SCREENSHOT_DIR;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
@@ -61,8 +60,6 @@ public class TempleOSRSPanel extends PluginPanel
 	public static final String DEFAULT = "--";
 
 	private static final String SCREENSHOTS = SCREENSHOT_DIR + File.separator + "Temple-Snapshots" + File.separator;
-
-	private static final String FAVORITES = RUNELITE_DIR + File.separator + "Temple-Favorites" + File.separator;
 
 	public final TempleRanks ranks;
 
