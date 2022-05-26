@@ -116,7 +116,7 @@ public enum TempleHiscoreSkill
 	IRON_EHB("Iron Ehb", BOSS),
 	EHP_EHB("Ehp + Ehb", BOSS),
 	IRON_EHP("Iron Ehp", SKILL),
-	F2P_EHP("F2P", SKILL),
+	F2P_EHP("F2P Ehp", SKILL),
 	LVL3_EHP("Lvl-3 Ehp", SKILL),
 	THE_NIGHTMARE("The Nightmare", BOSS),
 	SOUL_WARS_ZEAL("Soul Wars Zeal", ACTIVITY),

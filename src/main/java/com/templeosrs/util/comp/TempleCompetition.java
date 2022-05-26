@@ -5,7 +5,6 @@ import java.util.Objects;
 
 public class TempleCompetition
 {
-
 	private final static Gson gson = new Gson();
 
 	public boolean error = false;
@@ -14,14 +13,8 @@ public class TempleCompetition
 
 	public TempleCompetition(String competitionJSON)
 	{
-		try
-		{
-			compOverview = gson.fromJson(competitionJSON, TempleCompetitionResponse.class);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		compOverview = gson.fromJson(competitionJSON, TempleCompetitionResponse.class);
+
 		if (Objects.nonNull(compOverview.error))
 		{
 			error = true;
