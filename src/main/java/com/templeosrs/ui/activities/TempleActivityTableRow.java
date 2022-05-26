@@ -47,8 +47,9 @@ public class TempleActivityTableRow extends JPanel
 		JPanel iconPanel = new JPanel();
 		iconPanel.setLayout(new BorderLayout());
 		iconPanel.setOpaque(false);
-		String iconPath;
 
+		/* determine icon-path by skill type */
+		String iconPath;
 		if (type.equals(HiscoreSkillType.SKILL))
 		{
 			iconPath = "skills/skill_icon_" + skillName + ".png";
@@ -65,14 +66,17 @@ public class TempleActivityTableRow extends JPanel
 		JLabel iconLabel = new JLabel();
 		iconLabel.setBorder(new EmptyBorder(0, 5, 0, 0));
 
+		/* load icon resource from path */
 		ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
 
 		iconLabel.setIcon(icon);
 		iconLabel.setToolTipText(tooltip);
 
+		/* add icon to row */
 		iconPanel.add(iconLabel);
 		row.add(iconPanel, BorderLayout.WEST);
 
+		/* create and add labels to row */
 		skillGain = new TempleActivityLabel();
 		rankGain = new TempleActivityLabel();
 		ehpGain = new TempleActivityLabel();
@@ -83,18 +87,22 @@ public class TempleActivityTableRow extends JPanel
 		add(row);
 	}
 
+	/* update activity-row values */
 	void update(long gain, long level, long rank, double ehp)
 	{
 		this.total = gain;
 		this.rank = rank;
 		this.ehp = ehp;
 
+		/* add levels gained as tooltip-text if SKILL */
 		skillGain.update(gain);
 		skillGain.setToolTipText(type.equals(HiscoreSkillType.SKILL) ? level + " Levels" : "");
+
 		rankGain.update(rank);
 		ehpGain.update(ehp);
 	}
 
+	/* reset activity-row values to default */
 	void reset()
 	{
 		skillGain.reset();

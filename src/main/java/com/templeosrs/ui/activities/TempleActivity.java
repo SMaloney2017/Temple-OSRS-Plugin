@@ -86,13 +86,23 @@ public class TempleActivity extends JPanel
 
 	private void initialize()
 	{
+		/* reset rows */
 		rows.clear();
 
+		/* add default panels */
 		add(sortPanel);
 		add(overall);
 
+		/* get correct list of HiscoreSkills */
 		List<TempleHiscoreSkill> list = (hiscoreSkillType.equals(HiscoreSkillType.SKILL) ? SKILLS : BOSSES);
 
+		/*
+		* for each skill in the activity-list ->
+		* { create a new ActivityRow,
+		*	add entry <key, row> to map,
+		* 	add row to rows-list,
+		* 	add row to instance }
+		*/
 		for (int i = 0; i < list.size(); i++)
 		{
 			TempleHiscoreSkill skill = list.get(i);
@@ -107,8 +117,17 @@ public class TempleActivity extends JPanel
 
 	public void update(TemplePlayer result)
 	{
+		/* determine and get type of json */
 		TemplePlayerData playerData = hiscoreSkillType.equals(HiscoreSkillType.SKILL) ? result.playerSkillsOverview.data : result.playerBossesOverview.data;
 
+		/*
+		 * for each entry in playerData ->
+		 * { get skill by index,
+		 * 	 create key,
+		 * 	 validate key is in map,
+		 * 	 get row by key,
+		 * 	 update row with values }
+		 */
 		for (Map.Entry<String, TemplePlayerSkill> entry : playerData.table.entrySet())
 		{
 			TempleHiscoreSkill skill = TempleHiscoreSkill.values()[entry.getValue().index];
@@ -131,11 +150,13 @@ public class TempleActivity extends JPanel
 		}
 	}
 
+	/* update overall row */
 	public void update(long rank, double ehp)
 	{
 		overall.update(total, 0, rank, ehp);
 	}
 
+	/* reset activity panel to defaults */
 	public void reset()
 	{
 		total = 0;
@@ -148,6 +169,7 @@ public class TempleActivity extends JPanel
 		initialize();
 	}
 
+	/* re-build list of skills by sorted row-list */
 	private void rebuild()
 	{
 		int i = 0;
@@ -163,6 +185,7 @@ public class TempleActivity extends JPanel
 		revalidate();
 	}
 
+	/* sort row-list with comparator passed in through sort-filter mouse event */
 	void sort(Comparator<TempleActivityTableRow> comparator)
 	{
 		rows.sort(comparator);

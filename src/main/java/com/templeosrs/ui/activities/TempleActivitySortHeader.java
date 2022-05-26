@@ -27,8 +27,7 @@ public class TempleActivitySortHeader extends JPanel
 		setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
 		setPreferredSize(new Dimension(PANEL_WIDTH, 20));
 
-		JPanel display = new JPanel();
-
+		/* create sorting-filters with unique comparators (Name, Total, Rank, Ehp) */
 		name = new TempleActivitySortFilter("Name");
 		name.addMouseListener(new MouseAdapter()
 		{
@@ -73,15 +72,18 @@ public class TempleActivitySortHeader extends JPanel
 			}
 		});
 
+		JPanel display = new JPanel();
 		display.setLayout(new GridLayout(1, 4));
+
 		display.add(name);
 		display.add(total);
 		display.add(rank);
 		display.add(ehp);
-		add(display);
 
+		add(display);
 	}
 
+	/* reset a list of filters to default */
 	private void reset(TempleActivitySortFilter... types)
 	{
 		for (TempleActivitySortFilter t : types)
@@ -91,6 +93,7 @@ public class TempleActivitySortHeader extends JPanel
 		}
 	}
 
+	/* reset all filters to default */
 	void reset()
 	{
 		reset(name, total, rank, ehp);

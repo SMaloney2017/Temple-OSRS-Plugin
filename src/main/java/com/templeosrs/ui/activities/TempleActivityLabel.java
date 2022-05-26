@@ -15,6 +15,7 @@ public class TempleActivityLabel extends JLabel
 		setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 	}
 
+	/* update activity-row label (xp, level, rank) */
 	void update(long value)
 	{
 		setText(QuantityFormatter.quantityToStackSize(value));
@@ -33,6 +34,7 @@ public class TempleActivityLabel extends JLabel
 		}
 	}
 
+	/* update (double) activity-row label (ehp, ehb) */
 	void update(double value)
 	{
 		setText(String.format("%.2f", value));
@@ -51,6 +53,7 @@ public class TempleActivityLabel extends JLabel
 		}
 	}
 
+	/* reset activity-row label to default */
 	void reset()
 	{
 		setText(DEFAULT);

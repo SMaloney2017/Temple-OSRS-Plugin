@@ -76,24 +76,30 @@ public class TempleRanks extends PluginPanel
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
+		/* build player-fetch panel */
 		JPanel fetchLayout = new JPanel();
 		fetchLayout.setLayout(new BoxLayout(fetchLayout, BoxLayout.Y_AXIS));
 		fetchLayout.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)));
 		fetchLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
+		/* build and add search-text-field */
 		playerLookup = buildTextField();
 		fetchLayout.add(playerLookup);
 
+		/* build and add search-buttons */
 		JPanel buttons = buildFetchButtons();
 		fetchLayout.add(buttons);
 
+		/* build and add duration selection */
 		TempleRanksDuration timeSelection = new TempleRanksDuration(this);
 		fetchLayout.add(timeSelection);
 		add(fetchLayout);
 
+		/* build and add player overview */
 		overview = new TempleRanksOverview();
 		add(overview);
 
+		/* material-tab-group for selecting view of Skills/ Bosses */
 		JPanel display = new JPanel();
 		MaterialTabGroup tabGroup = new MaterialTabGroup(display);
 
@@ -107,9 +113,11 @@ public class TempleRanks extends PluginPanel
 
 		add(display);
 
+		/* add key listener for player-search autocomplete */
 		addInputKeyListener(this.nameAutocompleter);
 	}
 
+	/* remove key listener for player-search autocomplete */
 	public void shutdown()
 	{
 		removeInputKeyListener(this.nameAutocompleter);
@@ -123,6 +131,7 @@ public class TempleRanks extends PluginPanel
 		lookup.setEditable(true);
 		lookup.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 		lookup.setBackground(ColorScheme.SCROLL_TRACK_COLOR);
+		/* add action listeners for fetching user / fetching local player */
 		lookup.addActionListener(e -> fetchUser());
 		lookup.addMouseListener(new MouseAdapter()
 		{
@@ -146,6 +155,7 @@ public class TempleRanks extends PluginPanel
 				}
 			}
 		});
+		/* reset icons and panel on search-text-field clear */
 		lookup.addClearListener(() -> {
 			completed();
 			reset();
@@ -172,6 +182,7 @@ public class TempleRanks extends PluginPanel
 		return buttonsLayout;
 	}
 
+	/* create a single, JButton with similar style */
 	public JButton createNewButton(String text, String tooltip)
 	{
 		JButton newButton = new JButton();
@@ -181,6 +192,7 @@ public class TempleRanks extends PluginPanel
 		newButton.setToolTipText(tooltip);
 		newButton.setForeground(ColorScheme.GRAND_EXCHANGE_LIMIT);
 
+		/* add hover mouse-listener for buttons */
 		newButton.addMouseListener(new MouseAdapter()
 		{
 			public void mouseEntered(MouseEvent evt)
@@ -197,12 +209,14 @@ public class TempleRanks extends PluginPanel
 		return newButton;
 	}
 
+	/* search-text-field double-click -> fetch local player */
 	public void fetchUser(String username)
 	{
 		playerLookup.setText(username);
 		fetchUser();
 	}
 
+	/* fetch player from search-text-field */
 	public void fetchUser()
 	{
 		final String username = format(playerLookup.getText());
@@ -212,6 +226,7 @@ public class TempleRanks extends PluginPanel
 			return;
 		}
 
+		/* maximum username length */
 		if (username.length() > 12)
 		{
 			error();
@@ -224,6 +239,11 @@ public class TempleRanks extends PluginPanel
 
 		String period = TIMES.get(String.valueOf(TempleRanksDuration.jComboBox.getSelectedItem()));
 
+		/* create separate thread for completing player-fetch/ panel rebuilds,
+		*  try to fetch player gains,
+		*  when fetching completes, rebuild panel
+		*  if exception, set error status
+		*/
 		new Thread(() -> {
 			try
 			{
@@ -238,12 +258,14 @@ public class TempleRanks extends PluginPanel
 
 	private void rebuild(String username, TemplePlayer result, Throwable err)
 	{
+		/* search-text-field has changed since start of fetching player data */
 		if (!format(playerLookup.getText()).equals(username))
 		{
 			completed();
 			return;
 		}
 
+		/* result is null, error is not null, or error response */
 		if (Objects.isNull(result) || Objects.nonNull(err) || result.error)
 		{
 			error();
@@ -252,6 +274,7 @@ public class TempleRanks extends PluginPanel
 		rebuild(result);
 	}
 
+	/* update activities */
 	private void rebuild(TemplePlayer result)
 	{
 		skills.update(result);
@@ -263,6 +286,7 @@ public class TempleRanks extends PluginPanel
 
 	private void rebuildOverall(TemplePlayer result)
 	{
+		/* get player skills and bosses data from result */
 		TemplePlayerData bossingData = result.playerBossesOverview.data;
 		TemplePlayerData skillsData = result.playerSkillsOverview.data;
 
@@ -270,6 +294,7 @@ public class TempleRanks extends PluginPanel
 		TemplePlayerSkill ehpData = skillsData.table.get("Ehp");
 		TemplePlayerSkill xpData = skillsData.table.get("Overall");
 
+		/* get overall totals, ranks, and gains */
 		double ehbRankTotal = Objects.nonNull(ehbData.rankTotal) ? ehbData.rankTotal : 0;
 		double ehbTotal = Objects.nonNull(ehbData.xpTotal) ? ehbData.xpTotal : 0;
 
@@ -285,10 +310,12 @@ public class TempleRanks extends PluginPanel
 		double xpRankTotal = Objects.nonNull(xpData.rankTotal) ? xpData.rankTotal : 0;
 		double xpTotal = Objects.nonNull(xpData.xpTotal) ? xpData.xpTotal : 0;
 
+		/* update player-overview sections */
 		overview.EHP.update((long) ehpRankTotal, (long) ehpTotal);
 		overview.EHB.update((long) ehbRankTotal, (long) ehbTotal);
 		overview.EXP.update((long) xpRankTotal, (long) xpTotal);
 
+		/* update activity overall-row */
 		bosses.update((long) ehbRankGain, ehbGain);
 		skills.update((long) ehpRankGain, ehpGain);
 	}
@@ -307,6 +334,7 @@ public class TempleRanks extends PluginPanel
 			return;
 		}
 
+		/* if valid username format, open temple player-profile */
 		loading();
 
 		String playerPageURL = HOST + PLAYER_PAGE + username;
@@ -315,6 +343,7 @@ public class TempleRanks extends PluginPanel
 		completed();
 	}
 
+	/* reset all panels */
 	private void reset()
 	{
 		skills.reset();
@@ -325,6 +354,7 @@ public class TempleRanks extends PluginPanel
 		revalidate();
 	}
 
+	/* set fields for error status */
 	private void error()
 	{
 		searchButton.setEnabled(true);
@@ -333,6 +363,7 @@ public class TempleRanks extends PluginPanel
 		playerLookup.setEditable(true);
 	}
 
+	/* set fields for loading status */
 	private void loading()
 	{
 		searchButton.setEnabled(false);
@@ -341,6 +372,7 @@ public class TempleRanks extends PluginPanel
 		playerLookup.setEditable(false);
 	}
 
+	/* set fields for completed status */
 	private void completed()
 	{
 		searchButton.setEnabled(true);
@@ -359,6 +391,7 @@ public class TempleRanks extends PluginPanel
 		playerLookup.removeKeyListener(l);
 	}
 
+	/* format username to be accepted by Temple API */
 	private String format(String text)
 	{
 		String formatted = text.replaceAll("\\s+", "+");

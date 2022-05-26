@@ -41,6 +41,7 @@ public class TempleRanksOverview extends JPanel
 		playerOverview.setLayout(new GridLayout(3, 1));
 		playerOverview.setOpaque(false);
 
+		/* create overview sections and add to player-overview panel */
 		EHP = new TempleRanksOverviewSection("Ehp", "Efficient Hours Played", ColorScheme.DARK_GRAY_HOVER_COLOR);
 		EHB = new TempleRanksOverviewSection("Ehb", "Efficient Hours Bossed", ColorScheme.DARKER_GRAY_COLOR);
 		EXP = new TempleRanksOverviewSection("Xp", "Total Experience", ColorScheme.DARK_GRAY_HOVER_COLOR);
@@ -53,6 +54,7 @@ public class TempleRanksOverview extends JPanel
 		add(layoutPanel);
 	}
 
+	/* reset player-overview sections */
 	public void reset()
 	{
 		EHP.reset();
