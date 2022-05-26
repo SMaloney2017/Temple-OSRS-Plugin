@@ -30,6 +30,15 @@ public class TempleClanAchievements extends JPanel
 		layoutPanel.setLayout(new BorderLayout());
 		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
+		/* if the clan activity list is not null ->
+		*  { create a panel to house achievement-rows,
+		* 	 for each item in list ->
+		* 	 { create achievement-row,
+		* 	   add row to activity-panel }
+		* 	},
+		* 	add activity-panel to layout,
+		* 	set preferred size/ scrollbar if applicable
+		*/
 		if (clanActivityList != null)
 		{
 			JPanel clanActivity = new JPanel();

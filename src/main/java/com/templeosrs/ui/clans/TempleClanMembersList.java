@@ -35,6 +35,11 @@ public class TempleClanMembersList extends JPanel
 		clanMembers = new JPanel();
 		clanMembers.setLayout(new GridLayout(0, 1));
 
+		/* for each member in list ->
+		* { create and add row to members-panel },
+		*  add members-panel to layout,
+		*  set preferred size/ scrollbar if applicable
+		*/
 		for (int i = 0; i < members.length; i++)
 		{
 			TempleClanMember user = new TempleClanMember(plugin, members[i], COLORS[i % 2]);

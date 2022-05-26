@@ -14,6 +14,7 @@ public class TempleClanMembers extends PluginPanel
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		setBorder(new EmptyBorder(0, 0, 0, 0));
 
+		/* tab group to switch between leaders and members */
 		JPanel display = new JPanel();
 		MaterialTabGroup tabGroup = new MaterialTabGroup(display);
 

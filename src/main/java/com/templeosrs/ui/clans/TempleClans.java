@@ -79,12 +79,15 @@ public class TempleClans extends PluginPanel
 		fetchLayout.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)));
 		fetchLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
+		/* build and add search-text-field */
 		clanLookup = buildTextField();
 		fetchLayout.add(clanLookup);
 
+		/* build and add search-buttons */
 		JPanel buttons = buildFetchButtons();
 		fetchLayout.add(buttons);
 
+		/* build and add members-verification */
 		JPanel verifyLayout = new JPanel();
 		verifyLayout.setLayout(new BorderLayout());
 		verifyLayout.setBorder(new EmptyBorder(0, 0, 5, 0));
@@ -97,6 +100,7 @@ public class TempleClans extends PluginPanel
 		fetchLayout.add(verifyLayout);
 		add(fetchLayout);
 
+		/* add default, error-panel when clan has not been fetched yet */
 		errorPanel.setContent("Clans", "You have not fetched clan information yet.");
 		add(errorPanel);
 	}
@@ -136,6 +140,7 @@ public class TempleClans extends PluginPanel
 		return buttonsLayout;
 	}
 
+	/* create a single, JButton with similar style */
 	private JButton createNewButton(String text, String tooltip)
 	{
 		JButton newButton = new JButton();
@@ -145,6 +150,7 @@ public class TempleClans extends PluginPanel
 		newButton.setToolTipText(tooltip);
 		newButton.setForeground(ColorScheme.GRAND_EXCHANGE_LIMIT);
 
+		/* add hover mouse-listener for buttons */
 		newButton.addMouseListener(new MouseAdapter()
 		{
 			public void mouseEntered(MouseEvent evt)
@@ -161,6 +167,7 @@ public class TempleClans extends PluginPanel
 		return newButton;
 	}
 
+	/* fetch player from search-text-field */
 	public void fetchClan()
 	{
 		final String clanID = clanLookup.getText();
@@ -170,6 +177,7 @@ public class TempleClans extends PluginPanel
 			return;
 		}
 
+		/* clanID must be integer */
 		if (!isNumeric.matcher(clanID).matches())
 		{
 			error();
@@ -180,6 +188,11 @@ public class TempleClans extends PluginPanel
 
 		reset();
 
+		/* create separate thread for completing clan-fetch/ panel rebuilds,
+		 *  try to fetch clan,
+		 *  when fetching completes, rebuild panel
+		 *  if exception, set error status
+		 */
 		new Thread(() -> {
 			try
 			{
@@ -192,6 +205,7 @@ public class TempleClans extends PluginPanel
 		}).start();
 	}
 
+	/* reload fetched clan after syncing member-list */
 	private void reload(String clanID)
 	{
 		loading();
@@ -212,12 +226,14 @@ public class TempleClans extends PluginPanel
 	{
 		remove(errorPanel);
 
+		/* search-text-field has changed since start of fetching player data */
 		if (!clanLookup.getText().equals(clanID))
 		{
 			completed();
 			return;
 		}
 
+		/* result is null, error is not null, or error response */
 		if (Objects.isNull(result) || Objects.nonNull(err) || result.error)
 		{
 			error();
@@ -238,16 +254,19 @@ public class TempleClans extends PluginPanel
 		TempleClanInfo info = result.clanOverview.data.info;
 		List<TempleClanAchievement> clanActivity = result.clanAchievements.data;
 
+		/* Event-Dispatch-Thread necessary for adding/ removing new components */
 		SwingUtilities.invokeLater(() -> {
 
 			add(new TempleClanOverview(info));
 
+			/* create achievements-component, only add if config option */
 			clanAchievements = new TempleClanAchievements(clanActivity);
 			if (config.clanAchievements())
 			{
 				add(clanAchievements);
 			}
 
+			/* create members-component, only add if config option */
 			clanMembers = new TempleClanMembers(new TempleClanMembersList(plugin, "Leaders", leaders), new TempleClanMembersList(plugin, "Members", members));
 			if (config.clanAchievements())
 			{
@@ -275,6 +294,7 @@ public class TempleClans extends PluginPanel
 			return;
 		}
 
+		/* if valid clanID, open temple clan-page */
 		loading();
 
 		String clanPageURL = HOST + CLAN_PAGE + clanID;
@@ -302,6 +322,7 @@ public class TempleClans extends PluginPanel
 			return;
 		}
 
+		/* add confirmation to sync clan-members with fetched clan (requires key) */
 		final int confirmation = JOptionPane.showOptionDialog(verifyButton, "This will sync the fetched clan's TempleOSRS members-list to all members in the current account's clan.",
 			"Are you sure?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
 			null, new String[]{
@@ -314,6 +335,7 @@ public class TempleClans extends PluginPanel
 			return;
 		}
 
+		/* create a list of clan members retrieved from RuneLite */
 		List<String> clanList = new ArrayList<>();
 
 		for (ClanMember member : localClan.getMembers())
@@ -323,8 +345,13 @@ public class TempleClans extends PluginPanel
 
 		loading();
 
-		String clanID = clanLookup.getText();
 
+		String clanID = clanLookup.getText();
+		/* create separate thread for completing clan-post/ panel reload,
+		 *  try to post clan members given clanID, verification, and list,
+		 *  when post completes, check response -> reload panel
+		 *  if exception, set error status
+		 */
 		new Thread(() -> {
 			try
 			{
@@ -340,6 +367,7 @@ public class TempleClans extends PluginPanel
 
 	private void response(String clanID, TempleSync response, Throwable err)
 	{
+		/* response is null, error is not null, or error response */
 		if (Objects.isNull(response) || Objects.nonNull(err) || response.error)
 		{
 			syncingError();
@@ -348,6 +376,7 @@ public class TempleClans extends PluginPanel
 		reload(clanID);
 	}
 
+	/* reset clan tab to default */
 	private void reset()
 	{
 		clanAchievements = null;
@@ -361,6 +390,7 @@ public class TempleClans extends PluginPanel
 		revalidate();
 	}
 
+	/* set fields for error status */
 	private void error()
 	{
 		searchButton.setEnabled(true);
@@ -371,6 +401,7 @@ public class TempleClans extends PluginPanel
 		reset();
 	}
 
+	/* sync error -> don't reset panel */
 	private void syncingError()
 	{
 		searchButton.setEnabled(true);
@@ -380,6 +411,7 @@ public class TempleClans extends PluginPanel
 		clanLookup.setEditable(true);
 	}
 
+	/* set fields for loading status */
 	private void loading()
 	{
 		searchButton.setEnabled(false);
@@ -389,6 +421,7 @@ public class TempleClans extends PluginPanel
 		clanLookup.setEditable(false);
 	}
 
+	/* set fields for completed status */
 	private void completed()
 	{
 		searchButton.setEnabled(true);
@@ -398,6 +431,7 @@ public class TempleClans extends PluginPanel
 		clanLookup.setEditable(true);
 	}
 
+	/* format username to be accepted by Temple API */
 	private String format(String text)
 	{
 		return text.replace('\u00A0', ' ');

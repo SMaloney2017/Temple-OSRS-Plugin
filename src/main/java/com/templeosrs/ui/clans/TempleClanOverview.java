@@ -71,6 +71,7 @@ public class TempleClanOverview extends JPanel
 		clanSocials.setAlignmentX(Component.CENTER_ALIGNMENT);
 		clanSocials.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
+		/* if social link exists, create and add social-button to socials-panel */
 		if (Objects.nonNull(info.discordLink))
 		{
 			createSocialsButton("https://discord.com/invite/" + info.discordLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png")));
@@ -96,6 +97,7 @@ public class TempleClanOverview extends JPanel
 			createSocialsButton("https://www.twitch.tv/" + info.twitchLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png")));
 		}
 
+		/* if there is at least one social linked, add to layout */
 		if (clanSocials.getComponentCount() > 0)
 		{
 			layoutPanel.add(clanSocials);
@@ -109,6 +111,7 @@ public class TempleClanOverview extends JPanel
 		JLabel social = new JLabel();
 		social.setPreferredSize(new Dimension(16, 16));
 		social.setIcon(icon);
+		/* on social-icon click mouse-event, open linked social */
 		social.addMouseListener(new MouseAdapter()
 		{
 			@Override

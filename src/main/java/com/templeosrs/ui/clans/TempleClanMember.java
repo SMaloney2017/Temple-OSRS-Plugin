@@ -18,7 +18,6 @@ import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 
 public class TempleClanMember extends JPanel
 {
-
 	TempleClanMember(TempleOSRSPlugin plugin, String name, Color color)
 	{
 		setLayout(new BorderLayout());
@@ -36,6 +35,7 @@ public class TempleClanMember extends JPanel
 
 		row.add(username);
 
+		/* lookup player menu option on click mouse-event */
 		JPopupMenu menu = new JPopupMenu();
 
 		JMenuItem lookupPlayer = new JMenuItem();

@@ -33,6 +33,7 @@ public class TempleClanAchievementRow extends JPanel
 
 		String formattedName = skill.replaceAll("[^A-Za-z0-9]", "").toLowerCase();
 
+		/* determine icon-path */
 		String iconPath;
 		if (type.equals(HiscoreSkillType.SKILL))
 		{
@@ -48,9 +49,11 @@ public class TempleClanAchievementRow extends JPanel
 
 		ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
 
+		/* add username to row */
 		JLabel usernameLabel = createNewJLabel(name);
 		row.add(usernameLabel);
 
+		/* add achievement-value to row */
 		String xpType = QuantityFormatter.quantityToStackSize(xp);
 		JLabel xpLabel = createNewJLabel(xpType);
 
@@ -58,6 +61,7 @@ public class TempleClanAchievementRow extends JPanel
 		xpLabel.setHorizontalAlignment(JLabel.CENTER);
 		row.add(xpLabel);
 
+		/* add achievement-icon to row */
 		JLabel skillIcon = new JLabel();
 		skillIcon.setBorder(new EmptyBorder(0, 0, 0, 5));
 		skillIcon.setIcon(icon);
@@ -68,6 +72,7 @@ public class TempleClanAchievementRow extends JPanel
 		add(row);
 	}
 
+	/* create a new achievement label of similar style */
 	JLabel createNewJLabel(String text)
 	{
 		JLabel label = new JLabel(text);
