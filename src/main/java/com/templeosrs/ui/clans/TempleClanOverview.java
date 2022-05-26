@@ -74,7 +74,7 @@ public class TempleClanOverview extends JPanel
 		clanSocials.setAlignmentX(Component.CENTER_ALIGNMENT);
 		clanSocials.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-		/* if social link exists, create and add social-button to socials-panel */
+		/* if social link exists, create and add button to socials-panel */
 		if (Objects.nonNull(info.discordLink))
 		{
 			JLabel social = createSocialsButton("https://discord.com/invite/" + info.discordLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png")));
