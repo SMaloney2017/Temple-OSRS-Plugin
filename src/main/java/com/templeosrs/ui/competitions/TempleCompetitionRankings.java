@@ -40,6 +40,7 @@ public class TempleCompetitionRankings extends JPanel
 		JPanel compRankings = new JPanel();
 		compRankings.setLayout(new GridLayout(0, 1));
 
+		/* create header-bar for competitions (Name, Total) */
 		JPanel compHeader = new JPanel();
 		compHeader.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		compHeader.setBackground(ColorScheme.DARKER_GRAY_COLOR);
@@ -56,8 +57,20 @@ public class TempleCompetitionRankings extends JPanel
 		gain.setFont(FontManager.getRunescapeSmallFont());
 		compHeader.add(gain);
 
+		/* add header to rankings-panel */
 		compRankings.add(compHeader);
 
+		/*
+		* for each player in participant-list ->
+		* { if gain is not null and > 0 ->
+		* 	{
+		* 	  create new competition-entry row,
+		*     add row to rankings-panel
+		* 	}
+		* },
+		* add rankings-panel to layout,
+		* set preferred size/ scrollbar if applicable
+		*/
 		for (TempleCompetitionParticipant player : participantList)
 		{
 			if (Objects.nonNull(player.xpGained) && player.xpGained > 0)

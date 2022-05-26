@@ -41,6 +41,7 @@ public class TempleCompetitionRow extends JPanel
 		xp.setFont(FontManager.getRunescapeSmallFont());
 		row.add(xp);
 
+		/* lookup player menu option on click mouse-event */
 		JPopupMenu menu = new JPopupMenu();
 
 		JMenuItem lookupPlayer = new JMenuItem();

@@ -62,14 +62,17 @@ public class TempleCompetitions extends PluginPanel
 		fetchLayout.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), new EmptyBorder(5, 5, 5, 5)));
 		fetchLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
+		/* build and add search-text-field */
 		competitionLookup = buildTextField();
 		fetchLayout.add(competitionLookup);
 
+		/* build and add search-buttons */
 		JPanel buttons = buildFetchButtons();
 		fetchLayout.add(buttons);
 
 		add(fetchLayout);
 
+		/* add default, error-panel when competition has not been fetched yet */
 		errorPanel.setContent("Competitions", "You have not fetched competition information yet.");
 		add(errorPanel);
 	}
@@ -109,6 +112,7 @@ public class TempleCompetitions extends PluginPanel
 		return buttonsLayout;
 	}
 
+	/* create a single, JButton with similar style */
 	public JButton createNewButton(String text, String tooltip)
 	{
 		JButton newButton = new JButton();
@@ -118,6 +122,7 @@ public class TempleCompetitions extends PluginPanel
 		newButton.setToolTipText(tooltip);
 		newButton.setForeground(ColorScheme.GRAND_EXCHANGE_LIMIT);
 
+		/* add hover mouse-listener for buttons */
 		newButton.addMouseListener(new MouseAdapter()
 		{
 			public void mouseEntered(MouseEvent evt)
@@ -134,6 +139,7 @@ public class TempleCompetitions extends PluginPanel
 		return newButton;
 	}
 
+	/* fetch competition from search-text-field */
 	public void fetchCompetition()
 	{
 		final String compID = competitionLookup.getText();
@@ -143,6 +149,7 @@ public class TempleCompetitions extends PluginPanel
 			return;
 		}
 
+		/* competitionID must be integer */
 		if (!isNumeric.matcher(compID).matches())
 		{
 			error();
@@ -153,6 +160,11 @@ public class TempleCompetitions extends PluginPanel
 
 		reset();
 
+		/* create separate thread for completing competition-fetch/ panel rebuilds,
+		 *  try to fetch competition,
+		 *  when fetching completes, rebuild panel
+		 *  if exception, set error status
+		 */
 		new Thread(() -> {
 			try
 			{
@@ -169,12 +181,14 @@ public class TempleCompetitions extends PluginPanel
 	{
 		remove(errorPanel);
 
+		/* search-text-field has changed since start of fetching player data */
 		if (!competitionLookup.getText().equals(clanID))
 		{
 			completed();
 			return;
 		}
 
+		/* result is null, error is not null, or error response */
 		if (Objects.isNull(result) || Objects.nonNull(err) || result.error)
 		{
 			error();
@@ -192,7 +206,10 @@ public class TempleCompetitions extends PluginPanel
 
 		TempleCompetitionInfo info = result.compOverview.data.info;
 		List<TempleCompetitionParticipant> participants = result.compOverview.data.participants;
+
+		/* Event-Dispatch-Thread necessary for adding/ removing new components */
 		SwingUtilities.invokeLater(() -> {
+			/* create and add rankings. overview */
 			TempleCompetitionRankings rankings = new TempleCompetitionRankings(plugin, participants);
 
 			TempleCompetitionOverview compOverview = new TempleCompetitionOverview(info, rankings.i);
@@ -221,6 +238,7 @@ public class TempleCompetitions extends PluginPanel
 			return;
 		}
 
+		/* if valid competitionID, open temple competition-page */
 		loading();
 
 		String compPageURL = HOST + COMPETITION_PAGE + compID;
@@ -229,6 +247,7 @@ public class TempleCompetitions extends PluginPanel
 		completed();
 	}
 
+	/* reset completion tab to default */
 	private void reset()
 	{
 		removeAll();
@@ -239,6 +258,7 @@ public class TempleCompetitions extends PluginPanel
 		revalidate();
 	}
 
+	/* set fields for error status */
 	private void error()
 	{
 		searchButton.setEnabled(true);
@@ -247,6 +267,7 @@ public class TempleCompetitions extends PluginPanel
 		competitionLookup.setEditable(true);
 	}
 
+	/* set fields for loading status */
 	private void loading()
 	{
 		searchButton.setEnabled(false);
@@ -255,6 +276,7 @@ public class TempleCompetitions extends PluginPanel
 		competitionLookup.setEditable(false);
 	}
 
+	/* set fields for completed status */
 	private void completed()
 	{
 		searchButton.setEnabled(true);
