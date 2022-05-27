@@ -22,7 +22,7 @@ public class TempleService
 
 	public static final String CLAN_PAGE = "groups/overview.php?id=";
 
-	public static final String COMPETITION_PAGE = "/competitions/standings.php?id=";
+	public static final String COMPETITION_PAGE = "competitions/standings.php?id=";
 
 	private static final String PLAYER_OVERVIEW = "player/view/overview_skilling_view.php?player=";
 
