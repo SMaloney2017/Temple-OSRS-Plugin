@@ -269,7 +269,7 @@ public class TempleClans extends PluginPanel
 
 			/* create members-component, only add if config option */
 			clanMembers = new TempleClanMembers(new TempleClanMembersList(plugin, "Leaders", leaders), new TempleClanMembersList(plugin, "Members", members));
-			if (config.clanAchievements())
+			if (config.clanMembers())
 			{
 				add(clanMembers);
 			}
