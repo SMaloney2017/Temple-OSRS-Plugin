@@ -85,7 +85,7 @@ public interface TempleOSRSConfig extends Config
 	@ConfigItem(
 		keyName = "ignoredRanks",
 		name = "Ignored ranks",
-		description = "Excluded ranks from group-members sync (Case-Sensitive).",
+		description = "Excluded ranks from group members sync (Case Sensitive).",
 		position = 7,
 		section = clanOptions
 	)
