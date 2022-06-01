@@ -9,16 +9,13 @@ public class TempleSync
 
 	public boolean error = false;
 
-	public TempleSyncResponse errorResponse;
-
 	public TempleSyncResponse dataResponse;
 
 	public TempleSync(String response)
 	{
 		dataResponse = gson.fromJson(response, TempleSyncResponse.class);
-		errorResponse = gson.fromJson(response, TempleSyncResponse.class);
 
-		if (Objects.nonNull(errorResponse.error))
+		if (Objects.nonNull(dataResponse.error))
 		{
 			error = true;
 		}

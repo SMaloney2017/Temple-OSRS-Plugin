@@ -36,6 +36,8 @@ public class TempleService
 
 	private static final String CLAN_EDIT = "api/edit_group.php?";
 
+	private static final String CLAN_ADD = "api/add_group_member.php?";
+
 	private static final String COMPETITION = "api/competition_info.php?id=";
 
 	private static String fetchData(String URL) throws Exception
@@ -43,9 +45,7 @@ public class TempleService
 		String JSON = null;
 		OkHttpClient client = new OkHttpClient();
 
-		Request overviewRequest = new Request.Builder()
-			.url(URL)
-			.build();
+		Request overviewRequest = new Request.Builder().url(URL).build();
 
 		Call call = client.newCall(overviewRequest);
 		ResponseBody response = call.execute().body();
@@ -87,21 +87,38 @@ public class TempleService
 		return future;
 	}
 
-	public static CompletableFuture<TempleSync> postClanMembersAsync(String clanID, String verification, List<String> members) throws Exception
+	public static CompletableFuture<TempleSync> syncClanMembersAsync(String clanID, String verification, List<String> members) throws Exception
 	{
 		String JSON = null;
 		OkHttpClient client = new OkHttpClient();
 
-		RequestBody formBody = new FormBody.Builder()
-			.add("id", clanID)
-			.add("key", verification)
-			.add("memberlist", String.valueOf(members))
-			.build();
+		RequestBody formBody = new FormBody.Builder().add("id", clanID).add("key", verification).add("memberlist", String.valueOf(members)).build();
 
-		Request request = new Request.Builder()
-			.url(HOST + CLAN_EDIT)
-			.post(formBody)
-			.build();
+		Request request = new Request.Builder().url(HOST + CLAN_EDIT).post(formBody).build();
+
+		Call call = client.newCall(request);
+		Response response = call.execute();
+		ResponseBody body = response.body();
+
+		if (body != null)
+		{
+			JSON = body.string();
+			response.close();
+		}
+
+		CompletableFuture<TempleSync> future = new CompletableFuture<>();
+		future.complete(new TempleSync(JSON));
+		return future;
+	}
+
+	public static CompletableFuture<TempleSync> addClanMembersAsync(String clanID, String verification, List<String> members) throws Exception
+	{
+		String JSON = null;
+		OkHttpClient client = new OkHttpClient();
+
+		RequestBody formBody = new FormBody.Builder().add("id", clanID).add("key", verification).add("players", String.valueOf(members)).build();
+
+		Request request = new Request.Builder().url(HOST + CLAN_ADD).post(formBody).build();
 
 		Call call = client.newCall(request);
 		Response response = call.execute();

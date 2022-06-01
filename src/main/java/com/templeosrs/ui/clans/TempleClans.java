@@ -5,8 +5,9 @@ import com.templeosrs.TempleOSRSConfig;
 import com.templeosrs.TempleOSRSPlugin;
 import static com.templeosrs.util.TempleService.CLAN_PAGE;
 import static com.templeosrs.util.TempleService.HOST;
+import static com.templeosrs.util.TempleService.addClanMembersAsync;
 import static com.templeosrs.util.TempleService.fetchClanAsync;
-import static com.templeosrs.util.TempleService.postClanMembersAsync;
+import static com.templeosrs.util.TempleService.syncClanMembersAsync;
 import com.templeosrs.util.clan.TempleClan;
 import com.templeosrs.util.clan.TempleClanAchievement;
 import com.templeosrs.util.clan.TempleClanInfo;
@@ -31,13 +32,17 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import net.runelite.api.Client;
 import net.runelite.api.clan.ClanMember;
+import net.runelite.api.clan.ClanRank;
 import net.runelite.api.clan.ClanSettings;
+import net.runelite.api.clan.ClanTitle;
+import net.runelite.client.callback.ClientThread;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.PluginErrorPanel;
 import net.runelite.client.util.LinkBrowser;
+import net.runelite.client.util.Text;
 
 public class TempleClans extends PluginPanel
 {
@@ -46,6 +51,8 @@ public class TempleClans extends PluginPanel
 	public final IconTextField clanLookup;
 
 	private final Client client;
+
+	private final ClientThread thread;
 
 	private final TempleOSRSPlugin plugin;
 
@@ -66,10 +73,11 @@ public class TempleClans extends PluginPanel
 	private JButton clanButton;
 
 	@Inject
-	public TempleClans(TempleOSRSConfig config, TempleOSRSPlugin plugin, Client client)
+	public TempleClans(TempleOSRSConfig config, TempleOSRSPlugin plugin, Client client, ClientThread thread)
 	{
 		this.plugin = plugin;
 		this.client = client;
+		this.thread = thread;
 		this.config = config;
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
@@ -336,16 +344,13 @@ public class TempleClans extends PluginPanel
 			return;
 		}
 
-		/* create a list of clan members retrieved from RuneLite */
-		List<String> clanList = new ArrayList<>();
+		/* exclude certain clan ranks from members-sync */
+		filter(localClan);
+	}
 
-		for (ClanMember member : localClan.getMembers())
-		{
-			clanList.add(format(member.getName()));
-		}
-
+	private void verify(List<String> filteredList)
+	{
 		loading();
-
 
 		String clanID = clanLookup.getText();
 		/* create separate thread for completing clan-post/ panel reload,
@@ -356,22 +361,54 @@ public class TempleClans extends PluginPanel
 		new Thread(() -> {
 			try
 			{
-				postClanMembersAsync(clanID, config.clanKey(), clanList).whenCompleteAsync((result, err) -> response(clanID, result, err));
+				if (config.onlyAddMembers())
+				{
+					addClanMembersAsync(clanID, config.clanKey(), filteredList).whenCompleteAsync((result, err) -> response(clanID, result, err));
+				}
+				else
+				{
+					syncClanMembersAsync(clanID, config.clanKey(), filteredList).whenCompleteAsync((result, err) -> response(clanID, result, err));
+				}
 			}
 			catch (Exception ignored)
 			{
 				error();
 			}
 		}).start();
+	}
 
+	/* filter unwanted ranks for members-sync */
+	private void filter(ClanSettings localClan)
+	{
+		List<String> clanList = new ArrayList<>();
+		List<String> ignoredRanks = Text.fromCSV(config.getIgnoredRanks());
+
+		/* ClientThread necessary for method titleForRank */
+		thread.invoke(() -> {
+			for (ClanMember member : localClan.getMembers())
+			{
+				ClanRank rank = member.getRank();
+				ClanTitle clanTitle = localClan.titleForRank(rank);
+				if (clanTitle != null)
+				{
+					String title = clanTitle.getName();
+					if (!ignoredRanks.contains(title))
+					{
+						/* create a list of clan members retrieved from RuneLite, ignoring excluded ranks */
+						clanList.add(format(member.getName()));
+					}
+				}
+			}
+			verify(clanList);
+		});
 	}
 
 	private void response(String clanID, TempleSync response, Throwable err)
 	{
-		/* response is null, error is not null, or error response */
+		/* response is null, exception thrown, or error response */
 		if (Objects.isNull(response) || Objects.nonNull(err) || response.error)
 		{
-			syncingError();
+			error();
 			return;
 		}
 		reload(clanID);
@@ -393,16 +430,6 @@ public class TempleClans extends PluginPanel
 
 	/* set fields for error status */
 	private void error()
-	{
-		searchButton.setEnabled(true);
-		clanButton.setEnabled(true);
-		verifyButton.setEnabled(true);
-		clanLookup.setIcon(IconTextField.Icon.ERROR);
-		clanLookup.setEditable(true);
-	}
-
-	/* sync error -> don't reset panel */
-	private void syncingError()
 	{
 		searchButton.setEnabled(true);
 		clanButton.setEnabled(true);

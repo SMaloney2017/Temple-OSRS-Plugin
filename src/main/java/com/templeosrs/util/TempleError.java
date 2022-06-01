@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class TempleError
 {
-	@SerializedName("code")
+	@SerializedName("Code")
 	public Integer code;
 
-	@SerializedName("message")
+	@SerializedName("Message")
 	public String message;
 }
