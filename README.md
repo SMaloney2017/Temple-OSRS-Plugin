@@ -8,12 +8,7 @@
 
 ### To-Do / Potential Features
 
-> 1. ✅ **COMPLETED:** ~~Implement functionality for sorting each activity panel by name, gain, rank, or EHP.~~
-> 2. ✅ **COMPLETED:** ~~Right-click menu option to lookup player.~~
-> 3. ✅ **COMPLETED:** ~~Add support for other TempleOSRS API Endpoints. (Competitions, Groups)~~
->     * ✅ ~~Design *Clans tab* (Fetch clan, Overview, leaders, members, member lookup, members sync)~~
->     * ✅ ~~Design *Competitions tab* (Fetch competition, competition rankings, participant lookup)~~
-> 4. ✅ **COMPLETED:** ~~Save a Snapshot of the current view.~~
+> 1. Add options to favorite clans/ competitions.
 
 ### Bugs to fix/ Concerns
 
