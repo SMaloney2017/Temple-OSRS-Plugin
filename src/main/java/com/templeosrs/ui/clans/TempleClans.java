@@ -3,8 +3,6 @@ package com.templeosrs.ui.clans;
 import com.google.common.base.Strings;
 import com.templeosrs.TempleOSRSConfig;
 import com.templeosrs.TempleOSRSPlugin;
-import static com.templeosrs.util.TempleService.CLAN_PAGE;
-import static com.templeosrs.util.TempleService.HOST;
 import static com.templeosrs.util.TempleService.addClanMembersAsync;
 import static com.templeosrs.util.TempleService.fetchClanAsync;
 import static com.templeosrs.util.TempleService.syncClanMembersAsync;
@@ -43,6 +41,7 @@ import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.PluginErrorPanel;
 import net.runelite.client.util.LinkBrowser;
 import net.runelite.client.util.Text;
+import okhttp3.HttpUrl;
 
 public class TempleClans extends PluginPanel
 {
@@ -180,15 +179,15 @@ public class TempleClans extends PluginPanel
 	/* fetch clan from search-text-field */
 	public void fetchClan()
 	{
-		final String clanID = clanLookup.getText();
+		final String id = clanLookup.getText();
 
-		if (Strings.isNullOrEmpty(clanID))
+		if (Strings.isNullOrEmpty(id))
 		{
 			return;
 		}
 
-		/* clanID must be integer */
-		if (!isNumeric.matcher(clanID).matches())
+		/* clan-id must be integer */
+		if (!isNumeric.matcher(id).matches())
 		{
 			error();
 			return;
@@ -206,7 +205,7 @@ public class TempleClans extends PluginPanel
 		new Thread(() -> {
 			try
 			{
-				fetchClanAsync(clanID).whenCompleteAsync((result, err) -> rebuild(clanID, result, err));
+				fetchClanAsync(id).whenCompleteAsync((result, err) -> rebuild(id, result, err));
 			}
 			catch (Exception ignored)
 			{
@@ -216,7 +215,7 @@ public class TempleClans extends PluginPanel
 	}
 
 	/* reload fetched clan after syncing member-list */
-	private void reload(String clanID)
+	private void reload(String id)
 	{
 		loading();
 
@@ -224,7 +223,7 @@ public class TempleClans extends PluginPanel
 
 		try
 		{
-			fetchClanAsync(clanID).whenCompleteAsync((result, err) -> rebuild(clanID, result, err));
+			fetchClanAsync(id).whenCompleteAsync((result, err) -> rebuild(id, result, err));
 		}
 		catch (Exception ignored)
 		{
@@ -232,11 +231,11 @@ public class TempleClans extends PluginPanel
 		}
 	}
 
-	private void rebuild(String clanID, TempleClan result, Throwable err)
+	private void rebuild(String id, TempleClan result, Throwable err)
 	{
 		remove(errorPanel);
 
-		if (!clanLookup.getText().equals(clanID))
+		if (!clanLookup.getText().equals(id))
 		{
 			completed();
 			return;
@@ -291,23 +290,29 @@ public class TempleClans extends PluginPanel
 
 	private void open()
 	{
-		String clanID = clanLookup.getText();
-		if (Strings.isNullOrEmpty(clanID))
+		String id = clanLookup.getText();
+		if (Strings.isNullOrEmpty(id))
 		{
 			return;
 		}
 
-		if (!isNumeric.matcher(clanID).matches())
+		if (!isNumeric.matcher(id).matches())
 		{
 			error();
 			return;
 		}
 
-		/* if valid clanID, open temple clan-page */
+		/* if valid clan-id, open temple clan-page */
 		loading();
 
-		String clanPageURL = HOST + CLAN_PAGE + clanID;
-		SwingUtilities.invokeLater(() -> LinkBrowser.browse(clanPageURL));
+		HttpUrl url = new HttpUrl.Builder()
+			.scheme("https")
+			.host("templeosrs.com")
+			.addPathSegment("groups")
+			.addPathSegment("overview.php")
+			.addQueryParameter("id", id).build();
+
+		SwingUtilities.invokeLater(() -> LinkBrowser.browse(url.toString()));
 
 		completed();
 	}
@@ -352,9 +357,9 @@ public class TempleClans extends PluginPanel
 	{
 		loading();
 
-		String clanID = clanLookup.getText();
+		String id = clanLookup.getText();
 		/* create separate thread for completing clan-post/ panel reload,
-		 *  try to post clan members given clanID, verification, and list,
+		 *  try to post clan members given clan-id, verification, and list,
 		 *  when post completes, check response -> reload panel
 		 *  if exception, set error status
 		 */
@@ -363,11 +368,11 @@ public class TempleClans extends PluginPanel
 			{
 				if (config.onlyAddMembers())
 				{
-					addClanMembersAsync(clanID, config.clanKey(), filteredList).whenCompleteAsync((result, err) -> response(clanID, result, err));
+					addClanMembersAsync(id, config.clanKey(), filteredList).whenCompleteAsync((result, err) -> response(id, result, err));
 				}
 				else
 				{
-					syncClanMembersAsync(clanID, config.clanKey(), filteredList).whenCompleteAsync((result, err) -> response(clanID, result, err));
+					syncClanMembersAsync(id, config.clanKey(), filteredList).whenCompleteAsync((result, err) -> response(id, result, err));
 				}
 			}
 			catch (Exception ignored)
@@ -403,7 +408,7 @@ public class TempleClans extends PluginPanel
 		});
 	}
 
-	private void response(String clanID, TempleSync response, Throwable err)
+	private void response(String id, TempleSync response, Throwable err)
 	{
 		/* response is null, exception thrown, or error response */
 		if (Objects.isNull(response) || Objects.nonNull(err) || response.error)
@@ -411,7 +416,7 @@ public class TempleClans extends PluginPanel
 			error();
 			return;
 		}
-		reload(clanID);
+		reload(id);
 	}
 
 	/* reset clan tab to default */

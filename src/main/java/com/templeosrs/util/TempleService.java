@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import okhttp3.Call;
 import okhttp3.FormBody;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -16,119 +17,179 @@ import okhttp3.ResponseBody;
 
 public class TempleService
 {
-	public static final String HOST = "https://templeosrs.com/";
-
-	public static final String PLAYER_PAGE = "player/overview.php?player=";
-
-	public static final String CLAN_PAGE = "groups/overview.php?id=";
-
-	public static final String COMPETITION_PAGE = "competitions/standings.php?id=";
-
-	private static final String PLAYER_OVERVIEW = "player/view/overview_skilling_view.php?player=";
-
-	private static final String BOSSES = "&tracking=bosses";
-
-	private static final String DURATION = "&duration=";
-
-	private static final String CLAN_OVERVIEW = "api/group_info.php?id=";
-
-	private static final String CLAN_ACHIEVEMENTS = "api/group_achievements.php?id=";
-
-	private static final String CLAN_EDIT = "api/edit_group.php?";
-
-	private static final String CLAN_ADD = "api/add_group_member.php?";
-
-	private static final String COMPETITION = "api/competition_info.php?id=";
-
-	private static String fetchData(String URL) throws Exception
+	private static String request(Request request) throws Exception
 	{
 		String JSON = null;
 		OkHttpClient client = new OkHttpClient();
 
-		Request overviewRequest = new Request.Builder().url(URL).build();
+		Call call = client.newCall(request);
+		Response response = call.execute();
+		ResponseBody body = response.body();
 
-		Call call = client.newCall(overviewRequest);
-		ResponseBody response = call.execute().body();
-		if (response != null)
+		if (body != null)
 		{
-			JSON = response.string();
+			JSON = body.string();
 			response.close();
 		}
 
 		return JSON;
 	}
 
+	public static String requestUserSkillGains(String player, String duration) throws Exception
+	{
+		HttpUrl url = new HttpUrl.Builder()
+			.scheme("https")
+			.host("templeosrs.com")
+			.addPathSegment("player")
+			.addPathSegment("view")
+			.addPathSegment("overview_skilling_view.php")
+			.addQueryParameter("player", player)
+			.addQueryParameter("duration", duration)
+			.build();
+
+		Request request = new Request.Builder().url(url).build();
+
+		return request(request);
+	}
+
+	public static String requestUserBossGains(String player, String duration) throws Exception
+	{
+		HttpUrl url = new HttpUrl.Builder()
+			.scheme("https")
+			.host("templeosrs.com")
+			.addPathSegment("player")
+			.addPathSegment("view")
+			.addPathSegment("overview_skilling_view.php")
+			.addQueryParameter("player", player)
+			.addQueryParameter("duration", duration)
+			.addQueryParameter("tracking", "bosses")
+			.build();
+
+		Request request = new Request.Builder().url(url).build();
+
+		return request(request);
+	}
+
+	public static String requestClanOverview(String id) throws Exception
+	{
+		HttpUrl url = new HttpUrl.Builder()
+			.scheme("https")
+			.host("templeosrs.com")
+			.addPathSegment("api")
+			.addPathSegment("group_info.php")
+			.addQueryParameter("id", id)
+			.build();
+
+		Request request = new Request.Builder().url(url).build();
+
+		return request(request);
+	}
+
+	public static String requestClanAchievements(String id) throws Exception
+	{
+		HttpUrl url = new HttpUrl.Builder()
+			.scheme("https")
+			.host("templeosrs.com")
+			.addPathSegment("api")
+			.addPathSegment("group_achievements.php")
+			.addQueryParameter("id", id)
+			.build();
+
+		Request request = new Request.Builder().url(url).build();
+
+		return request(request);
+	}
+
+	public static String requestCompetitionInfo(String id) throws Exception
+	{
+		HttpUrl url = new HttpUrl.Builder()
+			.scheme("https")
+			.host("templeosrs.com")
+			.addPathSegment("api")
+			.addPathSegment("competition_info.php")
+			.addQueryParameter("id", id)
+			.build();
+
+		Request request = new Request.Builder().url(url).build();
+
+		return request(request);
+	}
+
 	public static CompletableFuture<TemplePlayer> fetchUserGainsAsync(String player, String duration) throws Exception
 	{
-		String playerSkillsOverviewJSON = fetchData(HOST + PLAYER_OVERVIEW + player + DURATION + duration);
-		String playerBossingOverviewJSON = fetchData(HOST + PLAYER_OVERVIEW + player + BOSSES + DURATION + duration);
+		String playerSkillsOverviewJSON = requestUserSkillGains(player, duration);
+		String playerBossingOverviewJSON = requestUserBossGains(player, duration);
 
 		CompletableFuture<TemplePlayer> future = new CompletableFuture<>();
 		future.complete(new TemplePlayer(playerSkillsOverviewJSON, playerBossingOverviewJSON));
 		return future;
 	}
 
-	public static CompletableFuture<TempleClan> fetchClanAsync(String clanID) throws Exception
+	public static CompletableFuture<TempleClan> fetchClanAsync(String id) throws Exception
 	{
-		String clanOverviewJSON = fetchData(HOST + CLAN_OVERVIEW + clanID);
-		String clanAchievementsJSON = fetchData(HOST + CLAN_ACHIEVEMENTS + clanID);
+		String clanOverviewJSON = requestClanOverview(id);
+		String clanAchievementsJSON = requestClanAchievements(id);
 
 		CompletableFuture<TempleClan> future = new CompletableFuture<>();
 		future.complete(new TempleClan(clanOverviewJSON, clanAchievementsJSON));
 		return future;
 	}
 
-	public static CompletableFuture<TempleCompetition> fetchCompetitionAsync(String competitionID) throws Exception
+	public static CompletableFuture<TempleCompetition> fetchCompetitionAsync(String id) throws Exception
 	{
-		String competitionJSON = fetchData(HOST + COMPETITION + competitionID);
-		CompletableFuture<TempleCompetition> future = new CompletableFuture<>();
+		String competitionJSON = requestCompetitionInfo(id);
 
+		CompletableFuture<TempleCompetition> future = new CompletableFuture<>();
 		future.complete(new TempleCompetition(competitionJSON));
 		return future;
 	}
 
-	public static CompletableFuture<TempleSync> syncClanMembersAsync(String clanID, String verification, List<String> members) throws Exception
+	public static CompletableFuture<TempleSync> syncClanMembersAsync(String id, String key, List<String> members) throws Exception
 	{
-		String JSON = null;
-		OkHttpClient client = new OkHttpClient();
+		String JSON;
 
-		RequestBody formBody = new FormBody.Builder().add("id", clanID).add("key", verification).add("memberlist", String.valueOf(members)).build();
+		HttpUrl url = new HttpUrl.Builder()
+			.scheme("https")
+			.host("templeosrs.com")
+			.addPathSegment("api")
+			.addPathSegment("edit_group.php")
+			.build();
 
-		Request request = new Request.Builder().url(HOST + CLAN_EDIT).post(formBody).build();
+		RequestBody formBody = new FormBody.Builder()
+			.add("id", id)
+			.add("key", key)
+			.add("memberlist", String.valueOf(members))
+			.build();
 
-		Call call = client.newCall(request);
-		Response response = call.execute();
-		ResponseBody body = response.body();
+		Request request = new Request.Builder().url(url).post(formBody).build();
 
-		if (body != null)
-		{
-			JSON = body.string();
-			response.close();
-		}
+		JSON = request(request);
 
 		CompletableFuture<TempleSync> future = new CompletableFuture<>();
 		future.complete(new TempleSync(JSON));
 		return future;
 	}
 
-	public static CompletableFuture<TempleSync> addClanMembersAsync(String clanID, String verification, List<String> members) throws Exception
+	public static CompletableFuture<TempleSync> addClanMembersAsync(String id, String key, List<String> members) throws Exception
 	{
-		String JSON = null;
-		OkHttpClient client = new OkHttpClient();
+		String JSON;
 
-		RequestBody formBody = new FormBody.Builder().add("id", clanID).add("key", verification).add("players", String.valueOf(members)).build();
+		HttpUrl url = new HttpUrl.Builder()
+			.scheme("https")
+			.host("templeosrs.com")
+			.addPathSegment("api")
+			.addPathSegment("add_group_member.php")
+			.build();
 
-		Request request = new Request.Builder().url(HOST + CLAN_ADD).post(formBody).build();
+		RequestBody formBody = new FormBody.Builder()
+			.add("id", id)
+			.add("key", key)
+			.add("players", String.valueOf(members))
+			.build();
 
-		Call call = client.newCall(request);
-		Response response = call.execute();
-		ResponseBody body = response.body();
+		Request request = new Request.Builder().url(url).post(formBody).build();
 
-		if (body != null)
-		{
-			JSON = body.string();
-			response.close();
-		}
+		JSON = request(request);
 
 		CompletableFuture<TempleSync> future = new CompletableFuture<>();
 		future.complete(new TempleSync(JSON));

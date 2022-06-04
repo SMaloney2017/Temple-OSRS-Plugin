@@ -29,8 +29,6 @@ package com.templeosrs.ui.ranks;
 
 import com.google.common.base.Strings;
 import com.templeosrs.util.NameAutocompleter;
-import static com.templeosrs.util.TempleService.HOST;
-import static com.templeosrs.util.TempleService.PLAYER_PAGE;
 import static com.templeosrs.util.TempleService.fetchUserGainsAsync;
 import com.templeosrs.util.player.TemplePlayer;
 import com.templeosrs.util.player.TemplePlayerData;
@@ -62,6 +60,7 @@ import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.materialtabs.MaterialTab;
 import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
 import net.runelite.client.util.LinkBrowser;
+import okhttp3.HttpUrl;
 
 public class TempleRanks extends PluginPanel
 {
@@ -362,8 +361,14 @@ public class TempleRanks extends PluginPanel
 		/* if valid username format, open temple player-profile */
 		loading();
 
-		String playerPageURL = HOST + PLAYER_PAGE + username;
-		SwingUtilities.invokeLater(() -> LinkBrowser.browse(playerPageURL));
+		HttpUrl url = new HttpUrl.Builder()
+			.scheme("https")
+			.host("templeosrs.com")
+			.addPathSegment("player")
+			.addPathSegment("overview.php")
+			.addQueryParameter("player", username).build();
+
+		SwingUtilities.invokeLater(() -> LinkBrowser.browse(url.toString()));
 
 		completed();
 	}

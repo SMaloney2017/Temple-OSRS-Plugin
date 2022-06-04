@@ -2,8 +2,6 @@ package com.templeosrs.ui.competitions;
 
 import com.google.common.base.Strings;
 import com.templeosrs.TempleOSRSPlugin;
-import static com.templeosrs.util.TempleService.COMPETITION_PAGE;
-import static com.templeosrs.util.TempleService.HOST;
 import static com.templeosrs.util.TempleService.fetchCompetitionAsync;
 import com.templeosrs.util.comp.TempleCompetition;
 import com.templeosrs.util.comp.TempleCompetitionInfo;
@@ -30,6 +28,7 @@ import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.PluginErrorPanel;
 import net.runelite.client.util.LinkBrowser;
+import okhttp3.HttpUrl;
 
 public class TempleCompetitions extends PluginPanel
 {
@@ -144,15 +143,15 @@ public class TempleCompetitions extends PluginPanel
 	/* fetch competition from search-text-field */
 	public void fetchCompetition()
 	{
-		final String compID = competitionLookup.getText();
+		final String id = competitionLookup.getText();
 
-		if (Strings.isNullOrEmpty(compID))
+		if (Strings.isNullOrEmpty(id))
 		{
 			return;
 		}
 
-		/* competitionID must be integer */
-		if (!isNumeric.matcher(compID).matches())
+		/* competition-id must be integer */
+		if (!isNumeric.matcher(id).matches())
 		{
 			error();
 			return;
@@ -170,7 +169,7 @@ public class TempleCompetitions extends PluginPanel
 		new Thread(() -> {
 			try
 			{
-				fetchCompetitionAsync(compID).whenCompleteAsync((result, err) -> rebuild(compID, result, err));
+				fetchCompetitionAsync(id).whenCompleteAsync((result, err) -> rebuild(id, result, err));
 			}
 			catch (Exception ignored)
 			{
@@ -179,11 +178,11 @@ public class TempleCompetitions extends PluginPanel
 		}).start();
 	}
 
-	private void rebuild(String clanID, TempleCompetition result, Throwable err)
+	private void rebuild(String id, TempleCompetition result, Throwable err)
 	{
 		remove(errorPanel);
 
-		if (!competitionLookup.getText().equals(clanID))
+		if (!competitionLookup.getText().equals(id))
 		{
 			completed();
 			return;
@@ -227,23 +226,29 @@ public class TempleCompetitions extends PluginPanel
 
 	private void open()
 	{
-		String compID = competitionLookup.getText();
-		if (Strings.isNullOrEmpty(compID))
+		String id = competitionLookup.getText();
+		if (Strings.isNullOrEmpty(id))
 		{
 			return;
 		}
 
-		if (!isNumeric.matcher(compID).matches())
+		if (!isNumeric.matcher(id).matches())
 		{
 			error();
 			return;
 		}
 
-		/* if valid competitionID, open temple competition-page */
+		/* if valid competition-id, open temple competition-page */
 		loading();
 
-		String compPageURL = HOST + COMPETITION_PAGE + compID;
-		SwingUtilities.invokeLater(() -> LinkBrowser.browse(compPageURL));
+		HttpUrl url = new HttpUrl.Builder()
+			.scheme("https")
+			.host("templeosrs.com")
+			.addPathSegment("competitions")
+			.addPathSegment("standings.php")
+			.addQueryParameter("id", id).build();
+
+		SwingUtilities.invokeLater(() -> LinkBrowser.browse(url.toString()));
 
 		completed();
 	}
