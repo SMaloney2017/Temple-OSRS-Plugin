@@ -96,7 +96,7 @@ public class TempleActivityTableRow extends JPanel
 
 		/* add levels gained as tooltip-text if SKILL */
 		skillGain.update(gain);
-		skillGain.setToolTipText(type.equals(HiscoreSkillType.SKILL) ? level + " Levels" : "");
+		skillGain.setToolTipText(type.equals(HiscoreSkillType.SKILL) ? "<html>Levels Gained: <span style='color:#32a0fa'>" + level + "</span></html>": "");
 
 		rankGain.update(rank);
 		ehpGain.update(ehp);
