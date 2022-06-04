@@ -47,7 +47,6 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import lombok.extern.slf4j.Slf4j;
 import static net.runelite.client.RuneLite.SCREENSHOT_DIR;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
@@ -56,7 +55,6 @@ import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.LinkBrowser;
 
-@Slf4j
 public class TempleOSRSPanel extends PluginPanel
 {
 	public static final String DEFAULT = "--";
@@ -178,9 +176,9 @@ public class TempleOSRSPanel extends PluginPanel
 					ImageIO.write(img, "png", imageFile);
 				}
 			}
-			catch (Exception e)
+			catch (Exception ignored)
 			{
-				log.warn("Error taking screenshot, caused by {}.", e.getMessage());
+
 			}
 		}
 	}

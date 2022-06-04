@@ -33,7 +33,6 @@ import com.templeosrs.ui.ranks.TempleRanks;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.swing.SwingUtilities;
-import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.MenuAction;
 import net.runelite.api.Player;
@@ -52,7 +51,6 @@ import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.Text;
 
-@Slf4j
 @PluginDescriptor(
 	name = "TempleOSRS",
 	description = "A RuneLite plugin utilizing the TempleOSRS API.",

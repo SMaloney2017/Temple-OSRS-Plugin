@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
-import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
@@ -31,7 +30,6 @@ import net.runelite.client.ui.components.PluginErrorPanel;
 import net.runelite.client.util.LinkBrowser;
 import okhttp3.HttpUrl;
 
-@Slf4j
 public class TempleCompetitions extends PluginPanel
 {
 	private static final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
@@ -175,7 +173,6 @@ public class TempleCompetitions extends PluginPanel
 			}
 			catch (Exception e)
 			{
-				log.warn("Error fetching competition, caused by {}.", e.getMessage());
 				error();
 			}
 		}).start();
@@ -194,7 +191,6 @@ public class TempleCompetitions extends PluginPanel
 		/* result is null, exception thrown, or error response */
 		if (Objects.isNull(result) || Objects.nonNull(e) || result.error)
 		{
-			log.warn("Response error caused by {}.", e.getMessage());
 			error();
 			return;
 		}

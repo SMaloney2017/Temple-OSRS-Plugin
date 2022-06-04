@@ -28,7 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
-import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.clan.ClanMember;
 import net.runelite.api.clan.ClanRank;
@@ -44,7 +43,6 @@ import net.runelite.client.util.LinkBrowser;
 import net.runelite.client.util.Text;
 import okhttp3.HttpUrl;
 
-@Slf4j
 public class TempleClans extends PluginPanel
 {
 	private static final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
@@ -211,7 +209,6 @@ public class TempleClans extends PluginPanel
 			}
 			catch (Exception e)
 			{
-				log.warn("Error fetching clan, caused by {}.", e.getMessage());
 				error();
 			}
 		}).start();
@@ -230,7 +227,6 @@ public class TempleClans extends PluginPanel
 		}
 		catch (Exception e)
 		{
-			log.warn("Error reloading clan, caused by {}.", e.getMessage());
 			error();
 		}
 	}
@@ -248,7 +244,6 @@ public class TempleClans extends PluginPanel
 		/* result is null, exception thrown, or error response */
 		if (Objects.isNull(result) || Objects.nonNull(e) || result.error)
 		{
-			log.warn("Response error, caused by {}.", e.getMessage());
 			error();
 			return;
 		}
@@ -382,7 +377,6 @@ public class TempleClans extends PluginPanel
 			}
 			catch (Exception e)
 			{
-				log.warn("Error syncing clan-members, caused by {}.", e.getMessage());
 				error();
 			}
 		}).start();
@@ -419,7 +413,6 @@ public class TempleClans extends PluginPanel
 		/* response is null, exception thrown, or error response */
 		if (Objects.isNull(response) || Objects.nonNull(e) || response.error)
 		{
-			log.warn("Response error, caused by {}.", e.getMessage());
 			error();
 			return;
 		}

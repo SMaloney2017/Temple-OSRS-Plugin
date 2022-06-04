@@ -50,7 +50,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
-import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.Player;
 import net.runelite.client.hiscore.HiscoreSkillType;
@@ -63,7 +62,6 @@ import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
 import net.runelite.client.util.LinkBrowser;
 import okhttp3.HttpUrl;
 
-@Slf4j
 public class TempleRanks extends PluginPanel
 {
 	private static final Map<String, String> TIMES = Stream.of(new String[][]{
@@ -273,17 +271,16 @@ public class TempleRanks extends PluginPanel
 		new Thread(() -> {
 			try
 			{
-				fetchUserGainsAsync(username, period).whenCompleteAsync((result, err) -> rebuild(username, result, err));
+				fetchUserGainsAsync(username, period).whenCompleteAsync((result, err) -> response(username, result, err));
 			}
 			catch (Exception e)
 			{
-				log.warn("Error fetching user gains, caused by {}.", e.getMessage());
 				error();
 			}
 		}).start();
 	}
 
-	private void rebuild(String username, TemplePlayer result, Throwable err)
+	private void response(String username, TemplePlayer result, Throwable e)
 	{
 		/* search-text-field has changed since start of fetching player data */
 		if (!format(playerLookup.getText()).equals(username))
@@ -293,7 +290,7 @@ public class TempleRanks extends PluginPanel
 		}
 
 		/* result is null, error is not null, or error response */
-		if (Objects.isNull(result) || Objects.nonNull(err) || result.error)
+		if (Objects.isNull(result) || Objects.nonNull(e) || result.error)
 		{
 			error();
 			return;
