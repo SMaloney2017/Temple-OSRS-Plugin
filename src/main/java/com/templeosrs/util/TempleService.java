@@ -17,10 +17,11 @@ import okhttp3.ResponseBody;
 
 public class TempleService
 {
+	private static final OkHttpClient client = new OkHttpClient();
+
 	private static String request(Request request) throws Exception
 	{
 		String JSON = null;
-		OkHttpClient client = new OkHttpClient();
 
 		Call call = client.newCall(request);
 		Response response = call.execute();
@@ -137,16 +138,16 @@ public class TempleService
 
 	public static CompletableFuture<TempleCompetition> fetchCompetitionAsync(String id) throws Exception
 	{
-		String competitionJSON = requestCompetitionInfo(id);
+		String competitionOverviewJSON = requestCompetitionInfo(id);
 
 		CompletableFuture<TempleCompetition> future = new CompletableFuture<>();
-		future.complete(new TempleCompetition(competitionJSON));
+		future.complete(new TempleCompetition(competitionOverviewJSON));
 		return future;
 	}
 
 	public static CompletableFuture<TempleSync> syncClanMembersAsync(String id, String key, List<String> members) throws Exception
 	{
-		String JSON;
+		String syncResponseJSON;
 
 		HttpUrl url = new HttpUrl.Builder()
 			.scheme("https")
@@ -163,16 +164,16 @@ public class TempleService
 
 		Request request = new Request.Builder().url(url).post(formBody).build();
 
-		JSON = request(request);
+		syncResponseJSON = request(request);
 
 		CompletableFuture<TempleSync> future = new CompletableFuture<>();
-		future.complete(new TempleSync(JSON));
+		future.complete(new TempleSync(syncResponseJSON));
 		return future;
 	}
 
 	public static CompletableFuture<TempleSync> addClanMembersAsync(String id, String key, List<String> members) throws Exception
 	{
-		String JSON;
+		String syncResponseJSON;
 
 		HttpUrl url = new HttpUrl.Builder()
 			.scheme("https")
@@ -189,10 +190,10 @@ public class TempleService
 
 		Request request = new Request.Builder().url(url).post(formBody).build();
 
-		JSON = request(request);
+		syncResponseJSON = request(request);
 
 		CompletableFuture<TempleSync> future = new CompletableFuture<>();
-		future.complete(new TempleSync(JSON));
+		future.complete(new TempleSync(syncResponseJSON));
 		return future;
 	}
 }
