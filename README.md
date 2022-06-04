@@ -24,7 +24,7 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
   1. Toggle display of `clan-achievements`
   2. Toggle display of `clan-members`
   3. `Verification key` for clan-sync
-  4. `Ignore specified ranks` for clan-sync
+  4. `Ignore specified ranks` during clan-sync
   5. Toggle `only add members` during clan-sync rather than add/remove
 - - -
 ### To-Do / Potential Features
