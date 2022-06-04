@@ -205,7 +205,7 @@ public class TempleClans extends PluginPanel
 		new Thread(() -> {
 			try
 			{
-				fetchClanAsync(id).whenCompleteAsync((result, err) -> rebuild(id, result, err));
+				fetchClanAsync(id).whenCompleteAsync((result, err) -> response(id, result, err));
 			}
 			catch (Exception e)
 			{
@@ -223,31 +223,12 @@ public class TempleClans extends PluginPanel
 
 		try
 		{
-			fetchClanAsync(id).whenCompleteAsync((result, err) -> rebuild(id, result, err));
+			fetchClanAsync(id).whenCompleteAsync((result, err) -> response(id, result, err));
 		}
 		catch (Exception e)
 		{
 			error();
 		}
-	}
-
-	private void rebuild(String id, TempleClan result, Throwable e)
-	{
-		remove(errorPanel);
-
-		if (!clanLookup.getText().equals(id))
-		{
-			completed();
-			return;
-		}
-
-		/* result is null, exception thrown, or error response */
-		if (Objects.isNull(result) || Objects.nonNull(e) || result.error)
-		{
-			error();
-			return;
-		}
-		rebuild(result);
 	}
 
 	private void rebuild(TempleClan result)
@@ -417,6 +398,25 @@ public class TempleClans extends PluginPanel
 			return;
 		}
 		reload(id);
+	}
+
+	private void response(String id, TempleClan result, Throwable e)
+	{
+		remove(errorPanel);
+
+		if (!clanLookup.getText().equals(id))
+		{
+			completed();
+			return;
+		}
+
+		/* result is null, exception thrown, or error response */
+		if (Objects.isNull(result) || Objects.nonNull(e) || result.error)
+		{
+			error();
+			return;
+		}
+		rebuild(result);
 	}
 
 	/* reset clan tab to default */

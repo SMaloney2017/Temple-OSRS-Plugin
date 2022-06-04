@@ -169,7 +169,7 @@ public class TempleCompetitions extends PluginPanel
 		new Thread(() -> {
 			try
 			{
-				fetchCompetitionAsync(id).whenCompleteAsync((result, err) -> rebuild(id, result, err));
+				fetchCompetitionAsync(id).whenCompleteAsync((result, err) -> response(id, result, err));
 			}
 			catch (Exception e)
 			{
@@ -178,7 +178,7 @@ public class TempleCompetitions extends PluginPanel
 		}).start();
 	}
 
-	private void rebuild(String id, TempleCompetition result, Throwable e)
+	private void response(String id, TempleCompetition result, Throwable e)
 	{
 		remove(errorPanel);
 
