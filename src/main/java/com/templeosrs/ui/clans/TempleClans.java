@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.clan.ClanMember;
 import net.runelite.api.clan.ClanRank;
@@ -43,6 +44,7 @@ import net.runelite.client.util.LinkBrowser;
 import net.runelite.client.util.Text;
 import okhttp3.HttpUrl;
 
+@Slf4j
 public class TempleClans extends PluginPanel
 {
 	private static final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
@@ -207,8 +209,9 @@ public class TempleClans extends PluginPanel
 			{
 				fetchClanAsync(id).whenCompleteAsync((result, err) -> rebuild(id, result, err));
 			}
-			catch (Exception ignored)
+			catch (Exception e)
 			{
+				log.warn("Error fetching clan, caused by {}.", e.getMessage());
 				error();
 			}
 		}).start();
@@ -225,13 +228,14 @@ public class TempleClans extends PluginPanel
 		{
 			fetchClanAsync(id).whenCompleteAsync((result, err) -> rebuild(id, result, err));
 		}
-		catch (Exception ignored)
+		catch (Exception e)
 		{
+			log.warn("Error reloading clan, caused by {}.", e.getMessage());
 			error();
 		}
 	}
 
-	private void rebuild(String id, TempleClan result, Throwable err)
+	private void rebuild(String id, TempleClan result, Throwable e)
 	{
 		remove(errorPanel);
 
@@ -242,8 +246,9 @@ public class TempleClans extends PluginPanel
 		}
 
 		/* result is null, exception thrown, or error response */
-		if (Objects.isNull(result) || Objects.nonNull(err) || result.error)
+		if (Objects.isNull(result) || Objects.nonNull(e) || result.error)
 		{
+			log.warn("Response error, caused by {}.", e.getMessage());
 			error();
 			return;
 		}
@@ -375,8 +380,9 @@ public class TempleClans extends PluginPanel
 					syncClanMembersAsync(id, config.clanKey(), filteredList).whenCompleteAsync((result, err) -> response(id, result, err));
 				}
 			}
-			catch (Exception ignored)
+			catch (Exception e)
 			{
+				log.warn("Error syncing clan-members, caused by {}.", e.getMessage());
 				error();
 			}
 		}).start();
@@ -408,11 +414,12 @@ public class TempleClans extends PluginPanel
 		});
 	}
 
-	private void response(String id, TempleSync response, Throwable err)
+	private void response(String id, TempleSync response, Throwable e)
 	{
 		/* response is null, exception thrown, or error response */
-		if (Objects.isNull(response) || Objects.nonNull(err) || response.error)
+		if (Objects.isNull(response) || Objects.nonNull(e) || response.error)
 		{
+			log.warn("Response error, caused by {}.", e.getMessage());
 			error();
 			return;
 		}

@@ -50,6 +50,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.Player;
 import net.runelite.client.hiscore.HiscoreSkillType;
@@ -62,6 +63,7 @@ import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
 import net.runelite.client.util.LinkBrowser;
 import okhttp3.HttpUrl;
 
+@Slf4j
 public class TempleRanks extends PluginPanel
 {
 	private static final Map<String, String> TIMES = Stream.of(new String[][]{
@@ -273,8 +275,9 @@ public class TempleRanks extends PluginPanel
 			{
 				fetchUserGainsAsync(username, period).whenCompleteAsync((result, err) -> rebuild(username, result, err));
 			}
-			catch (Exception ignored)
+			catch (Exception e)
 			{
+				log.warn("Error fetching user gains, caused by {}.", e.getMessage());
 				error();
 			}
 		}).start();
