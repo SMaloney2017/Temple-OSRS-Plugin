@@ -280,8 +280,8 @@ public class TempleOSRSPlugin extends Plugin
 
 	public void updateUser(long accountHash, String username)
 	{
-		/* if XpUpdaterPlugin templeosrs config option is disabled or XpUpdaterPlugin is disabled */
-		if (!xpUpdaterConfig.templeosrs() || !pluginManager.isPluginEnabled(xpUpdaterPlugin))
+		/* if XpUpdaterPlugin is disabled or XpUpdaterPlugin's config option for templeosrs is disabled */
+		if (!pluginManager.isPluginEnabled(xpUpdaterPlugin) || !xpUpdaterConfig.templeosrs())
 		{
 			new Thread(() -> {
 				try

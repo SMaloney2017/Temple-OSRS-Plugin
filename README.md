@@ -44,7 +44,7 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
 - [x] Implement ranks, clans and competitions tabs
 - [x] Implement right-click menu option for fetching players
 - [ ] Add options to favorite clans/ competitions
-- [ ] Auto update local player's temple page on logout
+- [x] Auto update local player's temple page on logout
 
 - - -
 
