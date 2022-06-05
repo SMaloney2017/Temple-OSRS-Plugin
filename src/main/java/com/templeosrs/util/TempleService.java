@@ -38,15 +38,7 @@ public class TempleService
 
 	public static String requestUserSkillGains(String player, String duration) throws Exception
 	{
-		HttpUrl url = new HttpUrl.Builder()
-			.scheme("https")
-			.host("templeosrs.com")
-			.addPathSegment("player")
-			.addPathSegment("view")
-			.addPathSegment("overview_skilling_view.php")
-			.addQueryParameter("player", player)
-			.addQueryParameter("duration", duration)
-			.build();
+		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("player").addPathSegment("view").addPathSegment("overview_skilling_view.php").addQueryParameter("player", player).addQueryParameter("duration", duration).build();
 
 		Request request = new Request.Builder().url(url).build();
 
@@ -55,16 +47,7 @@ public class TempleService
 
 	public static String requestUserBossGains(String player, String duration) throws Exception
 	{
-		HttpUrl url = new HttpUrl.Builder()
-			.scheme("https")
-			.host("templeosrs.com")
-			.addPathSegment("player")
-			.addPathSegment("view")
-			.addPathSegment("overview_skilling_view.php")
-			.addQueryParameter("player", player)
-			.addQueryParameter("duration", duration)
-			.addQueryParameter("tracking", "bosses")
-			.build();
+		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("player").addPathSegment("view").addPathSegment("overview_skilling_view.php").addQueryParameter("player", player).addQueryParameter("duration", duration).addQueryParameter("tracking", "bosses").build();
 
 		Request request = new Request.Builder().url(url).build();
 
@@ -73,13 +56,7 @@ public class TempleService
 
 	public static String requestClanOverview(String id) throws Exception
 	{
-		HttpUrl url = new HttpUrl.Builder()
-			.scheme("https")
-			.host("templeosrs.com")
-			.addPathSegment("api")
-			.addPathSegment("group_info.php")
-			.addQueryParameter("id", id)
-			.build();
+		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("api").addPathSegment("group_info.php").addQueryParameter("id", id).build();
 
 		Request request = new Request.Builder().url(url).build();
 
@@ -88,13 +65,7 @@ public class TempleService
 
 	public static String requestClanAchievements(String id) throws Exception
 	{
-		HttpUrl url = new HttpUrl.Builder()
-			.scheme("https")
-			.host("templeosrs.com")
-			.addPathSegment("api")
-			.addPathSegment("group_achievements.php")
-			.addQueryParameter("id", id)
-			.build();
+		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("api").addPathSegment("group_achievements.php").addQueryParameter("id", id).build();
 
 		Request request = new Request.Builder().url(url).build();
 
@@ -103,13 +74,7 @@ public class TempleService
 
 	public static String requestCompetitionInfo(String id) throws Exception
 	{
-		HttpUrl url = new HttpUrl.Builder()
-			.scheme("https")
-			.host("templeosrs.com")
-			.addPathSegment("api")
-			.addPathSegment("competition_info.php")
-			.addQueryParameter("id", id)
-			.build();
+		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("api").addPathSegment("competition_info.php").addQueryParameter("id", id).build();
 
 		Request request = new Request.Builder().url(url).build();
 
@@ -149,18 +114,9 @@ public class TempleService
 	{
 		String syncResponseJSON;
 
-		HttpUrl url = new HttpUrl.Builder()
-			.scheme("https")
-			.host("templeosrs.com")
-			.addPathSegment("api")
-			.addPathSegment("edit_group.php")
-			.build();
+		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("api").addPathSegment("edit_group.php").build();
 
-		RequestBody formBody = new FormBody.Builder()
-			.add("id", id)
-			.add("key", key)
-			.add("memberlist", String.valueOf(members))
-			.build();
+		RequestBody formBody = new FormBody.Builder().add("id", id).add("key", key).add("memberlist", String.valueOf(members)).build();
 
 		Request request = new Request.Builder().url(url).post(formBody).build();
 
@@ -175,18 +131,9 @@ public class TempleService
 	{
 		String syncResponseJSON;
 
-		HttpUrl url = new HttpUrl.Builder()
-			.scheme("https")
-			.host("templeosrs.com")
-			.addPathSegment("api")
-			.addPathSegment("add_group_member.php")
-			.build();
+		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("api").addPathSegment("add_group_member.php").build();
 
-		RequestBody formBody = new FormBody.Builder()
-			.add("id", id)
-			.add("key", key)
-			.add("players", String.valueOf(members))
-			.build();
+		RequestBody formBody = new FormBody.Builder().add("id", id).add("key", key).add("players", String.valueOf(members)).build();
 
 		Request request = new Request.Builder().url(url).post(formBody).build();
 
@@ -195,5 +142,14 @@ public class TempleService
 		CompletableFuture<TempleSync> future = new CompletableFuture<>();
 		future.complete(new TempleSync(syncResponseJSON));
 		return future;
+	}
+
+	public static void addDatapointAsync(String username, long accountHash) throws Exception
+	{
+		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("php").addPathSegment("add_datapoint.php").addQueryParameter("player", username).addQueryParameter("accountHash", Long.toString(accountHash)).build();
+
+		Request request = new Request.Builder().url(url).build();
+
+		request(request);
 	}
 }

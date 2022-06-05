@@ -30,12 +30,16 @@ import com.templeosrs.ui.TempleOSRSPanel;
 import com.templeosrs.ui.clans.TempleClans;
 import com.templeosrs.ui.competitions.TempleCompetitions;
 import com.templeosrs.ui.ranks.TempleRanks;
+import static com.templeosrs.util.TempleService.addDatapointAsync;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.swing.SwingUtilities;
 import net.runelite.api.Client;
+import net.runelite.api.GameState;
 import net.runelite.api.MenuAction;
 import net.runelite.api.Player;
+import net.runelite.api.events.GameStateChanged;
+import net.runelite.api.events.GameTick;
 import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.events.MenuOptionClicked;
 import net.runelite.api.widgets.WidgetID;
@@ -45,20 +49,23 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.menus.MenuManager;
 import net.runelite.client.plugins.Plugin;
+import net.runelite.client.plugins.PluginDependency;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.plugins.PluginManager;
+import net.runelite.client.plugins.xpupdater.XpUpdaterConfig;
+import net.runelite.client.plugins.xpupdater.XpUpdaterPlugin;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.Text;
 
-@PluginDescriptor(
-	name = "TempleOSRS",
-	description = "A RuneLite plugin utilizing the TempleOSRS API.",
-	tags = {"Temple", "ehp", "ehb"}
-)
+@PluginDependency(XpUpdaterPlugin.class)
+@PluginDescriptor(name = "TempleOSRS", description = "A RuneLite plugin utilizing the TempleOSRS API.", tags = {"Temple", "ehp", "ehb"})
 public class TempleOSRSPlugin extends Plugin
 {
 	private static final String TEMPLE = "Temple";
+
+	private static final int XP_THRESHOLD = 10000;
 
 	private static NavigationButton navButton;
 
@@ -70,6 +77,12 @@ public class TempleOSRSPlugin extends Plugin
 
 	public TempleOSRSPanel panel;
 
+	private long lastAccount;
+
+	private boolean fetchXp;
+
+	private long lastXp;
+
 	@Inject
 	private Client client;
 
@@ -77,14 +90,27 @@ public class TempleOSRSPlugin extends Plugin
 	private Provider<MenuManager> menuManager;
 
 	@Inject
+	private PluginManager pluginManager;
+
+	@Inject
 	private ClientToolbar clientToolbar;
 
 	@Inject
 	private TempleOSRSConfig config;
 
+	@Inject
+	private XpUpdaterConfig xpUpdaterConfig;
+
+	@Inject
+	private XpUpdaterPlugin xpUpdaterPlugin;
+
 	@Override
 	protected void startUp()
 	{
+		fetchXp = true;
+
+		lastAccount = -1L;
+
 		ranks = injector.getInstance(TempleRanks.class);
 
 		clans = injector.getInstance(TempleClans.class);
@@ -93,12 +119,7 @@ public class TempleOSRSPlugin extends Plugin
 
 		panel = new TempleOSRSPanel(ranks, clans, competitions);
 
-		navButton = NavigationButton.builder()
-			.tooltip("TempleOSRS")
-			.icon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "skills/skill_icon_ehp.png"))
-			.priority(5)
-			.panel(panel)
-			.build();
+		navButton = NavigationButton.builder().tooltip("TempleOSRS").icon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "skills/skill_icon_ehp.png")).priority(5).panel(panel).build();
 
 		clientToolbar.addNavigation(navButton);
 
@@ -173,21 +194,9 @@ public class TempleOSRSPlugin extends Plugin
 		final int componentId = event.getActionParam1();
 		final int groupId = WidgetInfo.TO_GROUP(componentId);
 
-		if (groupId == WidgetInfo.FRIENDS_LIST.getGroupId() && option.equals("Delete")
-			|| groupId == WidgetInfo.FRIENDS_CHAT.getGroupId() && (option.equals("Add ignore") || option.equals("Remove friend"))
-			|| groupId == WidgetInfo.CHATBOX.getGroupId() && (option.equals("Add ignore") || option.equals("Message"))
-			|| groupId == WidgetInfo.IGNORE_LIST.getGroupId() && option.equals("Delete")
-			|| (componentId == WidgetInfo.CLAN_MEMBER_LIST.getId() || componentId == WidgetInfo.CLAN_GUEST_MEMBER_LIST.getId()) && (option.equals("Add ignore") || option.equals("Remove friend"))
-			|| groupId == WidgetInfo.PRIVATE_CHAT_MESSAGE.getGroupId() && (option.equals("Add ignore") || option.equals("Message"))
-			|| groupId == WidgetID.GROUP_IRON_GROUP_ID && (option.equals("Add friend") || option.equals("Remove friend") || option.equals("Remove ignore"))
-		)
+		if (groupId == WidgetInfo.FRIENDS_LIST.getGroupId() && option.equals("Delete") || groupId == WidgetInfo.FRIENDS_CHAT.getGroupId() && (option.equals("Add ignore") || option.equals("Remove friend")) || groupId == WidgetInfo.CHATBOX.getGroupId() && (option.equals("Add ignore") || option.equals("Message")) || groupId == WidgetInfo.IGNORE_LIST.getGroupId() && option.equals("Delete") || (componentId == WidgetInfo.CLAN_MEMBER_LIST.getId() || componentId == WidgetInfo.CLAN_GUEST_MEMBER_LIST.getId()) && (option.equals("Add ignore") || option.equals("Remove friend")) || groupId == WidgetInfo.PRIVATE_CHAT_MESSAGE.getGroupId() && (option.equals("Add ignore") || option.equals("Message")) || groupId == WidgetID.GROUP_IRON_GROUP_ID && (option.equals("Add friend") || option.equals("Remove friend") || option.equals("Remove ignore")))
 		{
-			client.createMenuEntry(-2)
-				.setOption(TEMPLE)
-				.setTarget(event.getTarget())
-				.setType(MenuAction.RUNELITE)
-				.setIdentifier(event.getIdentifier())
-				.onClick(e -> fetchUser(username));
+			client.createMenuEntry(-2).setOption(TEMPLE).setTarget(event.getTarget()).setType(MenuAction.RUNELITE).setIdentifier(event.getIdentifier()).onClick(e -> fetchUser(username));
 		}
 	}
 
@@ -207,6 +216,48 @@ public class TempleOSRSPlugin extends Plugin
 		}
 	}
 
+	@Subscribe
+	public void onGameTick(GameTick gameTick)
+	{
+		if (fetchXp)
+		{
+			lastXp = client.getOverallExperience();
+			fetchXp = false;
+		}
+	}
+
+	@Subscribe
+	public void onGameStateChanged(GameStateChanged gameStateChanged)
+	{
+		GameState state = gameStateChanged.getGameState();
+		if (state == GameState.LOGGED_IN)
+		{
+			if (lastAccount != client.getAccountHash())
+			{
+				lastAccount = client.getAccountHash();
+				fetchXp = true;
+			}
+		}
+		else if (state == GameState.LOGIN_SCREEN)
+		{
+			Player local = client.getLocalPlayer();
+			if (local == null)
+			{
+				return;
+			}
+
+			long totalXp = client.getOverallExperience();
+			String username = local.getName();
+
+			/* Don't submit update if xp-threshold has not been reached or username is null */
+			if (Math.abs(totalXp - lastXp) > XP_THRESHOLD && username != null)
+			{
+				updateUser(lastAccount, username.replace(" ", "+"));
+				lastXp = totalXp;
+			}
+		}
+	}
+
 	@Provides
 	TempleOSRSConfig provideConfig(ConfigManager configManager)
 	{
@@ -215,8 +266,7 @@ public class TempleOSRSPlugin extends Plugin
 
 	public void fetchUser(String username)
 	{
-		SwingUtilities.invokeLater(() ->
-		{
+		SwingUtilities.invokeLater(() -> {
 			/* select nav-button to open Temple plugin */
 			if (!navButton.isSelected())
 			{
@@ -226,5 +276,23 @@ public class TempleOSRSPlugin extends Plugin
 			panel.tabGroup.select(panel.ranksTab);
 			ranks.fetchUser(username);
 		});
+	}
+
+	public void updateUser(long accountHash, String username)
+	{
+		/* if XpUpdaterPlugin templeosrs config option is disabled or XpUpdaterPlugin is disabled */
+		if (!xpUpdaterConfig.templeosrs() || !pluginManager.isPluginEnabled(xpUpdaterPlugin))
+		{
+			new Thread(() -> {
+				try
+				{
+					addDatapointAsync(username, accountHash);
+				}
+				catch (Exception ignored)
+				{
+
+				}
+			}).start();
+		}
 	}
 }
