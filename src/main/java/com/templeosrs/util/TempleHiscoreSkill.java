@@ -126,8 +126,16 @@ public enum TempleHiscoreSkill
 	BOUNTY_HUNTER_ROGUE("Bounty Hunter - Rogue", ACTIVITY),
 	PHOSANIS_NIGHTMARE("Phosanis Nightmare", BOSS),
 	NEX("Nex", BOSS),
-	RIFTS_CLOSED("Rifts closed", BOSS);
-	//LEAGUE_POINTS("League Points", ACTIVITY);
+	RIFTS_CLOSED("Rifts closed", BOSS),
+	UIM_EHP("UIM Ehp", SKILL),
+	NULL("Null", SKILL),
+	NULL1("Null", SKILL),
+	NULL2("Null", SKILL),
+	NULL3("Null", SKILL),
+	NULL4("Null", SKILL),
+	NULL5("Null", SKILL),
+	NULL6("Null", SKILL),
+	FANTASY_EHP("Fantasy Ehp", SKILL);
 
 	private final String name;
 	private final HiscoreSkillType type;
