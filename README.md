@@ -8,14 +8,14 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
 1. Fetch player's recorded gains by **username**. <br>
    ![image](https://user-images.githubusercontent.com/60162255/170362329-212ec277-db30-4e3b-b590-babed7ba2d16.png)
 
-2. Fetch player via **menu-option** <sup>Togglable in config</sup> <br>
+2. Fetch player via **menu-option** `Toggleable in config` <br>
    ![image](https://user-images.githubusercontent.com/60162255/172024020-49c2df01-ce6e-47a5-9571-c3dad2a03714.png)
 
-3. Fetch clan by **TempleOSRS Clan-ID**. <sup>Clan ID obtainable via TempleOSRS clan-page URL</sup> <br>
+3. Fetch clan by **TempleOSRS Clan-ID**. `Clan ID obtainable via TempleOSRS clan-page URL` <br>
    ![image](https://user-images.githubusercontent.com/60162255/170362348-d1b1774e-e918-4d8f-8e1e-9dc5173d21bb.png)
 
-4. Fetch competition by **TempleOSRS Comp-ID**. <sup>Competition ID obtainable via TempleOSRS competition-page
-   URL</sup> <br>
+4. Fetch competition by **TempleOSRS Comp-ID**. `Competition ID obtainable via TempleOSRS competition-page
+   URL`<br>
    ![image](https://user-images.githubusercontent.com/60162255/170364287-95dc2423-add6-4564-ba8e-ea04a201b9c5.png)
 
 - - -
