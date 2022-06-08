@@ -21,4 +21,7 @@ public class TempleCompetitionParticipant
 
 	@SerializedName("current_level")
 	public Double currentLevel;
+
+	@SerializedName("team_name")
+	public String teamName;
 }
