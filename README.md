@@ -22,7 +22,7 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
 
 ### Configuration
 
-![image](https://user-images.githubusercontent.com/60162255/172024203-b56cefa6-6d7b-44dd-8625-c95b04c734dc.png)
+![image](https://user-images.githubusercontent.com/60162255/173243938-d41c0ff0-a44b-4fb2-8257-cb7b540b2764.png)
 
 #### Menu Options
 
@@ -33,17 +33,20 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
 
 1. Toggle display of `clan-achievements`
 2. Toggle display of `clan-members`
-3. `Verification key` for clan-sync
-4. `Ignore specified ranks` during clan-sync
-5. Toggle `only add members` during clan-sync rather than add/remove
+3. `Default clan` loaded on startup or search-icon double-click
+4. `Verification key` for clan-sync
+5. `Ignore specified ranks` during clan-sync
+6. Toggle `only add members` during clan-sync rather than add/remove
 
+#### Competition Options
+1. `Default competition` loaded on startup or search-icon double-click
 - - -
 
 ### To-Do / Potential Features
 
 - [x] Implement ranks, clans and competitions tabs
 - [x] Implement right-click menu option for fetching players
-- [ ] Add options to favorite clans/ competitions
+- [x] Add options to favorite clans/ competitions
 - [x] Auto update local player's temple page on logout
 
 - - -
