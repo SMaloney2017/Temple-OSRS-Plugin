@@ -20,6 +20,12 @@ public interface TempleOSRSConfig extends Config
 		position = 3
 	)
 	String clanOptions = "clanOptions";
+	@ConfigSection(
+		name = "Competition Options",
+		description = "Competition Options",
+		position = 10
+	)
+	String compOptions = "compOptions";
 
 	@ConfigItem(
 		keyName = "autocomplete",
@@ -70,10 +76,22 @@ public interface TempleOSRSConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "defaultClan",
+		name = "Default Clan",
+		description = "Default clan loaded on startup",
+		position = 6,
+		section = clanOptions
+	)
+	default int defaultClan()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
 		keyName = "clanKey",
 		name = "Clan Key",
 		description = "Required key to edit group members using the TempleOSRS API",
-		position = 6,
+		position = 7,
 		secret = true,
 		section = clanOptions
 	)
@@ -86,7 +104,7 @@ public interface TempleOSRSConfig extends Config
 		keyName = "ignoredRanks",
 		name = "Ignored ranks",
 		description = "Excluded ranks from group members sync (Case Sensitive).",
-		position = 7,
+		position = 8,
 		section = clanOptions
 	)
 	default String getIgnoredRanks()
@@ -98,11 +116,23 @@ public interface TempleOSRSConfig extends Config
 		keyName = "onlyAddMembers",
 		name = "Only Add Members",
 		description = "Toggle whether or not to only add members during clan-sync",
-		position = 8,
+		position = 9,
 		section = clanOptions
 	)
 	default boolean onlyAddMembers()
 	{
 		return false;
+	}
+
+	@ConfigItem(
+		keyName = "defaultComp",
+		name = "Default Competition",
+		description = "Default competition loaded on startup",
+		position = 11,
+		section = compOptions
+	)
+	default int defaultComp()
+	{
+		return 0;
 	}
 }
