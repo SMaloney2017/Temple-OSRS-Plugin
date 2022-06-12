@@ -1,6 +1,7 @@
 package com.templeosrs.ui.competitions;
 
 import com.google.common.base.Strings;
+import com.templeosrs.TempleOSRSConfig;
 import com.templeosrs.TempleOSRSPlugin;
 import static com.templeosrs.util.TempleService.fetchCompetitionAsync;
 import com.templeosrs.util.comp.TempleCompetition;
@@ -40,6 +41,8 @@ public class TempleCompetitions extends PluginPanel
 
 	private final TempleOSRSPlugin plugin;
 
+	private final TempleOSRSConfig config;
+
 	private final PluginErrorPanel errorPanel = new PluginErrorPanel();
 
 	private final JPanel fetchLayout;
@@ -49,10 +52,11 @@ public class TempleCompetitions extends PluginPanel
 	private JButton competitionButton;
 
 	@Inject
-	public TempleCompetitions(TempleOSRSPlugin plugin, Client client)
+	public TempleCompetitions(TempleOSRSConfig config, TempleOSRSPlugin plugin, Client client)
 	{
-		this.client = client;
 		this.plugin = plugin;
+		this.client = client;
+		this.config = config;
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
@@ -74,6 +78,13 @@ public class TempleCompetitions extends PluginPanel
 		/* add default, error-panel when competition has not been fetched yet */
 		errorPanel.setContent("Competitions", "You have not fetched competition information yet.");
 		add(errorPanel);
+
+		/* load default competition on start-up */
+		if (config.defaultComp() != 0)
+		{
+			competitionLookup.setText(Integer.toString(config.defaultComp()));
+			fetchCompetition();
+		}
 	}
 
 	private IconTextField buildTextField()
@@ -86,6 +97,23 @@ public class TempleCompetitions extends PluginPanel
 		lookup.setBackground(ColorScheme.SCROLL_TRACK_COLOR);
 		/* fetch competition on action */
 		lookup.addActionListener(e -> fetchCompetition());
+		lookup.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() != 2)
+				{
+					return;
+				}
+
+				if (config.defaultComp() != 0)
+				{
+					competitionLookup.setText(Integer.toString(config.defaultComp()));
+					fetchCompetition();
+				}
+			}
+		});
 		/* reset on clear */
 		lookup.addClearListener(() -> {
 			completed();
