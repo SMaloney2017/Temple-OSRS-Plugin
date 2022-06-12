@@ -110,6 +110,13 @@ public class TempleClans extends PluginPanel
 		/* add default, error-panel when clan has not been fetched yet */
 		errorPanel.setContent("Clans", "You have not fetched clan information yet.");
 		add(errorPanel);
+
+		/* load default clan on start-up */
+		if (config.defaultClan() != 0)
+		{
+			clanLookup.setText(Integer.toString(config.defaultClan()));
+			fetchClan();
+		}
 	}
 
 	private IconTextField buildTextField()
@@ -122,6 +129,23 @@ public class TempleClans extends PluginPanel
 		lookup.setBackground(ColorScheme.SCROLL_TRACK_COLOR);
 		/* fetch clan on action */
 		lookup.addActionListener(e -> fetchClan());
+		lookup.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() != 2)
+				{
+					return;
+				}
+
+				if (config.defaultClan() != 0)
+				{
+					clanLookup.setText(Integer.toString(config.defaultClan()));
+					fetchClan();
+				}
+			}
+		});
 		/* reset on clear */
 		lookup.addClearListener(() -> {
 			completed();
