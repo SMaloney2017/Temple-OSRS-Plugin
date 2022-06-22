@@ -37,7 +37,7 @@ public interface TempleOSRSConfig extends Config
 	@ConfigItem(
 		keyName = "autocomplete",
 		name = "Autocomplete",
-		description = "Predict names when typing a name to lookup",
+		description = "Toggle name prediction when typing a name to lookup",
 		position = 1,
 		section = menuOptions
 	)
@@ -49,7 +49,7 @@ public interface TempleOSRSConfig extends Config
 	@ConfigItem(
 		keyName = "playerLookup",
 		name = "Player Lookup",
-		description = "Add TempleOSRS lookup option to player's 'right-click' menu",
+		description = "Toggle TempleOSRS lookup option to player's 'right-click' menu",
 		position = 2,
 		section = menuOptions
 	)
@@ -61,7 +61,7 @@ public interface TempleOSRSConfig extends Config
 	@ConfigItem(
 		keyName = "fetchDefaults",
 		name = "Fetch Defaults",
-		description = "Fetch default player, clan, and competition on startup",
+		description = "Toggle whether or not to fetch defaults on startup",
 		position = 3,
 		section = menuOptions
 	)
@@ -85,7 +85,7 @@ public interface TempleOSRSConfig extends Config
 	@ConfigItem(
 		keyName = "defaultRange",
 		name = "Default Range",
-		description = "Default range for player loaded on startup",
+		description = "Default time-period for player-ranks loaded on startup",
 		position = 2,
 		section = rankOptions
 	)
@@ -97,7 +97,7 @@ public interface TempleOSRSConfig extends Config
 	@ConfigItem(
 		keyName = "clanAchievements",
 		name = "Clan Achievements",
-		description = "Display group achievements when fetching group-information",
+		description = "Toggle whether or not to display group-achievements when fetching group-information",
 		position = 1,
 		section = clanOptions
 	)
@@ -109,7 +109,7 @@ public interface TempleOSRSConfig extends Config
 	@ConfigItem(
 		keyName = "clanMembers",
 		name = "Clan Members",
-		description = "Display group members when fetching group-information",
+		description = "Toggle whether or not to display group-members when fetching group-information",
 		position = 2,
 		section = clanOptions
 	)
@@ -133,7 +133,7 @@ public interface TempleOSRSConfig extends Config
 	@ConfigItem(
 		keyName = "clanKey",
 		name = "Clan Key",
-		description = "Required key to edit group members using the TempleOSRS API",
+		description = "Required key to edit group-members using the TempleOSRS API",
 		position = 4,
 		secret = true,
 		section = clanOptions
@@ -146,7 +146,7 @@ public interface TempleOSRSConfig extends Config
 	@ConfigItem(
 		keyName = "ignoredRanks",
 		name = "Ignored ranks",
-		description = "Excluded ranks from group members sync (Case Sensitive).",
+		description = "Excluded ranks from group-members sync (Case Sensitive).",
 		position = 5,
 		section = clanOptions
 	)
