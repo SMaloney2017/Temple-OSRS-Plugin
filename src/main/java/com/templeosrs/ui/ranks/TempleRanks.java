@@ -28,7 +28,9 @@
 package com.templeosrs.ui.ranks;
 
 import com.google.common.base.Strings;
+import com.templeosrs.TempleOSRSConfig;
 import com.templeosrs.util.NameAutocompleter;
+import com.templeosrs.util.PlayerRanges;
 import static com.templeosrs.util.TempleService.fetchUserGainsAsync;
 import com.templeosrs.util.player.TemplePlayer;
 import com.templeosrs.util.player.TemplePlayerData;
@@ -38,10 +40,7 @@ import java.awt.FlowLayout;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -51,7 +50,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import net.runelite.api.Client;
-import net.runelite.api.Player;
 import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
@@ -64,18 +62,11 @@ import okhttp3.HttpUrl;
 
 public class TempleRanks extends PluginPanel
 {
-	private static final Map<String, String> TIMES = Stream.of(new String[][]{
-		{"Day", "1day"},
-		{"Week", "1week"},
-		{"Month", "31day"},
-		{"Six Months", "186days"},
-		{"Year", "365days"},
-		{"All Time", "alltime"},
-	}).collect(Collectors.toMap(data -> data[0], data -> data[1]));
-
 	public final IconTextField playerLookup;
 
 	private final Client client;
+
+	private final TempleOSRSConfig config;
 
 	private final NameAutocompleter nameAutocompleter;
 
@@ -90,9 +81,10 @@ public class TempleRanks extends PluginPanel
 	private JButton profileButton;
 
 	@Inject
-	public TempleRanks(Client client, NameAutocompleter nameAutocompleter)
+	public TempleRanks(TempleOSRSConfig config, Client client, NameAutocompleter nameAutocompleter)
 	{
 		this.client = client;
+		this.config = config;
 		this.nameAutocompleter = nameAutocompleter;
 
 		skills = new TempleActivity(HiscoreSkillType.SKILL);
@@ -116,7 +108,7 @@ public class TempleRanks extends PluginPanel
 		fetchLayout.add(buttons);
 
 		/* build and add duration selection */
-		TempleRanksDuration timeSelection = new TempleRanksDuration(this);
+		TempleRanksDuration timeSelection = new TempleRanksDuration(config, this);
 		fetchLayout.add(timeSelection);
 		add(fetchLayout);
 
@@ -171,12 +163,11 @@ public class TempleRanks extends PluginPanel
 				{
 					return;
 				}
+				String player = config.defaultPlayer();
 
-				Player localPlayer = client.getLocalPlayer();
-
-				if (localPlayer != null)
+				if (!Strings.isNullOrEmpty(player))
 				{
-					fetchUser(localPlayer.getName());
+					fetchUser(config.defaultPlayer());
 				}
 			}
 		});
@@ -261,7 +252,7 @@ public class TempleRanks extends PluginPanel
 
 		reset();
 
-		String period = TIMES.get(String.valueOf(TempleRanksDuration.jComboBox.getSelectedItem()));
+		String period = PlayerRanges.get(String.valueOf(TempleRanksDuration.jComboBox.getSelectedItem())).getRange();
 
 		/* create separate thread for completing player-fetch/ panel rebuilds,
 		 *  try to fetch player gains,
