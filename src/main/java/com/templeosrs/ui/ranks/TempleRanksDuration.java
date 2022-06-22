@@ -1,5 +1,7 @@
 package com.templeosrs.ui.ranks;
 
+import com.templeosrs.TempleOSRSConfig;
+import com.templeosrs.util.PlayerRanges;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JComboBox;
@@ -9,13 +11,18 @@ import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 
 public class TempleRanksDuration extends JPanel
 {
-	private static final String[] OPTIONS = {
-		"All Time", "Day", "Week", "Month", "Six Months", "Year"
-	};
-
+	private static final String[] OPTIONS = new String[PlayerRanges.values().length];
 	public static JComboBox<String> jComboBox;
 
-	public TempleRanksDuration(TempleRanks panel)
+	static
+	{
+		for (int i = 0; i < PlayerRanges.values().length; i++)
+		{
+			OPTIONS[i] = PlayerRanges.values()[i].getName();
+		}
+	}
+
+	public TempleRanksDuration(TempleOSRSConfig config, TempleRanks panel)
 	{
 		setLayout(new BorderLayout());
 		setOpaque(false);
@@ -25,6 +32,7 @@ public class TempleRanksDuration extends JPanel
 
 		jComboBox = new JComboBox<>(OPTIONS);
 		jComboBox.addActionListener(e -> panel.fetchUser());
+		jComboBox.setSelectedItem(config.defaultRange().getName());
 
 		add(jComboBox);
 	}
