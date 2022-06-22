@@ -5,9 +5,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.border.EmptyBorder;
 import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.ColorScheme;
@@ -17,7 +21,7 @@ import net.runelite.client.util.QuantityFormatter;
 
 public class TempleClanAchievementRow extends JPanel
 {
-	TempleClanAchievementRow(String name, String skill, HiscoreSkillType type, long xp, Color color)
+	TempleClanAchievementRow(TempleOSRSPlugin plugin, String name, String skill, HiscoreSkillType type, long xp, Color color)
 	{
 		setLayout(new BorderLayout());
 
@@ -64,6 +68,23 @@ public class TempleClanAchievementRow extends JPanel
 		row.add(iconLabel);
 
 		add(row);
+
+		/* add on-click menu to username label */
+		JPopupMenu menu = new JPopupMenu();
+
+		JMenuItem lookupPlayer = new JMenuItem();
+		lookupPlayer.setText("<html>Lookup <span style='color:#6ee16e'>" + name + "</span></html>");
+		lookupPlayer.addActionListener(e -> plugin.fetchUser(name));
+		menu.add(lookupPlayer);
+
+		/* show lookup player menu option on click mouse-event */
+		usernameLabel.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				menu.show(row, e.getX(), e.getY());
+			}
+		});
 	}
 
 	/* create a new achievement label of similar style */

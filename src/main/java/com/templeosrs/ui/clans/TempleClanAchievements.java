@@ -1,5 +1,6 @@
 package com.templeosrs.ui.clans;
 
+import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.util.clan.TempleClanAchievement;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,7 +22,7 @@ public class TempleClanAchievements extends JPanel
 {
 	private static final Color[] COLORS = {ColorScheme.DARK_GRAY_HOVER_COLOR, ColorScheme.DARKER_GRAY_COLOR};
 
-	TempleClanAchievements(List<TempleClanAchievement> clanActivityList)
+	TempleClanAchievements(TempleOSRSPlugin plugin, List<TempleClanAchievement> clanActivityList)
 	{
 		if (clanActivityList == null)
 		{
@@ -46,7 +47,7 @@ public class TempleClanAchievements extends JPanel
 			HiscoreSkillType type = skill.type.equals("Skill") ? HiscoreSkillType.SKILL : HiscoreSkillType.BOSS;
 
 			/* create a new achievement-row and add to clan-activity layout */
-			TempleClanAchievementRow row = new TempleClanAchievementRow(skill.username, skill.skill, type, skill.xp, COLORS[i % 2]);
+			TempleClanAchievementRow row = new TempleClanAchievementRow(plugin, skill.username, skill.skill, type, skill.xp, COLORS[i % 2]);
 			clanActivity.add(row);
 		}
 

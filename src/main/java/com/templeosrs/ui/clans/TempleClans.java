@@ -273,7 +273,7 @@ public class TempleClans extends PluginPanel
 			add(new TempleClanOverview(info));
 
 			/* create achievements-component, only add if config option */
-			clanAchievements = new TempleClanAchievements(clanActivity);
+			clanAchievements = new TempleClanAchievements(plugin, clanActivity);
 			if (config.clanAchievements())
 			{
 				add(clanAchievements);
