@@ -134,7 +134,8 @@ public class TempleRanks extends PluginPanel
 		addInputKeyListener(this.nameAutocompleter);
 
 		/* load default player on start-up */
-		if(config.fetchDefaults()) {
+		if (config.fetchDefaults())
+		{
 			String player = config.defaultPlayer();
 
 			if (!Strings.isNullOrEmpty(player))

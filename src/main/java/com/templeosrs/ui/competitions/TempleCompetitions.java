@@ -80,7 +80,8 @@ public class TempleCompetitions extends PluginPanel
 		add(errorPanel);
 
 		/* load default competition on start-up */
-		if(config.fetchDefaults()) {
+		if (config.fetchDefaults())
+		{
 			if (config.defaultComp() != 0)
 			{
 				competitionLookup.setText(Integer.toString(config.defaultComp()));

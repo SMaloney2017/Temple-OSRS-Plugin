@@ -112,7 +112,8 @@ public class TempleClans extends PluginPanel
 		add(errorPanel);
 
 		/* load default clan on start-up */
-		if(config.fetchDefaults()) {
+		if (config.fetchDefaults())
+		{
 			if (config.defaultClan() != 0)
 			{
 				clanLookup.setText(Integer.toString(config.defaultClan()));
