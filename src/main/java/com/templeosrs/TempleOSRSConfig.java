@@ -49,7 +49,7 @@ public interface TempleOSRSConfig extends Config
 	@ConfigItem(
 		keyName = "playerLookup",
 		name = "Player Lookup",
-		description = "Toggle TempleOSRS lookup option to player's 'right-click' menu",
+		description = "Toggle TempleOSRS lookup option in players' right-click menus",
 		position = 2,
 		section = menuOptions
 	)
