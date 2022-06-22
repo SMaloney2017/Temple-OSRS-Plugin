@@ -18,19 +18,19 @@ public interface TempleOSRSConfig extends Config
 	@ConfigSection(
 		name = "Rank Options",
 		description = "Rank Options",
-		position = 3
+		position = 10
 	)
 	String rankOptions = "rankOptions";
 	@ConfigSection(
 		name = "Clan Options",
 		description = "Clan Options",
-		position = 6
+		position = 20
 	)
 	String clanOptions = "clanOptions";
 	@ConfigSection(
 		name = "Competition Options",
 		description = "Competition Options",
-		position = 14
+		position = 30
 	)
 	String compOptions = "compOptions";
 
@@ -59,10 +59,22 @@ public interface TempleOSRSConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "fetchDefaults",
+		name = "Fetch Defaults",
+		description = "Fetch default player, clan, and competition on startup",
+		position = 3,
+		section = menuOptions
+	)
+	default boolean fetchDefaults()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 		keyName = "defaultPlayer",
 		name = "Default Player",
 		description = "Default player loaded on startup",
-		position = 3,
+		position = 1,
 		section = rankOptions
 	)
 	default String defaultPlayer()
@@ -74,7 +86,7 @@ public interface TempleOSRSConfig extends Config
 		keyName = "defaultRange",
 		name = "Default Range",
 		description = "Default range for player loaded on startup",
-		position = 3,
+		position = 2,
 		section = rankOptions
 	)
 	default PlayerRanges defaultRange()
@@ -86,7 +98,7 @@ public interface TempleOSRSConfig extends Config
 		keyName = "clanAchievements",
 		name = "Clan Achievements",
 		description = "Display group achievements when fetching group-information",
-		position = 7,
+		position = 1,
 		section = clanOptions
 	)
 	default boolean clanAchievements()
@@ -98,7 +110,7 @@ public interface TempleOSRSConfig extends Config
 		keyName = "clanMembers",
 		name = "Clan Members",
 		description = "Display group members when fetching group-information",
-		position = 8,
+		position = 2,
 		section = clanOptions
 	)
 	default boolean clanMembers()
@@ -110,7 +122,7 @@ public interface TempleOSRSConfig extends Config
 		keyName = "defaultClan",
 		name = "Default Clan",
 		description = "Default clan loaded on startup",
-		position = 9,
+		position = 3,
 		section = clanOptions
 	)
 	default int defaultClan()
@@ -122,7 +134,7 @@ public interface TempleOSRSConfig extends Config
 		keyName = "clanKey",
 		name = "Clan Key",
 		description = "Required key to edit group members using the TempleOSRS API",
-		position = 10,
+		position = 4,
 		secret = true,
 		section = clanOptions
 	)
@@ -135,7 +147,7 @@ public interface TempleOSRSConfig extends Config
 		keyName = "ignoredRanks",
 		name = "Ignored ranks",
 		description = "Excluded ranks from group members sync (Case Sensitive).",
-		position = 11,
+		position = 5,
 		section = clanOptions
 	)
 	default String getIgnoredRanks()
@@ -147,7 +159,7 @@ public interface TempleOSRSConfig extends Config
 		keyName = "onlyAddMembers",
 		name = "Only Add Members",
 		description = "Toggle whether or not to only add members during clan-sync",
-		position = 12,
+		position = 6,
 		section = clanOptions
 	)
 	default boolean onlyAddMembers()
@@ -159,7 +171,7 @@ public interface TempleOSRSConfig extends Config
 		keyName = "defaultComp",
 		name = "Default Competition",
 		description = "Default competition loaded on startup",
-		position = 14,
+		position = 1,
 		section = compOptions
 	)
 	default int defaultComp()
