@@ -95,6 +95,18 @@ public interface TempleOSRSConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "autoUpdate",
+		name = "Auto-Update",
+		description = "Toggle whether or not to automatically update the player on TempleOSRS",
+		position = 3,
+		section = rankOptions
+	)
+	default boolean autoUpdate()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 		keyName = "clanAchievements",
 		name = "Clan Achievements",
 		description = "Toggle whether or not to display group-achievements when fetching group-information",

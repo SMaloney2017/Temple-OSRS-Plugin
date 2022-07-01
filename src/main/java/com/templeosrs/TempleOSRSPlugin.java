@@ -249,8 +249,9 @@ public class TempleOSRSPlugin extends Plugin
 			long totalXp = client.getOverallExperience();
 			String username = local.getName();
 
-			/* Don't submit update if xp-threshold has not been reached or username is null */
-			if (Math.abs(totalXp - lastXp) > XP_THRESHOLD && username != null)
+			/* Don't submit update if xp-threshold has not been reached or username is null
+			   or config option for auto-update is disabled */
+			if (Math.abs(totalXp - lastXp) > XP_THRESHOLD && username != null && config.autoUpdate())
 			{
 				updateUser(lastAccount, username.replace(" ", "+"));
 				lastXp = totalXp;
