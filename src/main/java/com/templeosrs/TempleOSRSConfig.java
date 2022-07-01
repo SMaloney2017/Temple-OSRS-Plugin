@@ -10,25 +10,25 @@ import net.runelite.client.config.ConfigSection;
 public interface TempleOSRSConfig extends Config
 {
 	@ConfigSection(
-		name = "Menu Options",
-		description = "Menu Options",
+		name = "General",
+		description = "General Options",
 		position = 0
 	)
-	String menuOptions = "menuOptions";
+	String generalOptions = "generalOptions";
 	@ConfigSection(
-		name = "Rank Options",
+		name = "Ranks",
 		description = "Rank Options",
 		position = 10
 	)
 	String rankOptions = "rankOptions";
 	@ConfigSection(
-		name = "Clan Options",
+		name = "Clans",
 		description = "Clan Options",
 		position = 20
 	)
 	String clanOptions = "clanOptions";
 	@ConfigSection(
-		name = "Competition Options",
+		name = "Competitions",
 		description = "Competition Options",
 		position = 30
 	)
@@ -39,7 +39,7 @@ public interface TempleOSRSConfig extends Config
 		name = "Autocomplete",
 		description = "Toggle name prediction when typing a name to lookup",
 		position = 1,
-		section = menuOptions
+		section = generalOptions
 	)
 	default boolean autocomplete()
 	{
@@ -51,7 +51,7 @@ public interface TempleOSRSConfig extends Config
 		name = "Player Lookup",
 		description = "Toggle TempleOSRS lookup option in players' right-click menus",
 		position = 2,
-		section = menuOptions
+		section = generalOptions
 	)
 	default boolean playerLookup()
 	{
@@ -63,7 +63,7 @@ public interface TempleOSRSConfig extends Config
 		name = "Fetch Defaults",
 		description = "Toggle whether or not to fetch defaults on startup",
 		position = 3,
-		section = menuOptions
+		section = generalOptions
 	)
 	default boolean fetchDefaults()
 	{
