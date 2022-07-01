@@ -25,6 +25,27 @@ public class TempleClanInfo
 	@SerializedName("forum_link")
 	public String forumLink;
 
+	@SerializedName("total_xp")
+	public Long totalXp;
+
+	@SerializedName("average_xp")
+	public Long averageXp;
+
+	@SerializedName("total_ehp")
+	public Double totalEhp;
+
+	@SerializedName("average_ehp")
+	public Double averageEhp;
+
+	@SerializedName("total_ehb")
+	public Double totalEhb;
+
+	@SerializedName("average_ehb")
+	public Double averageEhb;
+
+	@SerializedName("clan_type")
+	public String clanType;
+
 	@SerializedName("member_count")
 	public Integer memberCount;
 }

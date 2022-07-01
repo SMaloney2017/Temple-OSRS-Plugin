@@ -47,6 +47,12 @@ public class TempleClanOverview extends JPanel
 		clanName.setFont(FontManager.getRunescapeBoldFont());
 		clanName.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		clanName.setAlignmentX(Component.CENTER_ALIGNMENT);
+		clanName.setToolTipText(
+			"<html> <table>" +
+				"<tr><th style='text-align: left'>Total Xp: </th><td style='color:#6ee16e'>" + info.totalXp + "</td></tr>" +
+				"<tr><th style='text-align: left'>Avg. Ehp: </th><td style='color:#6ee16e'>" + String.format("%.2f", info.averageEhp) + "</td></tr>" +
+				"<tr><th style='text-align: left'>Avg. Ehb: </th><td style='color:#6ee16e'>" + String.format("%.2f", info.averageEhb) + "</td></tr>" +
+			"</table> </html>");
 		layoutPanel.add(clanName);
 
 		JPanel fieldLayout = new JPanel();
