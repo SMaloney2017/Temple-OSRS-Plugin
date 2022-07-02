@@ -1,7 +1,7 @@
 package com.templeosrs.ui.clans;
 
 import com.templeosrs.TempleOSRSPlugin;
-import com.templeosrs.util.clan.TempleClanInfo;
+import com.templeosrs.util.clan.TempleClanOverviewInfo;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -31,7 +31,7 @@ public class TempleClanOverview extends JPanel
 
 	public JLabel count;
 
-	TempleClanOverview(TempleClanInfo info)
+	TempleClanOverview(TempleClanOverviewInfo info)
 	{
 		setLayout(new BorderLayout());
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
@@ -52,7 +52,7 @@ public class TempleClanOverview extends JPanel
 				"<tr><th style='text-align: left'>Total Xp: </th><td style='color:#6ee16e'>" + info.totalXp + "</td></tr>" +
 				"<tr><th style='text-align: left'>Avg. Ehp: </th><td style='color:#6ee16e'>" + String.format("%.2f", info.averageEhp) + "</td></tr>" +
 				"<tr><th style='text-align: left'>Avg. Ehb: </th><td style='color:#6ee16e'>" + String.format("%.2f", info.averageEhb) + "</td></tr>" +
-			"</table> </html>");
+				"</table> </html>");
 		layoutPanel.add(clanName);
 
 		JPanel fieldLayout = new JPanel();
