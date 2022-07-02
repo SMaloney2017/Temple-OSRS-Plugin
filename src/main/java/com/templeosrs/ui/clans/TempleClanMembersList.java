@@ -19,20 +19,16 @@ public class TempleClanMembersList extends JPanel
 {
 	private static final Color[] COLORS = {ColorScheme.DARK_GRAY_HOVER_COLOR, ColorScheme.DARKER_GRAY_COLOR};
 
-	public final JPanel clanMembers;
-
-	public final JPanel layoutPanel;
-
 	TempleClanMembersList(TempleOSRSPlugin plugin, String heading, String[] members)
 	{
 		setLayout(new BorderLayout());
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-		layoutPanel = new JPanel();
+		JPanel layoutPanel = new JPanel();
 		layoutPanel.setLayout(new BorderLayout());
 		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-		clanMembers = new JPanel();
+		JPanel clanMembers = new JPanel();
 		clanMembers.setLayout(new GridLayout(0, 1));
 
 		/* for each member in members-list */
