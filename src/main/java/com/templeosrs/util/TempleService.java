@@ -81,6 +81,15 @@ public class TempleService
 		return request(request);
 	}
 
+	public static String requestClanCurrentTop(String skill, String id) throws Exception
+	{
+		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("api").addPathSegment("current_top").addPathSegment("week.php").addQueryParameter("skill", skill).addQueryParameter("group", id).build();
+
+		Request request = new Request.Builder().url(url).build();
+
+		return request(request);
+	}
+
 	public static CompletableFuture<TemplePlayer> fetchUserGainsAsync(String player, String duration) throws Exception
 	{
 		String playerSkillsOverviewJSON = requestUserSkillGains(player, duration);
@@ -95,9 +104,11 @@ public class TempleService
 	{
 		String clanOverviewJSON = requestClanOverview(id);
 		String clanAchievementsJSON = requestClanAchievements(id);
+		String clanCurrentTopEhpJSON = requestClanCurrentTop("ehp", id);
+		String clanCurrentTopEhbJSON = requestClanCurrentTop("ehb", id);
 
 		CompletableFuture<TempleClan> future = new CompletableFuture<>();
-		future.complete(new TempleClan(clanOverviewJSON, clanAchievementsJSON));
+		future.complete(new TempleClan(clanOverviewJSON, clanAchievementsJSON, clanCurrentTopEhpJSON, clanCurrentTopEhbJSON));
 		return future;
 	}
 
