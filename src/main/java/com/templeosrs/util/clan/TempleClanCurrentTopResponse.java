@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class TempleClanCurrentTopResponse
 {
-	@SerializedName("Week")
-	public Map<String, TempleClanCurrentTopPlayer> week;
+	@SerializedName(value = "Day", alternate = {"Week", "Month"})
+	public Map<String, TempleClanCurrentTopPlayer> list;
 
 	@SerializedName("error")
 	public TempleError error;

@@ -81,9 +81,9 @@ public class TempleService
 		return request(request);
 	}
 
-	public static String requestClanCurrentTop(String skill, String id) throws Exception
+	public static String requestClanCurrentTop(String skill, String id, String range) throws Exception
 	{
-		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("api").addPathSegment("current_top").addPathSegment("week.php").addQueryParameter("skill", skill).addQueryParameter("group", id).build();
+		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("api").addPathSegment("current_top").addPathSegment(range + ".php").addQueryParameter("skill", skill).addQueryParameter("group", id).build();
 
 		Request request = new Request.Builder().url(url).build();
 
@@ -100,12 +100,12 @@ public class TempleService
 		return future;
 	}
 
-	public static CompletableFuture<TempleClan> fetchClanAsync(String id) throws Exception
+	public static CompletableFuture<TempleClan> fetchClanAsync(String id, String range) throws Exception
 	{
 		String clanOverviewJSON = requestClanOverview(id);
 		String clanAchievementsJSON = requestClanAchievements(id);
-		String clanCurrentTopEhpJSON = requestClanCurrentTop("ehp", id);
-		String clanCurrentTopEhbJSON = requestClanCurrentTop("ehb", id);
+		String clanCurrentTopEhpJSON = requestClanCurrentTop("ehp", id, range);
+		String clanCurrentTopEhbJSON = requestClanCurrentTop("ehb", id, range);
 
 		CompletableFuture<TempleClan> future = new CompletableFuture<>();
 		future.complete(new TempleClan(clanOverviewJSON, clanAchievementsJSON, clanCurrentTopEhpJSON, clanCurrentTopEhbJSON));

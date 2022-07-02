@@ -9,7 +9,7 @@ import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
 
 public class TempleClanCurrentTop extends PluginPanel
 {
-	TempleClanCurrentTop(TempleClanCurrentTopMap Ehp, TempleClanCurrentTopMap Ehb)
+	TempleClanCurrentTop(TempleClanCurrentTopList Ehp, TempleClanCurrentTopList Ehb)
 	{
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		setBorder(new EmptyBorder(0, 0, 0, 0));

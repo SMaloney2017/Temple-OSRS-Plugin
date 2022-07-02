@@ -234,7 +234,7 @@ public class TempleClans extends PluginPanel
 		new Thread(() -> {
 			try
 			{
-				fetchClanAsync(id).whenCompleteAsync((result, err) -> response(id, result, err));
+				fetchClanAsync(id, config.currentTopRange().getRange()).whenCompleteAsync((result, err) -> response(id, result, err));
 			}
 			catch (Exception e)
 			{
@@ -252,7 +252,7 @@ public class TempleClans extends PluginPanel
 
 		try
 		{
-			fetchClanAsync(id).whenCompleteAsync((result, err) -> response(id, result, err));
+			fetchClanAsync(id, config.currentTopRange().getRange()).whenCompleteAsync((result, err) -> response(id, result, err));
 		}
 		catch (Exception e)
 		{
@@ -277,8 +277,8 @@ public class TempleClans extends PluginPanel
 			add(new TempleClanOverview(info));
 
 			/* create current-top-component, only add if config option enabled */
-			TempleClanCurrentTopMap clanCurrentTopEhp = new TempleClanCurrentTopMap(plugin, result.clanCurrentTopEhp.week);
-			TempleClanCurrentTopMap clanCurrentTopEhb = new TempleClanCurrentTopMap(plugin, result.clanCurrentTopEhb.week);
+			TempleClanCurrentTopList clanCurrentTopEhp = new TempleClanCurrentTopList(plugin, result.clanCurrentTopEhp.list, config.currentTopRange());
+			TempleClanCurrentTopList clanCurrentTopEhb = new TempleClanCurrentTopList(plugin, result.clanCurrentTopEhb.list, config.currentTopRange());
 
 			clanCurrentTop = new TempleClanCurrentTop(clanCurrentTopEhp, clanCurrentTopEhb);
 			if (config.clanCurrentTop())
@@ -428,6 +428,7 @@ public class TempleClans extends PluginPanel
 		});
 	}
 
+	/* Sync members response */
 	private void response(String id, TempleSync response, Throwable e)
 	{
 		/* response is null, exception thrown, or error response */
@@ -439,6 +440,7 @@ public class TempleClans extends PluginPanel
 		reload(id);
 	}
 
+	/* Group information response */
 	private void response(String id, TempleClan result, Throwable e)
 	{
 		remove(errorPanel);

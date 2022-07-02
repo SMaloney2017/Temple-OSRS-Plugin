@@ -1,5 +1,6 @@
 package com.templeosrs;
 
+import com.templeosrs.util.CurrentTopRanges;
 import com.templeosrs.util.PlayerRanges;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
@@ -143,10 +144,22 @@ public interface TempleOSRSConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "currentTopRange",
+		name = "Current-top Range",
+		description = "Default time-period for current-top-ranks loaded on startup",
+		position = 4,
+		section = clanOptions
+	)
+	default CurrentTopRanges currentTopRange()
+	{
+		return CurrentTopRanges.Week;
+	}
+
+	@ConfigItem(
 		keyName = "defaultClan",
 		name = "Default Clan",
 		description = "Default clan loaded on startup",
-		position = 4,
+		position = 5,
 		section = clanOptions
 	)
 	default int defaultClan()
@@ -158,7 +171,7 @@ public interface TempleOSRSConfig extends Config
 		keyName = "clanKey",
 		name = "Clan Key",
 		description = "Required key to edit group-members using the TempleOSRS API",
-		position = 5,
+		position = 6,
 		secret = true,
 		section = clanOptions
 	)
@@ -171,7 +184,7 @@ public interface TempleOSRSConfig extends Config
 		keyName = "ignoredRanks",
 		name = "Ignored ranks",
 		description = "Excluded ranks from group-members sync (Case Sensitive).",
-		position = 6,
+		position = 7,
 		section = clanOptions
 	)
 	default String getIgnoredRanks()
@@ -183,7 +196,7 @@ public interface TempleOSRSConfig extends Config
 		keyName = "onlyAddMembers",
 		name = "Only Add Members",
 		description = "Toggle whether or not to only add members during clan-sync",
-		position = 7,
+		position = 8,
 		section = clanOptions
 	)
 	default boolean onlyAddMembers()

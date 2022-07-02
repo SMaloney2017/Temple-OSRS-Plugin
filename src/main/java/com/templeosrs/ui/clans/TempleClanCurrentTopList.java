@@ -1,6 +1,7 @@
 package com.templeosrs.ui.clans;
 
 import com.templeosrs.TempleOSRSPlugin;
+import com.templeosrs.util.CurrentTopRanges;
 import com.templeosrs.util.clan.TempleClanCurrentTopPlayer;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,11 +20,11 @@ import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import static net.runelite.client.ui.PluginPanel.PANEL_WIDTH;
 
-public class TempleClanCurrentTopMap extends JPanel
+public class TempleClanCurrentTopList extends JPanel
 {
 	private static final Color[] COLORS = {ColorScheme.DARK_GRAY_HOVER_COLOR, ColorScheme.DARKER_GRAY_COLOR};
 
-	TempleClanCurrentTopMap(TempleOSRSPlugin plugin, Map<String, TempleClanCurrentTopPlayer> skill)
+	TempleClanCurrentTopList(TempleOSRSPlugin plugin, Map<String, TempleClanCurrentTopPlayer> skill, CurrentTopRanges range)
 	{
 		setLayout(new BorderLayout());
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
@@ -55,7 +56,9 @@ public class TempleClanCurrentTopMap extends JPanel
 		layoutPanel.add(currentTop, BorderLayout.SOUTH);
 
 		/* create custom border, add to (layout or scroll) */
-		TitledBorder custom = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), "Weekly Top");
+
+		String title = "Current Top - " + range.getName();
+		TitledBorder custom = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, ColorScheme.DARK_GRAY_COLOR, ColorScheme.SCROLL_TRACK_COLOR), title);
 		custom.setTitleColor(ColorScheme.GRAND_EXCHANGE_LIMIT);
 		custom.setTitleJustification(TitledBorder.CENTER);
 		custom.setTitleFont(FontManager.getRunescapeSmallFont());
