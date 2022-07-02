@@ -12,8 +12,6 @@ import net.runelite.client.ui.FontManager;
 
 public class TempleRanksOverview extends JPanel
 {
-	public final JPanel playerOverview;
-
 	public final TempleRanksOverviewSection EXP;
 
 	public final TempleRanksOverviewSection EHP;
@@ -37,7 +35,7 @@ public class TempleRanksOverview extends JPanel
 		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		layoutPanel.setBorder(custom);
 
-		playerOverview = new JPanel();
+		JPanel playerOverview = new JPanel();
 		playerOverview.setBorder(new EmptyBorder(3, 3, 3, 3));
 		playerOverview.setLayout(new GridLayout(3, 1));
 		playerOverview.setOpaque(false);

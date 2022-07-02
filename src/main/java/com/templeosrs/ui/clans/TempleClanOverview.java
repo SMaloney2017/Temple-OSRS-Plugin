@@ -25,11 +25,6 @@ import net.runelite.client.util.LinkBrowser;
 
 public class TempleClanOverview extends JPanel
 {
-	public final JPanel clanSocials;
-
-	public JLabel clanName;
-
-	public JLabel count;
 
 	TempleClanOverview(TempleClanOverviewInfo info)
 	{
@@ -42,7 +37,7 @@ public class TempleClanOverview extends JPanel
 		layoutPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		/* add name to layout */
-		clanName = new JLabel(info.name);
+		JLabel clanName = new JLabel(info.name);
 		clanName.setBorder(new EmptyBorder(5, 5, 0, 0));
 		clanName.setFont(FontManager.getRunescapeBoldFont());
 		clanName.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
@@ -66,7 +61,7 @@ public class TempleClanOverview extends JPanel
 		field.setAlignmentX(Component.CENTER_ALIGNMENT);
 		fieldLayout.add(field);
 
-		count = new JLabel(String.valueOf(info.memberCount));
+		JLabel count = new JLabel(String.valueOf(info.memberCount));
 		count.setBorder(new EmptyBorder(5, 0, 0, 0));
 		count.setFont(FontManager.getRunescapeSmallFont());
 		fieldLayout.add(count);
@@ -74,7 +69,7 @@ public class TempleClanOverview extends JPanel
 		layoutPanel.add(fieldLayout);
 
 		/* create and add socials to layout */
-		clanSocials = new JPanel();
+		JPanel clanSocials = new JPanel();
 		clanSocials.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 		clanSocials.setLayout(new FlowLayout());
 		clanSocials.setAlignmentX(Component.CENTER_ALIGNMENT);

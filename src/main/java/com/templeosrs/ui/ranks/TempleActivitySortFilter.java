@@ -15,15 +15,13 @@ public class TempleActivitySortFilter extends JPanel
 {
 	private final JLabel icon;
 
-	JLabel label;
-
 	boolean increasing;
 
 	TempleActivitySortFilter(String text)
 	{
 		icon = new JLabel();
 
-		label = new JLabel(text);
+		JLabel label = new JLabel(text);
 		label.setFont(FontManager.getRunescapeSmallFont());
 
 		setLayout(new GridLayout(0, 2));
