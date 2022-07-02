@@ -155,22 +155,21 @@ public class TempleOSRSPlugin extends Plugin
 					menuManager.get().addPlayerMenuItem(TEMPLE);
 				}
 
-				/* first remove/ add clan-current-top before clan-achievements and clan-members to retain order */
-				if (clans.clanCurrentTop != null)
-				{
-					clans.remove(clans.clanCurrentTop);
-					if (config.clanCurrentTop())
-					{
-						clans.add(clans.clanCurrentTop);
-					}
-				}
-
 				if (clans.clanAchievements != null)
 				{
 					clans.remove(clans.clanAchievements);
 					if (config.clanAchievements())
 					{
 						clans.add(clans.clanAchievements);
+					}
+				}
+
+				if (clans.clanCurrentTop != null)
+				{
+					clans.remove(clans.clanCurrentTop);
+					if (config.clanCurrentTop())
+					{
+						clans.add(clans.clanCurrentTop);
 					}
 				}
 

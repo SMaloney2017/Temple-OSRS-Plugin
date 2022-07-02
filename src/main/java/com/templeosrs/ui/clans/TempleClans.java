@@ -276,6 +276,13 @@ public class TempleClans extends PluginPanel
 
 			add(new TempleClanOverview(info));
 
+			/* create achievements-component, only add if config option */
+			clanAchievements = new TempleClanAchievements(plugin, clanActivity);
+			if (config.clanAchievements())
+			{
+				add(clanAchievements);
+			}
+
 			/* create current-top-component, only add if config option enabled */
 			TempleClanCurrentTopList clanCurrentTopEhp = new TempleClanCurrentTopList(plugin, result.clanCurrentTopEhp.list, config.currentTopRange());
 			TempleClanCurrentTopList clanCurrentTopEhb = new TempleClanCurrentTopList(plugin, result.clanCurrentTopEhb.list, config.currentTopRange());
@@ -284,14 +291,6 @@ public class TempleClans extends PluginPanel
 			if (config.clanCurrentTop())
 			{
 				add(clanCurrentTop);
-			}
-
-
-			/* create achievements-component, only add if config option */
-			clanAchievements = new TempleClanAchievements(plugin, clanActivity);
-			if (config.clanAchievements())
-			{
-				add(clanAchievements);
 			}
 
 			/* create members-component, only add if config option */

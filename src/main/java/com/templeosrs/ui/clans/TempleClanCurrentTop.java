@@ -18,8 +18,8 @@ public class TempleClanCurrentTop extends PluginPanel
 		JPanel display = new JPanel();
 		MaterialTabGroup tabGroup = new MaterialTabGroup(display);
 
-		MaterialTab leadersTab = new MaterialTab("Ehp", tabGroup, Ehp);
-		MaterialTab membersTab = new MaterialTab("Ehb", tabGroup, Ehb);
+		MaterialTab leadersTab = new MaterialTab("Hours Played", tabGroup, Ehp);
+		MaterialTab membersTab = new MaterialTab("Hours Bossed", tabGroup, Ehb);
 
 		tabGroup.addTab(leadersTab);
 		tabGroup.addTab(membersTab);
