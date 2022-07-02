@@ -145,7 +145,7 @@ public interface TempleOSRSConfig extends Config
 
 	@ConfigItem(
 		keyName = "currentTopRange",
-		name = "Current-top Range",
+		name = "Current Top Range",
 		description = "Default time-period for current-top-ranks loaded on startup",
 		position = 4,
 		section = clanOptions
