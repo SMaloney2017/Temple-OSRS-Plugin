@@ -8,7 +8,7 @@ import static com.templeosrs.util.TempleService.fetchClanAsync;
 import static com.templeosrs.util.TempleService.syncClanMembersAsync;
 import com.templeosrs.util.clan.TempleClan;
 import com.templeosrs.util.clan.TempleClanAchievement;
-import com.templeosrs.util.clan.TempleClanInfo;
+import com.templeosrs.util.clan.TempleClanOverviewInfo;
 import com.templeosrs.util.sync.TempleSync;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -66,6 +66,8 @@ public class TempleClans extends PluginPanel
 	public TempleClanAchievements clanAchievements;
 
 	public TempleClanMembers clanMembers;
+
+	public TempleClanCurrentTop clanCurrentTop;
 
 	private JButton searchButton;
 
@@ -267,13 +269,23 @@ public class TempleClans extends PluginPanel
 
 		String[] leaders = result.clanOverview.data.leaders;
 		String[] members = result.clanOverview.data.members;
-		TempleClanInfo info = result.clanOverview.data.info;
+		TempleClanOverviewInfo info = result.clanOverview.data.info;
 		List<TempleClanAchievement> clanActivity = result.clanAchievements.data;
-
 		/* Event-Dispatch-Thread necessary for adding/ removing new components */
 		SwingUtilities.invokeLater(() -> {
 
 			add(new TempleClanOverview(info));
+
+			/* create current-top-component, only add if config option enabled */
+			TempleClanCurrentTopMap clanCurrentTopEhp = new TempleClanCurrentTopMap(plugin, result.clanCurrentTopEhp.week);
+			TempleClanCurrentTopMap clanCurrentTopEhb = new TempleClanCurrentTopMap(plugin, result.clanCurrentTopEhb.week);
+
+			clanCurrentTop = new TempleClanCurrentTop(clanCurrentTopEhp, clanCurrentTopEhb);
+			if (config.clanCurrentTop())
+			{
+				add(clanCurrentTop);
+			}
+
 
 			/* create achievements-component, only add if config option */
 			clanAchievements = new TempleClanAchievements(plugin, clanActivity);
