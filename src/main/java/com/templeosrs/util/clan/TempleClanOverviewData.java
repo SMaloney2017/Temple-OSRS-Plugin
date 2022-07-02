@@ -2,10 +2,10 @@ package com.templeosrs.util.clan;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TempleClanData
+public class TempleClanOverviewData
 {
 	@SerializedName("info")
-	public TempleClanInfo info;
+	public TempleClanOverviewInfo info;
 
 	@SerializedName("members")
 	public String[] members;

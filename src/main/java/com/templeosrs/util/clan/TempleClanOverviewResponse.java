@@ -2,12 +2,11 @@ package com.templeosrs.util.clan;
 
 import com.google.gson.annotations.SerializedName;
 import com.templeosrs.util.TempleError;
-import java.util.List;
 
-public class TempleClanAchievementData
+public class TempleClanOverviewResponse
 {
 	@SerializedName("data")
-	public List<TempleClanAchievement> data = null;
+	public TempleClanOverviewData data;
 
 	@SerializedName("error")
 	public TempleError error;

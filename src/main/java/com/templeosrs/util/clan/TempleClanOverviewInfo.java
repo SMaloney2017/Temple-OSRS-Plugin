@@ -2,7 +2,7 @@ package com.templeosrs.util.clan;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TempleClanInfo
+public class TempleClanOverviewInfo
 {
 	@SerializedName("id")
 	public Integer id;
