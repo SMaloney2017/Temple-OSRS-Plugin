@@ -22,7 +22,7 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
 
 ### Configuration
 
-![image](https://user-images.githubusercontent.com/60162255/177015346-ef5187fa-341e-4d2f-8c09-6e993147c5f9.png)
+![image](https://user-images.githubusercontent.com/60162255/177026543-2f5e6987-2969-4efd-9e71-145da38fd28d.png)
 
 #### Menu Options
 
@@ -40,6 +40,7 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
 1. Toggle display of `clan-achievements`
 2. Toggle display of `clan-members`
 3. Toggle display of `current-top player rankings`
+4. Set `default-range` for current-top player rankings
 4. `Default clan ID` loaded on startup or search-icon double-click
 5. `Verification key` for clan-sync
 6. `Ignore specified ranks` during clan-sync
