@@ -140,7 +140,7 @@ public interface TempleOSRSConfig extends Config
 	)
 	default boolean clanCurrentTop()
 	{
-		return false;
+		return true;
 	}
 
 	@ConfigItem(
