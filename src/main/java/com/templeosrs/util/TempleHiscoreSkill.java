@@ -128,13 +128,13 @@ public enum TempleHiscoreSkill
 	NEX("Nex", BOSS),
 	RIFTS_CLOSED("Rifts closed", BOSS),
 	UIM_EHP("UIM Ehp", SKILL),
+	PVP_ARENA("PvP Arena", SKILL),
+	TOMBS_OF_AMASCUT("Tombs of Amascut", BOSS),
+	TOMBS_OF_AMASCUT_EXPERT("Tombs of Amascut Expert", BOSS),
 	NULL("Null", SKILL),
 	NULL1("Null", SKILL),
 	NULL2("Null", SKILL),
 	NULL3("Null", SKILL),
-	NULL4("Null", SKILL),
-	NULL5("Null", SKILL),
-	NULL6("Null", SKILL),
 	FANTASY_EHP("Fantasy Ehp", SKILL);
 
 	private final String name;
