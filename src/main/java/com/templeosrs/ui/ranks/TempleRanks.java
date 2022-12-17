@@ -36,7 +36,6 @@ import com.templeosrs.util.player.TemplePlayer;
 import com.templeosrs.util.player.TemplePlayerData;
 import com.templeosrs.util.player.TemplePlayerSkill;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -44,15 +43,15 @@ import java.util.Objects;
 import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import net.runelite.api.Client;
 import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.ColorScheme;
-import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.materialtabs.MaterialTab;
@@ -62,7 +61,7 @@ import okhttp3.HttpUrl;
 
 public class TempleRanks extends PluginPanel
 {
-	public final IconTextField playerLookup;
+	public final IconTextField lookup;
 
 	private final Client client;
 
@@ -75,10 +74,6 @@ public class TempleRanks extends PluginPanel
 	private final TempleActivity bosses;
 
 	private final TempleRanksOverview overview;
-
-	private JButton searchButton;
-
-	private JButton profileButton;
 
 	@Inject
 	public TempleRanks(TempleOSRSConfig config, Client client, NameAutocompleter nameAutocompleter)
@@ -100,12 +95,8 @@ public class TempleRanks extends PluginPanel
 		fetchLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		/* build and add search-text-field */
-		playerLookup = buildTextField();
-		fetchLayout.add(playerLookup);
-
-		/* build and add search-buttons */
-		JPanel buttons = buildFetchButtons();
-		fetchLayout.add(buttons);
+		lookup = buildTextField();
+		fetchLayout.add(lookup);
 
 		/* build and add duration selection */
 		TempleRanksDuration timeSelection = new TempleRanksDuration(config, this);
@@ -159,6 +150,7 @@ public class TempleRanks extends PluginPanel
 		lookup.setEditable(true);
 		lookup.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 		lookup.setBackground(ColorScheme.SCROLL_TRACK_COLOR);
+
 		/* add action listeners for fetching user / fetching local player */
 		lookup.addActionListener(e -> fetchUser());
 		lookup.addMouseListener(new MouseAdapter()
@@ -166,22 +158,39 @@ public class TempleRanks extends PluginPanel
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				if (e.getClickCount() != 2)
-				{
-					return;
-				}
 				if (client == null)
 				{
 					return;
 				}
-				String player = config.defaultPlayer();
 
-				if (!Strings.isNullOrEmpty(player))
+				if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2)
 				{
-					fetchUser(config.defaultPlayer());
+					String player = config.defaultPlayer();
+
+					if (!Strings.isNullOrEmpty(player))
+					{
+						fetchUser(config.defaultPlayer());
+					}
+				}
+
+				if (SwingUtilities.isRightMouseButton(e))
+				{
+					JPopupMenu menu = new JPopupMenu();
+					JMenuItem fetchPlayerMenuItem = new JMenuItem();
+					fetchPlayerMenuItem.setText("Search");
+					fetchPlayerMenuItem.addActionListener(ev -> fetchUser());
+					menu.add(fetchPlayerMenuItem);
+
+					JMenuItem openPlayerPageMenuItem = new JMenuItem();
+					openPlayerPageMenuItem.setText("Open TempleOSRS");
+					openPlayerPageMenuItem.addActionListener(ev -> open());
+					menu.add(openPlayerPageMenuItem);
+					lookup.add(menu);
+					menu.show(lookup, e.getX(), e.getY());
 				}
 			}
 		});
+
 		/* reset icons and panel on clear */
 		lookup.addClearListener(() -> {
 			completed();
@@ -191,61 +200,17 @@ public class TempleRanks extends PluginPanel
 		return lookup;
 	}
 
-	private JPanel buildFetchButtons()
-	{
-		JPanel buttonsLayout = new JPanel();
-		buttonsLayout.setLayout(new FlowLayout());
-		buttonsLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-
-		searchButton = createNewButton("Search", "Search for player profile");
-		searchButton.addActionListener(e -> fetchUser());
-
-		profileButton = createNewButton("Open Page", "Opens TempleOSRS player page");
-		profileButton.addActionListener(e -> open());
-
-		buttonsLayout.add(searchButton);
-		buttonsLayout.add(profileButton);
-
-		return buttonsLayout;
-	}
-
-	public JButton createNewButton(String text, String tooltip)
-	{
-		JButton newButton = new JButton();
-
-		newButton.setFont(FontManager.getRunescapeFont());
-		newButton.setText(text);
-		newButton.setToolTipText(tooltip);
-		newButton.setForeground(ColorScheme.GRAND_EXCHANGE_LIMIT);
-
-		/* add hover mouse-listener for buttons */
-		newButton.addMouseListener(new MouseAdapter()
-		{
-			public void mouseEntered(MouseEvent evt)
-			{
-				newButton.setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
-			}
-
-			public void mouseExited(MouseEvent evt)
-			{
-				newButton.setForeground(ColorScheme.GRAND_EXCHANGE_LIMIT);
-			}
-		});
-
-		return newButton;
-	}
-
 	/* search-text-field double-click -> fetch local player */
 	public void fetchUser(String username)
 	{
-		playerLookup.setText(username);
+		lookup.setText(username);
 		fetchUser();
 	}
 
 	/* fetch player from search-text-field */
 	public void fetchUser()
 	{
-		final String username = format(playerLookup.getText());
+		final String username = format(lookup.getText());
 
 		if (Strings.isNullOrEmpty(username))
 		{
@@ -285,7 +250,7 @@ public class TempleRanks extends PluginPanel
 	private void response(String username, TemplePlayer result, Throwable e)
 	{
 		/* search-text-field has changed since start of fetching player data */
-		if (!format(playerLookup.getText()).equals(username))
+		if (!format(lookup.getText()).equals(username))
 		{
 			completed();
 			return;
@@ -348,7 +313,7 @@ public class TempleRanks extends PluginPanel
 
 	private void open()
 	{
-		String username = format(playerLookup.getText());
+		String username = format(lookup.getText());
 		if (Strings.isNullOrEmpty(username))
 		{
 			return;
@@ -363,12 +328,7 @@ public class TempleRanks extends PluginPanel
 		/* if valid username format, open temple player-profile */
 		loading();
 
-		HttpUrl url = new HttpUrl.Builder()
-			.scheme("https")
-			.host("templeosrs.com")
-			.addPathSegment("player")
-			.addPathSegment("overview.php")
-			.addQueryParameter("player", username).build();
+		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("player").addPathSegment("overview.php").addQueryParameter("player", username).build();
 
 		SwingUtilities.invokeLater(() -> LinkBrowser.browse(url.toString()));
 
@@ -389,38 +349,32 @@ public class TempleRanks extends PluginPanel
 	/* set fields for error status */
 	private void error()
 	{
-		searchButton.setEnabled(true);
-		profileButton.setEnabled(true);
-		playerLookup.setIcon(IconTextField.Icon.ERROR);
-		playerLookup.setEditable(true);
+		lookup.setIcon(IconTextField.Icon.ERROR);
+		lookup.setEditable(true);
 	}
 
 	/* set fields for loading status */
 	private void loading()
 	{
-		searchButton.setEnabled(false);
-		profileButton.setEnabled(false);
-		playerLookup.setIcon(IconTextField.Icon.LOADING);
-		playerLookup.setEditable(false);
+		lookup.setIcon(IconTextField.Icon.LOADING);
+		lookup.setEditable(false);
 	}
 
 	/* set fields for completed status */
 	private void completed()
 	{
-		searchButton.setEnabled(true);
-		profileButton.setEnabled(true);
-		playerLookup.setIcon(IconTextField.Icon.SEARCH);
-		playerLookup.setEditable(true);
+		lookup.setIcon(IconTextField.Icon.SEARCH);
+		lookup.setEditable(true);
 	}
 
 	private void addInputKeyListener(KeyListener l)
 	{
-		playerLookup.addKeyListener(l);
+		lookup.addKeyListener(l);
 	}
 
 	private void removeInputKeyListener(KeyListener l)
 	{
-		playerLookup.removeKeyListener(l);
+		lookup.removeKeyListener(l);
 	}
 
 	/* format username to be accepted by Temple API */

@@ -8,7 +8,6 @@ import com.templeosrs.util.comp.TempleCompetition;
 import com.templeosrs.util.comp.TempleCompetitionInfo;
 import com.templeosrs.util.comp.TempleCompetitionParticipant;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -17,14 +16,14 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import net.runelite.api.Client;
 import net.runelite.client.ui.ColorScheme;
-import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.PluginErrorPanel;
@@ -35,7 +34,7 @@ public class TempleCompetitions extends PluginPanel
 {
 	private static final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
 
-	public final IconTextField competitionLookup;
+	public final IconTextField lookup;
 
 	private final Client client;
 
@@ -46,10 +45,6 @@ public class TempleCompetitions extends PluginPanel
 	private final PluginErrorPanel errorPanel = new PluginErrorPanel();
 
 	private final JPanel fetchLayout;
-
-	private JButton searchButton;
-
-	private JButton competitionButton;
 
 	@Inject
 	public TempleCompetitions(TempleOSRSConfig config, TempleOSRSPlugin plugin, Client client)
@@ -66,12 +61,8 @@ public class TempleCompetitions extends PluginPanel
 		fetchLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		/* build and add search-text-field */
-		competitionLookup = buildTextField();
-		fetchLayout.add(competitionLookup);
-
-		/* build and add search-buttons */
-		JPanel buttons = buildFetchButtons();
-		fetchLayout.add(buttons);
+		lookup = buildTextField();
+		fetchLayout.add(lookup);
 
 		add(fetchLayout);
 
@@ -84,7 +75,7 @@ public class TempleCompetitions extends PluginPanel
 		{
 			if (config.defaultComp() != 0)
 			{
-				competitionLookup.setText(Integer.toString(config.defaultComp()));
+				lookup.setText(Integer.toString(config.defaultComp()));
 				fetchCompetition();
 			}
 		}
@@ -105,15 +96,27 @@ public class TempleCompetitions extends PluginPanel
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				if (e.getClickCount() != 2)
+				if (config.defaultComp() != 0 && SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2)
 				{
-					return;
+					lookup.setText(Integer.toString(config.defaultComp()));
+					fetchCompetition();
 				}
 
-				if (config.defaultComp() != 0)
+				if (SwingUtilities.isRightMouseButton(e))
 				{
-					competitionLookup.setText(Integer.toString(config.defaultComp()));
-					fetchCompetition();
+					JPopupMenu menu = new JPopupMenu();
+					JMenuItem fetchPlayerMenuItem = new JMenuItem();
+					fetchPlayerMenuItem.setText("Search");
+					fetchPlayerMenuItem.addActionListener(ev -> fetchCompetition());
+					menu.add(fetchPlayerMenuItem);
+
+					JMenuItem openPlayerPageMenuItem = new JMenuItem();
+					openPlayerPageMenuItem.setText("Open TempleOSRS");
+					openPlayerPageMenuItem.addActionListener(ev -> open());
+					menu.add(openPlayerPageMenuItem);
+					lookup.add(menu);
+
+					menu.show(lookup, e.getX(), e.getY());
 				}
 			}
 		});
@@ -126,55 +129,10 @@ public class TempleCompetitions extends PluginPanel
 		return lookup;
 	}
 
-	private JPanel buildFetchButtons()
-	{
-		JPanel buttonsLayout = new JPanel();
-		buttonsLayout.setLayout(new FlowLayout());
-		buttonsLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-
-		searchButton = createNewButton("Search", "Search for competition by ID (Found in TempleOSRS competition-page url)");
-		searchButton.addActionListener(e -> fetchCompetition());
-
-		competitionButton = createNewButton("Open Page", "Opens TempleOSRS competition page");
-		competitionButton.addActionListener(e -> open());
-
-		buttonsLayout.add(searchButton);
-		buttonsLayout.add(competitionButton);
-
-		return buttonsLayout;
-	}
-
-	/* create a single, JButton with similar style */
-	public JButton createNewButton(String text, String tooltip)
-	{
-		JButton newButton = new JButton();
-
-		newButton.setFont(FontManager.getRunescapeFont());
-		newButton.setText(text);
-		newButton.setToolTipText(tooltip);
-		newButton.setForeground(ColorScheme.GRAND_EXCHANGE_LIMIT);
-
-		/* add hover mouse-listener for buttons */
-		newButton.addMouseListener(new MouseAdapter()
-		{
-			public void mouseEntered(MouseEvent evt)
-			{
-				newButton.setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
-			}
-
-			public void mouseExited(MouseEvent evt)
-			{
-				newButton.setForeground(ColorScheme.GRAND_EXCHANGE_LIMIT);
-			}
-		});
-
-		return newButton;
-	}
-
 	/* fetch competition from search-text-field */
 	public void fetchCompetition()
 	{
-		final String id = competitionLookup.getText();
+		final String id = lookup.getText();
 
 		if (Strings.isNullOrEmpty(id))
 		{
@@ -213,7 +171,7 @@ public class TempleCompetitions extends PluginPanel
 	{
 		remove(errorPanel);
 
-		if (!competitionLookup.getText().equals(id))
+		if (!lookup.getText().equals(id))
 		{
 			completed();
 			return;
@@ -257,7 +215,7 @@ public class TempleCompetitions extends PluginPanel
 
 	private void open()
 	{
-		String id = competitionLookup.getText();
+		String id = lookup.getText();
 		if (Strings.isNullOrEmpty(id))
 		{
 			return;
@@ -298,27 +256,21 @@ public class TempleCompetitions extends PluginPanel
 	/* set fields for error status */
 	private void error()
 	{
-		searchButton.setEnabled(true);
-		competitionButton.setEnabled(true);
-		competitionLookup.setIcon(IconTextField.Icon.ERROR);
-		competitionLookup.setEditable(true);
+		lookup.setIcon(IconTextField.Icon.ERROR);
+		lookup.setEditable(true);
 	}
 
 	/* set fields for loading status */
 	private void loading()
 	{
-		searchButton.setEnabled(false);
-		competitionButton.setEnabled(false);
-		competitionLookup.setIcon(IconTextField.Icon.LOADING);
-		competitionLookup.setEditable(false);
+		lookup.setIcon(IconTextField.Icon.LOADING);
+		lookup.setEditable(false);
 	}
 
 	/* set fields for completed status */
 	private void completed()
 	{
-		searchButton.setEnabled(true);
-		competitionButton.setEnabled(true);
-		competitionLookup.setIcon(IconTextField.Icon.SEARCH);
-		competitionLookup.setEditable(true);
+		lookup.setIcon(IconTextField.Icon.SEARCH);
+		lookup.setEditable(true);
 	}
 }

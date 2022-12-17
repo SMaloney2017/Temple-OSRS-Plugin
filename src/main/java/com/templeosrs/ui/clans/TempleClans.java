@@ -10,9 +10,7 @@ import com.templeosrs.util.clan.TempleClan;
 import com.templeosrs.util.clan.TempleClanAchievement;
 import com.templeosrs.util.clan.TempleClanOverviewInfo;
 import com.templeosrs.util.sync.TempleSync;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -22,9 +20,10 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -35,7 +34,6 @@ import net.runelite.api.clan.ClanSettings;
 import net.runelite.api.clan.ClanTitle;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.ui.ColorScheme;
-import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.PluginErrorPanel;
@@ -47,7 +45,7 @@ public class TempleClans extends PluginPanel
 {
 	private static final Pattern isNumeric = Pattern.compile("-?\\d+(\\.\\d+)?");
 
-	public final IconTextField clanLookup;
+	public final IconTextField lookup;
 
 	private final Client client;
 
@@ -56,8 +54,6 @@ public class TempleClans extends PluginPanel
 	private final TempleOSRSPlugin plugin;
 
 	private final TempleOSRSConfig config;
-
-	private final JButton verifyButton;
 
 	private final PluginErrorPanel errorPanel = new PluginErrorPanel();
 
@@ -68,10 +64,6 @@ public class TempleClans extends PluginPanel
 	public TempleClanMembers clanMembers;
 
 	public TempleClanCurrentTop clanCurrentTop;
-
-	private JButton searchButton;
-
-	private JButton clanButton;
 
 	@Inject
 	public TempleClans(TempleOSRSConfig config, TempleOSRSPlugin plugin, Client client, ClientThread thread)
@@ -89,24 +81,9 @@ public class TempleClans extends PluginPanel
 		fetchLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		/* build and add search-text-field */
-		clanLookup = buildTextField();
-		fetchLayout.add(clanLookup);
+		lookup = buildTextField();
+		fetchLayout.add(lookup);
 
-		/* build and add search-buttons */
-		JPanel buttons = buildFetchButtons();
-		fetchLayout.add(buttons);
-
-		/* build and add members-verification */
-		JPanel verifyLayout = new JPanel();
-		verifyLayout.setLayout(new BorderLayout());
-		verifyLayout.setBorder(new EmptyBorder(0, 0, 5, 0));
-		verifyLayout.setOpaque(false);
-
-		verifyButton = createNewButton("Sync Members", "Sync all members of the clan you are currently in (Requires key)");
-		verifyButton.addActionListener(e -> verify());
-		verifyLayout.add(verifyButton);
-
-		fetchLayout.add(verifyLayout);
 		add(fetchLayout);
 
 		/* add default, error-panel when clan has not been fetched yet */
@@ -118,7 +95,7 @@ public class TempleClans extends PluginPanel
 		{
 			if (config.defaultClan() != 0)
 			{
-				clanLookup.setText(Integer.toString(config.defaultClan()));
+				lookup.setText(Integer.toString(config.defaultClan()));
 				fetchClan();
 			}
 		}
@@ -132,6 +109,7 @@ public class TempleClans extends PluginPanel
 		lookup.setEditable(true);
 		lookup.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
 		lookup.setBackground(ColorScheme.SCROLL_TRACK_COLOR);
+
 		/* fetch clan on action */
 		lookup.addActionListener(e -> fetchClan());
 		lookup.addMouseListener(new MouseAdapter()
@@ -139,18 +117,36 @@ public class TempleClans extends PluginPanel
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				if (e.getClickCount() != 2)
+				if (config.defaultClan() != 0 && SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2)
 				{
-					return;
+					lookup.setText(Integer.toString(config.defaultClan()));
+					fetchClan();
 				}
 
-				if (config.defaultClan() != 0)
+				if (SwingUtilities.isRightMouseButton(e))
 				{
-					clanLookup.setText(Integer.toString(config.defaultClan()));
-					fetchClan();
+					JPopupMenu menu = new JPopupMenu();
+					JMenuItem fetchPlayerMenuItem = new JMenuItem();
+					fetchPlayerMenuItem.setText("Search");
+					fetchPlayerMenuItem.addActionListener(ev -> fetchClan());
+					menu.add(fetchPlayerMenuItem);
+
+					JMenuItem openPlayerPageMenuItem = new JMenuItem();
+					openPlayerPageMenuItem.setText("Open TempleOSRS");
+					openPlayerPageMenuItem.addActionListener(ev -> open());
+					menu.add(openPlayerPageMenuItem);
+					lookup.add(menu);
+
+					JMenuItem syncClanMembersMenuItem = new JMenuItem();
+					syncClanMembersMenuItem.setText("Sync Clan Members");
+					syncClanMembersMenuItem.addActionListener(ev -> verify());
+					menu.add(syncClanMembersMenuItem);
+					lookup.add(menu);
+					menu.show(lookup, e.getX(), e.getY());
 				}
 			}
 		});
+
 		/* reset on clear */
 		lookup.addClearListener(() -> {
 			completed();
@@ -160,55 +156,10 @@ public class TempleClans extends PluginPanel
 		return lookup;
 	}
 
-	private JPanel buildFetchButtons()
-	{
-		JPanel buttonsLayout = new JPanel();
-		buttonsLayout.setLayout(new FlowLayout());
-		buttonsLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-
-		searchButton = createNewButton("Search", "Search for clan by ID (Found in TempleOSRS clan-page url)");
-		searchButton.addActionListener(e -> fetchClan());
-
-		clanButton = createNewButton("Open Page", "Opens TempleOSRS clan page");
-		clanButton.addActionListener(e -> open());
-
-		buttonsLayout.add(searchButton);
-		buttonsLayout.add(clanButton);
-
-		return buttonsLayout;
-	}
-
-	/* create a single, JButton with similar style */
-	private JButton createNewButton(String text, String tooltip)
-	{
-		JButton newButton = new JButton();
-
-		newButton.setFont(FontManager.getRunescapeFont());
-		newButton.setText(text);
-		newButton.setToolTipText(tooltip);
-		newButton.setForeground(ColorScheme.GRAND_EXCHANGE_LIMIT);
-
-		/* add hover mouse-listener for buttons */
-		newButton.addMouseListener(new MouseAdapter()
-		{
-			public void mouseEntered(MouseEvent evt)
-			{
-				newButton.setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
-			}
-
-			public void mouseExited(MouseEvent evt)
-			{
-				newButton.setForeground(ColorScheme.GRAND_EXCHANGE_LIMIT);
-			}
-		});
-
-		return newButton;
-	}
-
 	/* fetch clan from search-text-field */
 	public void fetchClan()
 	{
-		final String id = clanLookup.getText();
+		final String id = lookup.getText();
 
 		if (Strings.isNullOrEmpty(id))
 		{
@@ -309,7 +260,7 @@ public class TempleClans extends PluginPanel
 
 	private void open()
 	{
-		String id = clanLookup.getText();
+		String id = lookup.getText();
 		if (Strings.isNullOrEmpty(id))
 		{
 			return;
@@ -356,7 +307,7 @@ public class TempleClans extends PluginPanel
 		}
 
 		/* add confirmation to sync clan-members with fetched clan (requires key) */
-		final int confirmation = JOptionPane.showOptionDialog(verifyButton, "This will sync the fetched clan's TempleOSRS members-list to all members in the current account's clan (Requires Key).",
+		final int confirmation = JOptionPane.showOptionDialog(lookup, "This will sync the fetched clan's TempleOSRS members-list to all members in the current account's clan (Requires Key).",
 			"Are you sure?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
 			null, new String[]{
 				"Yes",
@@ -376,7 +327,7 @@ public class TempleClans extends PluginPanel
 	{
 		loading();
 
-		String id = clanLookup.getText();
+		String id = lookup.getText();
 		/* create separate thread for completing clan-post/ panel reload,
 		 *  try to post clan members given clan-id, verification, and list,
 		 *  when post completes, check response -> reload panel
@@ -444,7 +395,7 @@ public class TempleClans extends PluginPanel
 	{
 		remove(errorPanel);
 
-		if (!clanLookup.getText().equals(id))
+		if (!lookup.getText().equals(id))
 		{
 			completed();
 			return;
@@ -476,31 +427,22 @@ public class TempleClans extends PluginPanel
 	/* set fields for error status */
 	private void error()
 	{
-		searchButton.setEnabled(true);
-		clanButton.setEnabled(true);
-		verifyButton.setEnabled(true);
-		clanLookup.setIcon(IconTextField.Icon.ERROR);
-		clanLookup.setEditable(true);
+		lookup.setIcon(IconTextField.Icon.ERROR);
+		lookup.setEditable(true);
 	}
 
 	/* set fields for loading status */
 	private void loading()
 	{
-		searchButton.setEnabled(false);
-		clanButton.setEnabled(false);
-		verifyButton.setEnabled(false);
-		clanLookup.setIcon(IconTextField.Icon.LOADING);
-		clanLookup.setEditable(false);
+		lookup.setIcon(IconTextField.Icon.LOADING);
+		lookup.setEditable(false);
 	}
 
 	/* set fields for completed status */
 	private void completed()
 	{
-		searchButton.setEnabled(true);
-		clanButton.setEnabled(true);
-		verifyButton.setEnabled(true);
-		clanLookup.setIcon(IconTextField.Icon.SEARCH);
-		clanLookup.setEditable(true);
+		lookup.setIcon(IconTextField.Icon.SEARCH);
+		lookup.setEditable(true);
 	}
 
 	/* format username to be accepted by Temple API */

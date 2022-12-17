@@ -28,7 +28,7 @@ public class TempleRanksDuration extends JPanel
 		setOpaque(false);
 
 		setMinimumSize(new Dimension(PANEL_WIDTH, 20));
-		setBorder(new EmptyBorder(0, 0, 5, 0));
+		setBorder(new EmptyBorder(5, 0, 0, 0));
 
 		jComboBox = new JComboBox<>(OPTIONS);
 		jComboBox.addActionListener(e -> panel.fetchUser());
