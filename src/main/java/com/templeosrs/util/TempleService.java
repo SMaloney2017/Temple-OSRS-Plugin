@@ -1,11 +1,13 @@
 package com.templeosrs.util;
 
+import com.google.gson.Gson;
 import com.templeosrs.util.clan.TempleClan;
 import com.templeosrs.util.comp.TempleCompetition;
 import com.templeosrs.util.player.TemplePlayer;
 import com.templeosrs.util.sync.TempleSync;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import javax.inject.Inject;
 import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
@@ -17,9 +19,13 @@ import okhttp3.ResponseBody;
 
 public class TempleService
 {
-	private static final OkHttpClient client = new OkHttpClient();
+	@Inject
+	private OkHttpClient client;
 
-	private static String request(Request request) throws Exception
+	@Inject
+	private Gson gson;
+
+	private String request(Request request) throws Exception
 	{
 		String JSON = null;
 
@@ -36,7 +42,7 @@ public class TempleService
 		return JSON;
 	}
 
-	public static String requestUserSkillGains(String player, String duration) throws Exception
+	public String requestUserSkillGains(String player, String duration) throws Exception
 	{
 		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("player").addPathSegment("view").addPathSegment("overview_skilling_view.php").addQueryParameter("player", player).addQueryParameter("duration", duration).build();
 
@@ -45,7 +51,7 @@ public class TempleService
 		return request(request);
 	}
 
-	public static String requestUserBossGains(String player, String duration) throws Exception
+	public String requestUserBossGains(String player, String duration) throws Exception
 	{
 		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("player").addPathSegment("view").addPathSegment("overview_skilling_view.php").addQueryParameter("player", player).addQueryParameter("duration", duration).addQueryParameter("tracking", "bosses").build();
 
@@ -54,7 +60,7 @@ public class TempleService
 		return request(request);
 	}
 
-	public static String requestClanOverview(String id) throws Exception
+	public String requestClanOverview(String id) throws Exception
 	{
 		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("api").addPathSegment("group_info.php").addQueryParameter("id", id).build();
 
@@ -63,7 +69,7 @@ public class TempleService
 		return request(request);
 	}
 
-	public static String requestClanAchievements(String id) throws Exception
+	public String requestClanAchievements(String id) throws Exception
 	{
 		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("api").addPathSegment("group_achievements.php").addQueryParameter("id", id).build();
 
@@ -72,7 +78,7 @@ public class TempleService
 		return request(request);
 	}
 
-	public static String requestCompetitionInfo(String id) throws Exception
+	public String requestCompetitionInfo(String id) throws Exception
 	{
 		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("api").addPathSegment("competition_info.php").addQueryParameter("id", id).build();
 
@@ -81,7 +87,7 @@ public class TempleService
 		return request(request);
 	}
 
-	public static String requestClanCurrentTop(String skill, String id, String range) throws Exception
+	public String requestClanCurrentTop(String skill, String id, String range) throws Exception
 	{
 		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("api").addPathSegment("current_top").addPathSegment(range + ".php").addQueryParameter("skill", skill).addQueryParameter("group", id).build();
 
@@ -90,17 +96,17 @@ public class TempleService
 		return request(request);
 	}
 
-	public static CompletableFuture<TemplePlayer> fetchUserGainsAsync(String player, String duration) throws Exception
+	public CompletableFuture<TemplePlayer> fetchUserGainsAsync(String player, String duration) throws Exception
 	{
 		String playerSkillsOverviewJSON = requestUserSkillGains(player, duration);
 		String playerBossingOverviewJSON = requestUserBossGains(player, duration);
 
 		CompletableFuture<TemplePlayer> future = new CompletableFuture<>();
-		future.complete(new TemplePlayer(playerSkillsOverviewJSON, playerBossingOverviewJSON));
+		future.complete(new TemplePlayer(playerSkillsOverviewJSON, playerBossingOverviewJSON, gson));
 		return future;
 	}
 
-	public static CompletableFuture<TempleClan> fetchClanAsync(String id, String range) throws Exception
+	public CompletableFuture<TempleClan> fetchClanAsync(String id, String range) throws Exception
 	{
 		String clanOverviewJSON = requestClanOverview(id);
 		String clanAchievementsJSON = requestClanAchievements(id);
@@ -108,20 +114,20 @@ public class TempleService
 		String clanCurrentTopEhbJSON = requestClanCurrentTop("ehb", id, range);
 
 		CompletableFuture<TempleClan> future = new CompletableFuture<>();
-		future.complete(new TempleClan(clanOverviewJSON, clanAchievementsJSON, clanCurrentTopEhpJSON, clanCurrentTopEhbJSON));
+		future.complete(new TempleClan(clanOverviewJSON, clanAchievementsJSON, clanCurrentTopEhpJSON, clanCurrentTopEhbJSON, gson));
 		return future;
 	}
 
-	public static CompletableFuture<TempleCompetition> fetchCompetitionAsync(String id) throws Exception
+	public CompletableFuture<TempleCompetition> fetchCompetitionAsync(String id) throws Exception
 	{
 		String competitionOverviewJSON = requestCompetitionInfo(id);
 
 		CompletableFuture<TempleCompetition> future = new CompletableFuture<>();
-		future.complete(new TempleCompetition(competitionOverviewJSON));
+		future.complete(new TempleCompetition(competitionOverviewJSON, gson));
 		return future;
 	}
 
-	public static CompletableFuture<TempleSync> syncClanMembersAsync(String id, String key, List<String> members) throws Exception
+	public CompletableFuture<TempleSync> syncClanMembersAsync(String id, String key, List<String> members) throws Exception
 	{
 		String syncResponseJSON;
 
@@ -138,7 +144,7 @@ public class TempleService
 		return future;
 	}
 
-	public static CompletableFuture<TempleSync> addClanMembersAsync(String id, String key, List<String> members) throws Exception
+	public CompletableFuture<TempleSync> addClanMembersAsync(String id, String key, List<String> members) throws Exception
 	{
 		String syncResponseJSON;
 
@@ -155,7 +161,7 @@ public class TempleService
 		return future;
 	}
 
-	public static void addDatapointAsync(String username, long accountHash) throws Exception
+	public void addDatapointAsync(String username, long accountHash) throws Exception
 	{
 		HttpUrl url = new HttpUrl.Builder().scheme("https").host("templeosrs.com").addPathSegment("php").addPathSegment("add_datapoint.php").addQueryParameter("player", username).addQueryParameter("accountHash", Long.toString(accountHash)).build();
 

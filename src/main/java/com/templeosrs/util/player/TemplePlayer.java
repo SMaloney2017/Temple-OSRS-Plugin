@@ -5,15 +5,13 @@ import java.util.Objects;
 
 public class TemplePlayer
 {
-	private final static Gson gson = new Gson();
-
 	public boolean error = false;
 
 	public TemplePlayerResponse playerSkillsOverview;
 
 	public TemplePlayerResponse playerBossesOverview;
 
-	public TemplePlayer(String playerSkillsOverviewJSON, String playerBossingOverviewJSON)
+	public TemplePlayer(String playerSkillsOverviewJSON, String playerBossingOverviewJSON, Gson gson)
 	{
 		playerSkillsOverview = gson.fromJson(playerSkillsOverviewJSON, TemplePlayerResponse.class);
 		playerBossesOverview = gson.fromJson(playerBossingOverviewJSON, TemplePlayerResponse.class);

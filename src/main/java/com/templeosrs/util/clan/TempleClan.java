@@ -5,8 +5,6 @@ import java.util.Objects;
 
 public class TempleClan
 {
-	private final static Gson gson = new Gson();
-
 	public boolean error = false;
 
 	public TempleClanOverviewResponse clanOverview;
@@ -17,7 +15,7 @@ public class TempleClan
 
 	public TempleClanCurrentTopResponse clanCurrentTopEhb;
 
-	public TempleClan(String clanOverviewJSON, String clanAchievementsJSON, String clanCurrentTopEhpJSON, String clanCurrentTopEhbJSON)
+	public TempleClan(String clanOverviewJSON, String clanAchievementsJSON, String clanCurrentTopEhpJSON, String clanCurrentTopEhbJSON, Gson gson)
 	{
 		clanOverview = gson.fromJson(clanOverviewJSON, TempleClanOverviewResponse.class);
 

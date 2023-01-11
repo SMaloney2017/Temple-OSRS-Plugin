@@ -3,7 +3,7 @@ package com.templeosrs.ui.competitions;
 import com.google.common.base.Strings;
 import com.templeosrs.TempleOSRSConfig;
 import com.templeosrs.TempleOSRSPlugin;
-import static com.templeosrs.util.TempleService.fetchCompetitionAsync;
+import com.templeosrs.util.TempleService;
 import com.templeosrs.util.comp.TempleCompetition;
 import com.templeosrs.util.comp.TempleCompetitionInfo;
 import com.templeosrs.util.comp.TempleCompetitionParticipant;
@@ -46,12 +46,15 @@ public class TempleCompetitions extends PluginPanel
 
 	private final JPanel fetchLayout;
 
+	private final TempleService service;
+
 	@Inject
-	public TempleCompetitions(TempleOSRSConfig config, TempleOSRSPlugin plugin, Client client)
+	public TempleCompetitions(TempleOSRSConfig config, TempleOSRSPlugin plugin, Client client, TempleService templeService)
 	{
 		this.plugin = plugin;
 		this.client = client;
 		this.config = config;
+		this.service = templeService;
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
@@ -158,7 +161,7 @@ public class TempleCompetitions extends PluginPanel
 		new Thread(() -> {
 			try
 			{
-				fetchCompetitionAsync(id).whenCompleteAsync((result, err) -> response(id, result, err));
+				service.fetchCompetitionAsync(id).whenCompleteAsync((result, err) -> response(id, result, err));
 			}
 			catch (Exception e)
 			{

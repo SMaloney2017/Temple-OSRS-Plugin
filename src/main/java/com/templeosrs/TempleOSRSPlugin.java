@@ -30,7 +30,7 @@ import com.templeosrs.ui.TempleOSRSPanel;
 import com.templeosrs.ui.clans.TempleClans;
 import com.templeosrs.ui.competitions.TempleCompetitions;
 import com.templeosrs.ui.ranks.TempleRanks;
-import static com.templeosrs.util.TempleService.addDatapointAsync;
+import com.templeosrs.util.TempleService;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.swing.SwingUtilities;
@@ -103,6 +103,9 @@ public class TempleOSRSPlugin extends Plugin
 
 	@Inject
 	private XpUpdaterPlugin xpUpdaterPlugin;
+
+	@Inject
+	private TempleService service;
 
 	@Override
 	protected void startUp()
@@ -295,7 +298,7 @@ public class TempleOSRSPlugin extends Plugin
 			new Thread(() -> {
 				try
 				{
-					addDatapointAsync(username, accountHash);
+					service.addDatapointAsync(username, accountHash);
 				}
 				catch (Exception ignored)
 				{

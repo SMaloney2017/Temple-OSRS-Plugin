@@ -31,7 +31,7 @@ import com.google.common.base.Strings;
 import com.templeosrs.TempleOSRSConfig;
 import com.templeosrs.util.NameAutocompleter;
 import com.templeosrs.util.PlayerRanges;
-import static com.templeosrs.util.TempleService.fetchUserGainsAsync;
+import com.templeosrs.util.TempleService;
 import com.templeosrs.util.player.TemplePlayer;
 import com.templeosrs.util.player.TemplePlayerData;
 import com.templeosrs.util.player.TemplePlayerSkill;
@@ -75,12 +75,15 @@ public class TempleRanks extends PluginPanel
 
 	private final TempleRanksOverview overview;
 
+	private final TempleService service;
+
 	@Inject
-	public TempleRanks(TempleOSRSConfig config, Client client, NameAutocompleter nameAutocompleter)
+	public TempleRanks(TempleOSRSConfig config, Client client, TempleService templeService, NameAutocompleter nameAutocompleter)
 	{
 		this.client = client;
 		this.config = config;
 		this.nameAutocompleter = nameAutocompleter;
+		this.service = templeService;
 
 		skills = new TempleActivity(HiscoreSkillType.SKILL);
 		bosses = new TempleActivity(HiscoreSkillType.BOSS);
@@ -238,10 +241,11 @@ public class TempleRanks extends PluginPanel
 		new Thread(() -> {
 			try
 			{
-				fetchUserGainsAsync(username, period).whenCompleteAsync((result, err) -> response(username, result, err));
+				service.fetchUserGainsAsync(username, period).whenCompleteAsync((result, err) -> response(username, result, err));
 			}
 			catch (Exception e)
 			{
+				e.printStackTrace();
 				error();
 			}
 		}).start();

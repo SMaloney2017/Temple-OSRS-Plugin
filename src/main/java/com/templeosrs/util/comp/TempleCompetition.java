@@ -5,13 +5,11 @@ import java.util.Objects;
 
 public class TempleCompetition
 {
-	private final static Gson gson = new Gson();
-
 	public boolean error = false;
 
 	public TempleCompetitionResponse compOverview;
 
-	public TempleCompetition(String competitionJSON)
+	public TempleCompetition(String competitionJSON, Gson gson)
 	{
 		compOverview = gson.fromJson(competitionJSON, TempleCompetitionResponse.class);
 

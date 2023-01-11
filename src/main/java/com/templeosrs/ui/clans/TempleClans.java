@@ -3,9 +3,7 @@ package com.templeosrs.ui.clans;
 import com.google.common.base.Strings;
 import com.templeosrs.TempleOSRSConfig;
 import com.templeosrs.TempleOSRSPlugin;
-import static com.templeosrs.util.TempleService.addClanMembersAsync;
-import static com.templeosrs.util.TempleService.fetchClanAsync;
-import static com.templeosrs.util.TempleService.syncClanMembersAsync;
+import com.templeosrs.util.TempleService;
 import com.templeosrs.util.clan.TempleClan;
 import com.templeosrs.util.clan.TempleClanAchievement;
 import com.templeosrs.util.clan.TempleClanOverviewInfo;
@@ -65,13 +63,16 @@ public class TempleClans extends PluginPanel
 
 	public TempleClanCurrentTop clanCurrentTop;
 
+	public TempleService service;
+
 	@Inject
-	public TempleClans(TempleOSRSConfig config, TempleOSRSPlugin plugin, Client client, ClientThread thread)
+	public TempleClans(TempleOSRSConfig config, TempleOSRSPlugin plugin, Client client, ClientThread thread, TempleService templeService)
 	{
 		this.plugin = plugin;
 		this.client = client;
 		this.thread = thread;
 		this.config = config;
+		this.service = templeService;
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
@@ -185,7 +186,7 @@ public class TempleClans extends PluginPanel
 		new Thread(() -> {
 			try
 			{
-				fetchClanAsync(id, config.currentTopRange().getRange()).whenCompleteAsync((result, err) -> response(id, result, err));
+				service.fetchClanAsync(id, config.currentTopRange().getRange()).whenCompleteAsync((result, err) -> response(id, result, err));
 			}
 			catch (Exception e)
 			{
@@ -203,7 +204,7 @@ public class TempleClans extends PluginPanel
 
 		try
 		{
-			fetchClanAsync(id, config.currentTopRange().getRange()).whenCompleteAsync((result, err) -> response(id, result, err));
+			service.fetchClanAsync(id, config.currentTopRange().getRange()).whenCompleteAsync((result, err) -> response(id, result, err));
 		}
 		catch (Exception e)
 		{
@@ -338,11 +339,11 @@ public class TempleClans extends PluginPanel
 			{
 				if (config.onlyAddMembers())
 				{
-					addClanMembersAsync(id, config.clanKey(), filteredList).whenCompleteAsync((result, err) -> response(id, result, err));
+					service.addClanMembersAsync(id, config.clanKey(), filteredList).whenCompleteAsync((result, err) -> response(id, result, err));
 				}
 				else
 				{
-					syncClanMembersAsync(id, config.clanKey(), filteredList).whenCompleteAsync((result, err) -> response(id, result, err));
+					service.syncClanMembersAsync(id, config.clanKey(), filteredList).whenCompleteAsync((result, err) -> response(id, result, err));
 				}
 			}
 			catch (Exception e)
