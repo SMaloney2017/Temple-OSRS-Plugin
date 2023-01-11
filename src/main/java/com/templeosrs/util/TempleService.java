@@ -140,7 +140,7 @@ public class TempleService
 		syncResponseJSON = request(request);
 
 		CompletableFuture<TempleSync> future = new CompletableFuture<>();
-		future.complete(new TempleSync(syncResponseJSON));
+		future.complete(new TempleSync(syncResponseJSON, gson));
 		return future;
 	}
 
@@ -157,7 +157,7 @@ public class TempleService
 		syncResponseJSON = request(request);
 
 		CompletableFuture<TempleSync> future = new CompletableFuture<>();
-		future.complete(new TempleSync(syncResponseJSON));
+		future.complete(new TempleSync(syncResponseJSON, gson));
 		return future;
 	}
 

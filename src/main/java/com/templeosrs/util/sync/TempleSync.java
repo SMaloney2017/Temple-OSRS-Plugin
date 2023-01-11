@@ -5,13 +5,11 @@ import java.util.Objects;
 
 public class TempleSync
 {
-	private final static Gson gson = new Gson();
-
 	public boolean error = false;
 
 	public TempleSyncResponse dataResponse;
 
-	public TempleSync(String response)
+	public TempleSync(String response, Gson gson)
 	{
 		dataResponse = gson.fromJson(response, TempleSyncResponse.class);
 
