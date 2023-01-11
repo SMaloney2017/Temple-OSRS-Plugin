@@ -12,6 +12,7 @@ import java.util.Objects;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -70,7 +71,7 @@ public class TempleClanOverview extends JPanel
 
 		/* create and add socials to layout */
 		JPanel clanSocials = new JPanel();
-		clanSocials.setPreferredSize(new Dimension(PANEL_WIDTH, 25));
+		clanSocials.setPreferredSize(new Dimension(PANEL_WIDTH, 30));
 		clanSocials.setLayout(new FlowLayout());
 		clanSocials.setAlignmentX(Component.CENTER_ALIGNMENT);
 		clanSocials.setBackground(ColorScheme.DARKER_GRAY_COLOR);
@@ -78,31 +79,31 @@ public class TempleClanOverview extends JPanel
 		/* if social link exists, create and add button to socials-panel */
 		if (Objects.nonNull(info.discordLink))
 		{
-			JLabel social = createSocialsButton("https://discord.com/invite/" + info.discordLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png")));
+			JButton social = createSocialsButton("https://discord.com/invite/" + info.discordLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png")));
 			clanSocials.add(social);
 		}
 
 		if (Objects.nonNull(info.twitterLink))
 		{
-			JLabel social = createSocialsButton("https://twitter.com/" + info.twitterLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/twitter.png")));
+			JButton social = createSocialsButton("https://twitter.com/" + info.twitterLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/twitter.png")));
 			clanSocials.add(social);
 		}
 
 		if (Objects.nonNull(info.youtubeLink))
 		{
-			JLabel social = createSocialsButton("https://www.youtube.com/channel/" + info.youtubeLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/youtube.png")));
+			JButton social = createSocialsButton("https://www.youtube.com/channel/" + info.youtubeLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/youtube.png")));
 			clanSocials.add(social);
 		}
 
 		if (Objects.nonNull(info.forumLink))
 		{
-			JLabel social = createSocialsButton("https://secure.runescape.com/m=forum/sl=0/forums?" + info.forumLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/forums.png")));
+			JButton social = createSocialsButton("https://secure.runescape.com/m=forum/sl=0/forums?" + info.forumLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/forums.png")));
 			clanSocials.add(social);
 		}
 
 		if (Objects.nonNull(info.twitchLink))
 		{
-			JLabel social = createSocialsButton("https://www.twitch.tv/" + info.twitchLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png")));
+			JButton social = createSocialsButton("https://www.twitch.tv/" + info.twitchLink, new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "clans/discord.png")));
 			clanSocials.add(social);
 		}
 
@@ -115,14 +116,18 @@ public class TempleClanOverview extends JPanel
 		add(layoutPanel);
 	}
 
-	private JLabel createSocialsButton(String link, ImageIcon icon)
+	private JButton createSocialsButton(String link, ImageIcon icon)
 	{
-		JLabel social = new JLabel();
-		social.setPreferredSize(new Dimension(16, 16));
-		social.setIcon(icon);
+		JButton socialButton = new JButton();
+		socialButton.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		socialButton.setBorder(new EmptyBorder(4, 4, 4, 4));
+
+		JLabel socialLabel = new JLabel();
+		socialLabel.setPreferredSize(new Dimension(16, 16));
+		socialLabel.setIcon(icon);
 
 		/* on social-icon click mouse-event, open link to social */
-		social.addMouseListener(new MouseAdapter()
+		socialButton.addMouseListener(new MouseAdapter()
 		{
 			@Override
 			public void mouseClicked(MouseEvent e)
@@ -130,7 +135,22 @@ public class TempleClanOverview extends JPanel
 				String url = link.trim();
 				SwingUtilities.invokeLater(() -> LinkBrowser.browse(url));
 			}
+
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				socialButton.setBackground(ColorScheme.DARKER_GRAY_HOVER_COLOR);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				socialButton.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+			}
 		});
-		return social;
+
+		socialButton.add(socialLabel);
+
+		return socialButton;
 	}
 }

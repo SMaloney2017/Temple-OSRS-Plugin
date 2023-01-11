@@ -131,10 +131,10 @@ public enum TempleHiscoreSkill
 	PVP_ARENA("PvP Arena", SKILL),
 	TOMBS_OF_AMASCUT("Tombs of Amascut", BOSS),
 	TOMBS_OF_AMASCUT_EXPERT("Tombs of Amascut Expert", BOSS),
-	NULL("Null", SKILL),
+	PHANTOM_MUSPAH("Phantom Muspah", BOSS),
 	NULL1("Null", SKILL),
 	NULL2("Null", SKILL),
-	NULL3("Null", SKILL),
+	NULL("Null", SKILL),
 	FANTASY_EHP("Fantasy Ehp", SKILL);
 
 	private final String name;

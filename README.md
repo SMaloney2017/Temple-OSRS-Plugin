@@ -7,12 +7,11 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
 
 1. Fetch player's recorded gains by **username**. <br>
    ![1671320745](https://user-images.githubusercontent.com/60162255/208270060-3de2401c-ee5a-43c6-bb0f-6297d2c3d429.png)
-   
+
 2. Fetch clan by **TempleOSRS Clan-ID**. `Clan ID obtainable via TempleOSRS clan-page URL` <br>
    ![1671320591](https://user-images.githubusercontent.com/60162255/208270057-6666e5a8-8597-4be9-9062-a23e9478d181.png)
-   
-3. Fetch competition by **TempleOSRS Comp-ID**. `Competition ID obtainable via TempleOSRS competition-page
-   URL`<br>
+
+3. Fetch competition by **TempleOSRS Comp-ID**. `Competition ID obtainable via TempleOSRS competition-page URL`<br>
    ![1671320591](https://user-images.githubusercontent.com/60162255/208270031-4fe1ee18-6ea8-4bff-a9c1-46e5884e7343.png)
 
 - - -
@@ -28,6 +27,7 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
 3. Toggle `Fetch-defaults`
 
 #### Rank Options
+
 1. Set `default-player` to be fetched on startup or search-icon double-click
 2. Set `default-range`
 3. Toggle `auto-update` of local-player on logout
@@ -46,12 +46,19 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
 #### Competition Options
 
 1. `Default competition` loaded on startup or search-icon double-click
+
 - - -
 
 ### Frequently Asked Questions
 
 1. Where can I find my Clan Key?
-   *  The group's verification-key is used by *group-admins* to edit a group's leaders, members, and type on TempleOSRS. `A group key is generated when a new group is created on TempleOSRS and is usually only accessible to that group's admins`. Clan-Sync uses the group-key to update the fetched group's members to those in the local-player's current clan.
-   
+    * The group's verification-key is used by *group-admins* to edit a group's leaders, members, and type on
+      TempleOSRS. `A group key is generated when a new group is created on TempleOSRS and is usually only accessible to that group's admins`
+      . Clan-Sync uses the group-key to update the fetched group's members to those in the local-player's current clan.
+
 2. Where can I find my Clan or Competition's ID?
-   *  Clan and Competition IDs are unique identifiers generated on group or competition creation and are used to fetch relevant information. It's possible that there are many groups or competitions with the same name on TempleOSRS, so it's necessary to fetch imformation by ID rather than by name. `Clan and Competition IDs can be found in the URL of the clan or competition's TempleOSRS page. These IDs can be set as defaults in the plugin's configuartion afterwards`.
+    * Clan and Competition IDs are unique identifiers generated on group or competition creation and are used to fetch
+      relevant information. It's possible that there are many groups or competitions with the same name on TempleOSRS,
+      so it's necessary to fetch imformation by ID rather than by
+      name. `Clan and Competition IDs can be found in the URL of the clan or competition's TempleOSRS page. These IDs can be set as defaults in the plugin's configuartion afterwards`
+      .
