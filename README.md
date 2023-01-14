@@ -9,7 +9,8 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
    ![image](https://user-images.githubusercontent.com/60162255/208270060-3de2401c-ee5a-43c6-bb0f-6297d2c3d429.png)
 
 2. Fetch clan by **TempleOSRS Clan-ID**. `Clan ID obtainable via TempleOSRS clan-page URL` <br>
-   ![image](https://user-images.githubusercontent.com/60162255/208270057-6666e5a8-8597-4be9-9062-a23e9478d181.png)
+   ![image](https://user-images.githubusercontent.com/60162255/212440103-302f1b64-b883-49ea-984d-05bb0d6b9170.png)
+
 
 3. Fetch competition by **TempleOSRS Comp-ID**. `Competition ID obtainable via TempleOSRS competition-page URL`<br>
    ![image](https://user-images.githubusercontent.com/60162255/208270031-4fe1ee18-6ea8-4bff-a9c1-46e5884e7343.png)
