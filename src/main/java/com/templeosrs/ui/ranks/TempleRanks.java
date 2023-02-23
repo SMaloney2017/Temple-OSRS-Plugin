@@ -29,6 +29,7 @@ package com.templeosrs.ui.ranks;
 
 import com.google.common.base.Strings;
 import com.templeosrs.TempleOSRSConfig;
+import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.util.NameAutocompleter;
 import com.templeosrs.util.PlayerRanges;
 import com.templeosrs.util.TempleService;
@@ -43,6 +44,8 @@ import java.util.Objects;
 import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -56,6 +59,7 @@ import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.materialtabs.MaterialTab;
 import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
+import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.LinkBrowser;
 import okhttp3.HttpUrl;
 
@@ -90,7 +94,6 @@ public class TempleRanks extends PluginPanel
 
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		JPanel fetchLayout = new JPanel();
 		fetchLayout.setLayout(new BoxLayout(fetchLayout, BoxLayout.Y_AXIS));
@@ -98,12 +101,59 @@ public class TempleRanks extends PluginPanel
 		fetchLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		/* build and add search-text-field */
+		JPanel searchLayout = new JPanel();
+		searchLayout.setLayout(new BoxLayout(searchLayout, BoxLayout.X_AXIS));
+		searchLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
 		lookup = buildTextField();
-		fetchLayout.add(lookup);
+		searchLayout.add(lookup);
+
+		JLabel actions = new JLabel();
+		actions.setBorder(new EmptyBorder(0, 5, 0, 0));
+		actions.setIcon(new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "gears.png")));
+		actions.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				if (client == null)
+				{
+					return;
+				}
+
+				JPopupMenu menu = new JPopupMenu();
+				JMenuItem fetchPlayerMenuItem = new JMenuItem();
+				fetchPlayerMenuItem.setText("Search");
+				fetchPlayerMenuItem.addActionListener(ev -> fetchUser());
+				menu.add(fetchPlayerMenuItem);
+
+				JMenuItem openPlayerPageMenuItem = new JMenuItem();
+				openPlayerPageMenuItem.setText("Open TempleOSRS");
+				openPlayerPageMenuItem.addActionListener(ev -> open());
+				menu.add(openPlayerPageMenuItem);
+				actions.add(menu);
+				menu.show(actions, e.getX(), e.getY());
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				actions.setIcon(new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "gears_light.png")));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				actions.setIcon(new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "gears.png")));
+			}
+		});
+
+		searchLayout.add(actions);
+		fetchLayout.add(searchLayout);
 
 		/* build and add duration selection */
 		TempleRanksDuration timeSelection = new TempleRanksDuration(config, this);
 		fetchLayout.add(timeSelection);
+
 		add(fetchLayout);
 
 		/* build and add player overview */
@@ -174,22 +224,6 @@ public class TempleRanks extends PluginPanel
 					{
 						fetchUser(config.defaultPlayer());
 					}
-				}
-
-				if (SwingUtilities.isRightMouseButton(e))
-				{
-					JPopupMenu menu = new JPopupMenu();
-					JMenuItem fetchPlayerMenuItem = new JMenuItem();
-					fetchPlayerMenuItem.setText("Search");
-					fetchPlayerMenuItem.addActionListener(ev -> fetchUser());
-					menu.add(fetchPlayerMenuItem);
-
-					JMenuItem openPlayerPageMenuItem = new JMenuItem();
-					openPlayerPageMenuItem.setText("Open TempleOSRS");
-					openPlayerPageMenuItem.addActionListener(ev -> open());
-					menu.add(openPlayerPageMenuItem);
-					lookup.add(menu);
-					menu.show(lookup, e.getX(), e.getY());
 				}
 			}
 		});

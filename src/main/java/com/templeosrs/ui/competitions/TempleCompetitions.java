@@ -16,6 +16,8 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -27,6 +29,7 @@ import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.PluginErrorPanel;
+import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.LinkBrowser;
 import okhttp3.HttpUrl;
 
@@ -64,8 +67,55 @@ public class TempleCompetitions extends PluginPanel
 		fetchLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		/* build and add search-text-field */
+		JPanel searchLayout = new JPanel();
+		searchLayout.setLayout(new BoxLayout(searchLayout, BoxLayout.X_AXIS));
+		searchLayout.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
 		lookup = buildTextField();
-		fetchLayout.add(lookup);
+		searchLayout.add(lookup);
+
+		JLabel actions = new JLabel();
+		actions.setBorder(new EmptyBorder(0, 5, 0, 0));
+		actions.setIcon(new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "gears.png")));
+		actions.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				if (client == null)
+				{
+					return;
+				}
+
+				JPopupMenu menu = new JPopupMenu();
+				JMenuItem fetchPlayerMenuItem = new JMenuItem();
+				fetchPlayerMenuItem.setText("Search");
+				fetchPlayerMenuItem.addActionListener(ev -> fetchCompetition());
+				menu.add(fetchPlayerMenuItem);
+
+				JMenuItem openPlayerPageMenuItem = new JMenuItem();
+				openPlayerPageMenuItem.setText("Open TempleOSRS");
+				openPlayerPageMenuItem.addActionListener(ev -> open());
+				menu.add(openPlayerPageMenuItem);
+				actions.add(menu);
+
+				menu.show(actions, e.getX(), e.getY());
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				actions.setIcon(new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "gears_light.png")));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				actions.setIcon(new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "gears.png")));
+			}
+		});
+
+		searchLayout.add(actions);
+		fetchLayout.add(searchLayout);
 
 		add(fetchLayout);
 
@@ -104,25 +154,9 @@ public class TempleCompetitions extends PluginPanel
 					lookup.setText(Integer.toString(config.defaultComp()));
 					fetchCompetition();
 				}
-
-				if (SwingUtilities.isRightMouseButton(e))
-				{
-					JPopupMenu menu = new JPopupMenu();
-					JMenuItem fetchPlayerMenuItem = new JMenuItem();
-					fetchPlayerMenuItem.setText("Search");
-					fetchPlayerMenuItem.addActionListener(ev -> fetchCompetition());
-					menu.add(fetchPlayerMenuItem);
-
-					JMenuItem openPlayerPageMenuItem = new JMenuItem();
-					openPlayerPageMenuItem.setText("Open TempleOSRS");
-					openPlayerPageMenuItem.addActionListener(ev -> open());
-					menu.add(openPlayerPageMenuItem);
-					lookup.add(menu);
-
-					menu.show(lookup, e.getX(), e.getY());
-				}
 			}
 		});
+
 		/* reset on clear */
 		lookup.addClearListener(() -> {
 			completed();
