@@ -78,7 +78,7 @@ public interface TempleOSRSConfig extends Config
 		position = 1,
 		section = rankOptions
 	)
-	default String defaultPlayer()
+	default String getDefaultPlayer()
 	{
 		return "";
 	}
@@ -90,7 +90,7 @@ public interface TempleOSRSConfig extends Config
 		position = 2,
 		section = rankOptions
 	)
-	default PlayerRanges defaultRange()
+	default PlayerRanges getDefaultRange()
 	{
 		return PlayerRanges.Week;
 	}
@@ -114,7 +114,7 @@ public interface TempleOSRSConfig extends Config
 		position = 1,
 		section = clanOptions
 	)
-	default boolean clanAchievements()
+	default boolean displayClanAchievements()
 	{
 		return true;
 	}
@@ -126,7 +126,7 @@ public interface TempleOSRSConfig extends Config
 		position = 2,
 		section = clanOptions
 	)
-	default boolean clanMembers()
+	default boolean displayClanMembers()
 	{
 		return false;
 	}
@@ -138,7 +138,7 @@ public interface TempleOSRSConfig extends Config
 		position = 3,
 		section = clanOptions
 	)
-	default boolean clanCurrentTop()
+	default boolean displayClanCurrentTop()
 	{
 		return true;
 	}
@@ -150,7 +150,7 @@ public interface TempleOSRSConfig extends Config
 		position = 4,
 		section = clanOptions
 	)
-	default CurrentTopRanges currentTopRange()
+	default CurrentTopRanges getCurrentTopRange()
 	{
 		return CurrentTopRanges.Week;
 	}
@@ -162,7 +162,7 @@ public interface TempleOSRSConfig extends Config
 		position = 5,
 		section = clanOptions
 	)
-	default int defaultClan()
+	default int getDefaultClan()
 	{
 		return 0;
 	}
@@ -211,7 +211,7 @@ public interface TempleOSRSConfig extends Config
 		position = 1,
 		section = compOptions
 	)
-	default int defaultComp()
+	default int getDefaultComp()
 	{
 		return 0;
 	}

@@ -39,7 +39,7 @@ public class TempleCompetitionWatchlist extends JPanel
 			panel.lookup.setText((String) jComboBox.getSelectedItem());
 			panel.fetchCompetition();
 		});
-		jComboBox.setSelectedItem(config.defaultComp());
+		jComboBox.setSelectedItem(config.getDefaultComp());
 
 		add(jComboBox);
 	}

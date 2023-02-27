@@ -32,7 +32,7 @@ public class TempleRanksDuration extends JPanel
 
 		jComboBox = new JComboBox<>(OPTIONS);
 		jComboBox.addActionListener(e -> panel.fetchUser());
-		jComboBox.setSelectedItem(config.defaultRange().getName());
+		jComboBox.setSelectedItem(config.getDefaultRange().getName());
 
 		add(jComboBox);
 	}

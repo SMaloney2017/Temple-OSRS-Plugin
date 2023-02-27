@@ -131,6 +131,7 @@ public class TempleRanks extends PluginPanel
 				openPlayerPageMenuItem.setText("Open TempleOSRS");
 				openPlayerPageMenuItem.addActionListener(ev -> open());
 				menu.add(openPlayerPageMenuItem);
+
 				actions.add(menu);
 				menu.show(actions, e.getX(), e.getY());
 			}
@@ -181,11 +182,9 @@ public class TempleRanks extends PluginPanel
 		/* load default player on start-up */
 		if (config.fetchDefaults())
 		{
-			String player = config.defaultPlayer();
-
-			if (!Strings.isNullOrEmpty(player))
+			if (!Strings.isNullOrEmpty(config.getDefaultPlayer()))
 			{
-				fetchUser(config.defaultPlayer());
+				fetchUser(config.getDefaultPlayer());
 			}
 		}
 	}
@@ -219,11 +218,11 @@ public class TempleRanks extends PluginPanel
 
 				if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2)
 				{
-					String player = config.defaultPlayer();
+					String player = config.getDefaultPlayer();
 
 					if (!Strings.isNullOrEmpty(player))
 					{
-						fetchUser(config.defaultPlayer());
+						fetchUser(player);
 					}
 				}
 			}

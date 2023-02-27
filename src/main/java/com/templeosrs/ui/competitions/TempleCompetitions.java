@@ -99,20 +99,18 @@ public class TempleCompetitions extends PluginPanel
 				openPlayerPageMenuItem.setText("Open TempleOSRS");
 				openPlayerPageMenuItem.addActionListener(ev -> open());
 				menu.add(openPlayerPageMenuItem);
-				actions.add(menu);
 
 				JMenuItem addItemMenuItem = new JMenuItem();
 				addItemMenuItem.setText("Add to Watchlist");
 				addItemMenuItem.addActionListener(ev -> watchlist.addWatchlistItem(lookup.getText()));
 				menu.add(addItemMenuItem);
-				actions.add(menu);
 
 				JMenuItem removeItemMenuItem = new JMenuItem();
 				removeItemMenuItem.setText("Remove from Watchlist");
 				removeItemMenuItem.addActionListener(ev -> watchlist.removeWatchlistItem(lookup.getText()));
 				menu.add(removeItemMenuItem);
-				actions.add(menu);
 
+				actions.add(menu);
 				menu.show(actions, e.getX(), e.getY());
 			}
 
@@ -145,9 +143,9 @@ public class TempleCompetitions extends PluginPanel
 		/* load default competition on start-up */
 		if (config.fetchDefaults())
 		{
-			if (config.defaultComp() != 0)
+			if (config.getDefaultComp() != 0)
 			{
-				lookup.setText(Integer.toString(config.defaultComp()));
+				lookup.setText(Integer.toString(config.getDefaultComp()));
 				fetchCompetition();
 			}
 		}
@@ -168,9 +166,9 @@ public class TempleCompetitions extends PluginPanel
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				if (config.defaultComp() != 0 && SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2)
+				if (config.getDefaultComp() != 0 && SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2)
 				{
-					lookup.setText(Integer.toString(config.defaultComp()));
+					lookup.setText(Integer.toString(config.getDefaultComp()));
 					fetchCompetition();
 				}
 			}

@@ -115,12 +115,12 @@ public class TempleClans extends PluginPanel
 				openPlayerPageMenuItem.setText("Open TempleOSRS");
 				openPlayerPageMenuItem.addActionListener(ev -> open());
 				menu.add(openPlayerPageMenuItem);
-				actions.add(menu);
 
 				JMenuItem syncClanMembersMenuItem = new JMenuItem();
 				syncClanMembersMenuItem.setText("Sync Clan Members");
 				syncClanMembersMenuItem.addActionListener(ev -> verify());
 				menu.add(syncClanMembersMenuItem);
+
 				actions.add(menu);
 				menu.show(actions, e.getX(), e.getY());
 			}
@@ -151,9 +151,9 @@ public class TempleClans extends PluginPanel
 		/* load default clan on start-up */
 		if (config.fetchDefaults())
 		{
-			if (config.defaultClan() != 0)
+			if (config.getDefaultClan() != 0)
 			{
-				lookup.setText(Integer.toString(config.defaultClan()));
+				lookup.setText(Integer.toString(config.getDefaultClan()));
 				fetchClan();
 			}
 		}
@@ -175,9 +175,9 @@ public class TempleClans extends PluginPanel
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				if (config.defaultClan() != 0 && SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2)
+				if (config.getDefaultClan() != 0 && SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2)
 				{
-					lookup.setText(Integer.toString(config.defaultClan()));
+					lookup.setText(Integer.toString(config.getDefaultClan()));
 					fetchClan();
 				}
 
@@ -243,7 +243,7 @@ public class TempleClans extends PluginPanel
 		new Thread(() -> {
 			try
 			{
-				service.fetchClanAsync(id, config.currentTopRange().getRange()).whenCompleteAsync((result, err) -> response(id, result, err));
+				service.fetchClanAsync(id, config.getCurrentTopRange().getRange()).whenCompleteAsync((result, err) -> response(id, result, err));
 			}
 			catch (Exception e)
 			{
@@ -261,7 +261,7 @@ public class TempleClans extends PluginPanel
 
 		try
 		{
-			service.fetchClanAsync(id, config.currentTopRange().getRange()).whenCompleteAsync((result, err) -> response(id, result, err));
+			service.fetchClanAsync(id, config.getCurrentTopRange().getRange()).whenCompleteAsync((result, err) -> response(id, result, err));
 		}
 		catch (Exception e)
 		{
@@ -287,24 +287,24 @@ public class TempleClans extends PluginPanel
 
 			/* create achievements-component, only add if config option */
 			clanAchievements = new TempleClanAchievements(plugin, clanActivity);
-			if (config.clanAchievements())
+			if (config.displayClanAchievements())
 			{
 				add(clanAchievements);
 			}
 
 			/* create current-top-component, only add if config option enabled */
-			TempleClanCurrentTopList clanCurrentTopEhp = new TempleClanCurrentTopList(plugin, result.clanCurrentTopEhp.list, config.currentTopRange());
-			TempleClanCurrentTopList clanCurrentTopEhb = new TempleClanCurrentTopList(plugin, result.clanCurrentTopEhb.list, config.currentTopRange());
+			TempleClanCurrentTopList clanCurrentTopEhp = new TempleClanCurrentTopList(plugin, result.clanCurrentTopEhp.list, config.getCurrentTopRange());
+			TempleClanCurrentTopList clanCurrentTopEhb = new TempleClanCurrentTopList(plugin, result.clanCurrentTopEhb.list, config.getCurrentTopRange());
 
 			clanCurrentTop = new TempleClanCurrentTop(clanCurrentTopEhp, clanCurrentTopEhb);
-			if (config.clanCurrentTop())
+			if (config.displayClanCurrentTop())
 			{
 				add(clanCurrentTop);
 			}
 
 			/* create members-component, only add if config option */
 			clanMembers = new TempleClanMembers(new TempleClanMembersList(plugin, "Leaders", leaders), new TempleClanMembersList(plugin, "Members", members));
-			if (config.clanMembers())
+			if (config.displayClanMembers())
 			{
 				add(clanMembers);
 			}

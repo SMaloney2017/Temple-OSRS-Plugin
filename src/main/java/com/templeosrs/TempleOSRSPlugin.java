@@ -161,7 +161,7 @@ public class TempleOSRSPlugin extends Plugin
 				if (clans.clanAchievements != null)
 				{
 					clans.remove(clans.clanAchievements);
-					if (config.clanAchievements())
+					if (config.displayClanAchievements())
 					{
 						clans.add(clans.clanAchievements);
 					}
@@ -170,7 +170,7 @@ public class TempleOSRSPlugin extends Plugin
 				if (clans.clanCurrentTop != null)
 				{
 					clans.remove(clans.clanCurrentTop);
-					if (config.clanCurrentTop())
+					if (config.displayClanCurrentTop())
 					{
 						clans.add(clans.clanCurrentTop);
 					}
@@ -179,7 +179,7 @@ public class TempleOSRSPlugin extends Plugin
 				if (clans.clanMembers != null)
 				{
 					clans.remove(clans.clanMembers);
-					if (config.clanMembers())
+					if (config.displayClanMembers())
 					{
 						clans.add(clans.clanMembers);
 					}
