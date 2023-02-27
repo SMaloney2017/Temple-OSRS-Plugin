@@ -3,26 +3,13 @@
 A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.php). <br>
 - - -
 
-### Features
-
-1. Fetch player's recorded gains by **username**. <br>
-   ![image](https://user-images.githubusercontent.com/60162255/208270060-3de2401c-ee5a-43c6-bb0f-6297d2c3d429.png)
-
-2. Fetch clan by **TempleOSRS Clan-ID**. `Clan ID obtainable via TempleOSRS clan-page URL` <br>
-   ![image](https://user-images.githubusercontent.com/60162255/212440103-302f1b64-b883-49ea-984d-05bb0d6b9170.png)
-
-
-3. Fetch competition by **TempleOSRS Comp-ID**. `Competition ID obtainable via TempleOSRS competition-page URL`<br>
-   ![image](https://user-images.githubusercontent.com/60162255/208270031-4fe1ee18-6ea8-4bff-a9c1-46e5884e7343.png)
-
-4. Right-click **Search-Icon** for additional options. <br>
-   ![image](https://user-images.githubusercontent.com/60162255/211906183-782b20a6-3361-4f65-94ce-7544a74dae94.png)
+![demo](https://user-images.githubusercontent.com/60162255/221453856-ef05ff0f-4bc9-4ded-95a0-25e99adbcf24.gif)
 
 - - -
 
 ### Configuration
 
-![image](https://user-images.githubusercontent.com/60162255/177026543-2f5e6987-2969-4efd-9e71-145da38fd28d.png)
+![image](https://user-images.githubusercontent.com/60162255/221453964-28b9ae41-f1d3-4513-b183-fc287b560627.png)
 
 #### Menu Options
 
@@ -50,6 +37,7 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
 #### Competition Options
 
 1. `Default competition` loaded on startup or search-icon double-click
+2. `Competition Watchlist`
 
 - - -
 
