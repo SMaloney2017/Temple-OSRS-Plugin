@@ -9,7 +9,7 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
 
 ### Configuration
 
-![image](https://user-images.githubusercontent.com/60162255/221453964-28b9ae41-f1d3-4513-b183-fc287b560627.png)
+![image](https://user-images.githubusercontent.com/60162255/221459829-4fa45580-c428-42aa-91ff-81009d76a3c0.png)
 
 #### Menu Options
 
