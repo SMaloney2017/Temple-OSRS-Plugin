@@ -183,7 +183,7 @@ public interface TempleOSRSConfig extends Config
 	@ConfigItem(
 		keyName = "ignoredRanks",
 		name = "Ignored ranks",
-		description = "Excluded ranks from group-members sync (Case Sensitive).",
+		description = "A comma-separated list of excluded ranks from group-members sync (Case Sensitive).",
 		position = 7,
 		section = clanOptions
 	)
@@ -215,4 +215,23 @@ public interface TempleOSRSConfig extends Config
 	{
 		return 0;
 	}
+
+	@ConfigItem(
+		keyName = "competitionWatchlist",
+		name = "Competition Watchlist",
+		description = "A comma-separated list of saved competition IDs.",
+		position = 2,
+		section = compOptions
+	)
+	default String getCompetitionWatchlist()
+	{
+		return "";
+	}
+
+	@ConfigItem(
+		keyName = "competitionWatchlist",
+		name = "",
+		description = ""
+	)
+	void setCompetitionWatchlist(String key);
 }

@@ -51,6 +51,8 @@ public class TempleCompetitions extends PluginPanel
 
 	private final TempleService service;
 
+	private TempleCompetitionWatchlist watchlist;
+
 	@Inject
 	public TempleCompetitions(TempleOSRSConfig config, TempleOSRSPlugin plugin, Client client, TempleService templeService)
 	{
@@ -77,7 +79,8 @@ public class TempleCompetitions extends PluginPanel
 		JLabel actions = new JLabel();
 		actions.setBorder(new EmptyBorder(0, 5, 0, 0));
 		actions.setIcon(new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "gears.png")));
-		actions.addMouseListener(new MouseAdapter() {
+		actions.addMouseListener(new MouseAdapter()
+		{
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
@@ -98,6 +101,18 @@ public class TempleCompetitions extends PluginPanel
 				menu.add(openPlayerPageMenuItem);
 				actions.add(menu);
 
+				JMenuItem addItemMenuItem = new JMenuItem();
+				addItemMenuItem.setText("Add to Watchlist");
+				addItemMenuItem.addActionListener(ev -> watchlist.addWatchlistItem(lookup.getText()));
+				menu.add(addItemMenuItem);
+				actions.add(menu);
+
+				JMenuItem removeItemMenuItem = new JMenuItem();
+				removeItemMenuItem.setText("Remove from Watchlist");
+				removeItemMenuItem.addActionListener(ev -> watchlist.removeWatchlistItem(lookup.getText()));
+				menu.add(removeItemMenuItem);
+				actions.add(menu);
+
 				menu.show(actions, e.getX(), e.getY());
 			}
 
@@ -116,6 +131,10 @@ public class TempleCompetitions extends PluginPanel
 
 		searchLayout.add(actions);
 		fetchLayout.add(searchLayout);
+
+		/* build and add duration selection */
+		watchlist = new TempleCompetitionWatchlist(config, this);
+		fetchLayout.add(watchlist);
 
 		add(fetchLayout);
 
@@ -248,6 +267,18 @@ public class TempleCompetitions extends PluginPanel
 
 		revalidate();
 		repaint();
+	}
+
+	public void rebuildWatchlist()
+	{
+		watchlist = new TempleCompetitionWatchlist(config, this);
+
+		/* watchlist is indexed at position one of fetchLayout */
+		fetchLayout.remove(1);
+		fetchLayout.add(watchlist);
+
+		fetchLayout.revalidate();
+		fetchLayout.repaint();
 	}
 
 	private void open()

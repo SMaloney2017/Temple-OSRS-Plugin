@@ -188,6 +188,8 @@ public class TempleOSRSPlugin extends Plugin
 				clans.repaint();
 				clans.revalidate();
 			}
+
+			competitions.rebuildWatchlist();
 		}
 	}
 

@@ -111,7 +111,8 @@ public class TempleRanks extends PluginPanel
 		JLabel actions = new JLabel();
 		actions.setBorder(new EmptyBorder(0, 5, 0, 0));
 		actions.setIcon(new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "gears.png")));
-		actions.addMouseListener(new MouseAdapter() {
+		actions.addMouseListener(new MouseAdapter()
+		{
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
