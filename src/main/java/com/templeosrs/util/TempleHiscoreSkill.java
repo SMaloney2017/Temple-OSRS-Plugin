@@ -132,9 +132,9 @@ public enum TempleHiscoreSkill
 	TOMBS_OF_AMASCUT("Tombs of Amascut", BOSS),
 	TOMBS_OF_AMASCUT_EXPERT("Tombs of Amascut Expert", BOSS),
 	PHANTOM_MUSPAH("Phantom Muspah", BOSS),
-	NULL1("Null", SKILL),
-	NULL2("Null", SKILL),
-	NULL("Null", SKILL),
+	ARTIO("Artio", BOSS),
+	CALVARION("Calvarion", BOSS),
+	SPINDEL("Spindel", BOSS),
 	FANTASY_EHP("Fantasy Ehp", SKILL);
 
 	private final String name;
