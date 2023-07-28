@@ -67,7 +67,15 @@ public class TempleActivityTableRow extends JPanel
 		iconLabel.setBorder(new EmptyBorder(0, 5, 0, 0));
 
 		/* load icon resource from path */
-		ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
+		ImageIcon icon;
+		try
+		{
+			icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
+		}
+		catch (Exception e)
+		{
+			icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "skills/skill_icon_null.png"));
+		}
 
 		iconLabel.setIcon(icon);
 		iconLabel.setToolTipText(tooltip);

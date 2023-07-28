@@ -108,7 +108,15 @@ public class TempleCompetitionOverview extends JPanel
 		JLabel iconLabel = new JLabel();
 
 		/* add icon to layout */
-		ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
+		ImageIcon icon;
+		try
+		{
+			icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
+		}
+		catch (Exception e)
+		{
+			icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "bosses/game_icon_null.png"));
+		}
 		iconLabel.setIcon(icon);
 		iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		iconLabel.setToolTipText(info.skill);

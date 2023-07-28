@@ -45,7 +45,15 @@ public class TempleClanAchievementRow extends JPanel
 			iconPath = "bosses/game_icon_" + formattedName + ".png";
 		}
 
-		ImageIcon icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
+		ImageIcon icon;
+		try
+		{
+			icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, iconPath));
+		}
+		catch (Exception e)
+		{
+			icon = new ImageIcon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "bosses/game_icon_null.png"));
+		}
 
 		/* add username to row */
 		JLabel usernameLabel = createNewJLabel(name);

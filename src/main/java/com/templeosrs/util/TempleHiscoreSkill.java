@@ -135,7 +135,11 @@ public enum TempleHiscoreSkill
 	ARTIO("Artio", BOSS),
 	CALVARION("Calvarion", BOSS),
 	SPINDEL("Spindel", BOSS),
-	FANTASY_EHP("Fantasy Ehp", SKILL);
+	FANTASY_EHP("Fantasy Ehp", SKILL),
+	DUKE_SUCELLUS("Duke Sucellus", BOSS),
+	THE_LEVIATHAN("The Leviathan", BOSS),
+	THE_WHISPERER("The Whisperer", BOSS),
+	VARDORVIS("Vardorvis", BOSS);
 
 	private final String name;
 	private final HiscoreSkillType type;
