@@ -139,7 +139,8 @@ public enum TempleHiscoreSkill
 	DUKE_SUCELLUS("Duke Sucellus", BOSS),
 	THE_LEVIATHAN("The Leviathan", BOSS),
 	THE_WHISPERER("The Whisperer", BOSS),
-	VARDORVIS("Vardorvis", BOSS);
+	VARDORVIS("Vardorvis", BOSS),
+	SCURRIUS("Scurrius", BOSS);
 
 	private final String name;
 	private final HiscoreSkillType type;

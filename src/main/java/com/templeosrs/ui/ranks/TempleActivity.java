@@ -46,7 +46,7 @@ public class TempleActivity extends JPanel
 		KALPHITE_QUEEN, KING_BLACK_DRAGON, KRAKEN,
 		KREEARRA, KRIL_TSUTSAROTH, MIMIC,
 		NEX, THE_NIGHTMARE, PHOSANIS_NIGHTMARE,
-		OBOR, PHANTOM_MUSPAH, SARACHNIS, SCORPIA,
+		OBOR, PHANTOM_MUSPAH, SARACHNIS, SCORPIA, SCURRIUS,
 		SKOTIZO, SPINDEL, TEMPOROSS, THE_GAUNTLET,
 		THE_CORRUPTED_GAUNTLET, THE_LEVIATHAN, THE_WHISPERER, THEATRE_OF_BLOOD, THEATRE_OF_BLOOD_CHALLENGE_MODE,
 		THERMONUCLEAR_SMOKE_DEVIL, TOMBS_OF_AMASCUT, TOMBS_OF_AMASCUT_EXPERT, TZKAL_ZUK, TZTOK_JAD, VARDORVIS,
@@ -119,7 +119,17 @@ public class TempleActivity extends JPanel
 		for (Map.Entry<String, TemplePlayerSkill> entry : playerData.table.entrySet())
 		{
 			/* get the HiscoreSkill of that entry by index */
-			TempleHiscoreSkill skill = TempleHiscoreSkill.values()[entry.getValue().index];
+			TempleHiscoreSkill skill;
+			try
+			{
+				/* If a skill can't be found, continue */
+				skill = TempleHiscoreSkill.values()[entry.getValue().index];
+			}
+			catch (IndexOutOfBoundsException ignored)
+			{
+				continue;
+			}
+
 			String formattedKey = skill.getName().replaceAll("[^A-Za-z0-9]", "").toLowerCase();
 
 			/* if map contains this HighscoreSkill */
