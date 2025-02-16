@@ -140,7 +140,15 @@ public enum TempleHiscoreSkill
 	THE_LEVIATHAN("The Leviathan", BOSS),
 	THE_WHISPERER("The Whisperer", BOSS),
 	VARDORVIS("Vardorvis", BOSS),
-	SCURRIUS("Scurrius", BOSS);
+	SCURRIUS("Scurrius", BOSS),
+	LUNAR_CHESTS("Lunar Chests", BOSS),
+	SOL_HEREDIT("Sol Heredit", BOSS),
+	ARAXXOR("Araxxor", BOSS),
+	HUEYCOATL("Hueycoatl", BOSS),
+	AMOXLIATL("Amoxliatl", BOSS),
+	COLLECTIONS("Collections", BOSS),
+	THE_ROYAL_TITANS("The Royal Titans", BOSS);
+
 
 	private final String name;
 	private final HiscoreSkillType type;

@@ -227,7 +227,7 @@ public class TempleOSRSPlugin extends Plugin
 	{
 		if (event.getMenuAction() == MenuAction.RUNELITE_PLAYER && event.getMenuOption().equals(TEMPLE))
 		{
-			Player player = client.getCachedPlayers()[event.getId()];
+		    Player player = event.getMenuEntry().getPlayer();
 			if (player == null)
 			{
 				return;
