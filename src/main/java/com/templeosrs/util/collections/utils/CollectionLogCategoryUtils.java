@@ -126,6 +126,7 @@ public class CollectionLogCategoryUtils {
             Map.entry("mlm", CollectionLogCategorySlug.motherlode_mine),
             Map.entry("monkey", CollectionLogCategorySlug.monkey_backpacks),
             Map.entry("notes", CollectionLogCategorySlug.my_notes),
+            Map.entry("pc", CollectionLogCategorySlug.pest_control),
             Map.entry("pest", CollectionLogCategorySlug.pest_control),
             Map.entry("revs", CollectionLogCategorySlug.revenants),
             Map.entry("rev", CollectionLogCategorySlug.revenants),
