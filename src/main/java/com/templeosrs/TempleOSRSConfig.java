@@ -304,13 +304,13 @@ public interface TempleOSRSConfig extends Config
 	default boolean enableClogChatCommand() { return true; }
 
 	@ConfigItem(
-		keyName = "enableChatCommandTooltip",
-		name = "Enable chat command tooltip",
+		keyName = "enableClogChatCommandItemNameTooltip",
+		name = "Enable !col item name tooltip",
 		description = "When enabled, hovering over an item icon in the !col command's message will reveal the item's name.",
 		position = 5,
 		section = clogOptions
 	)
-	default boolean enableChatCommandTooltip()
+	default boolean enableClogChatCommandItemNameTooltip()
 	{
 		return true;
 	}

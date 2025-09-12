@@ -1,7 +1,6 @@
-package com.templeosrs.util.collections.overlays;
+package com.templeosrs.util.collections.chatcommands;
 
 import com.templeosrs.TempleOSRSConfig;
-import com.templeosrs.util.collections.chatcommands.ItemSpriteManager;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -28,7 +27,7 @@ import net.runelite.client.ui.overlay.tooltip.TooltipManager;
 import net.runelite.client.util.Text;
 
 @Slf4j
-public class ChatItemOverlay extends Overlay
+public class ChatItemNameTooltip extends Overlay
 {
 	@Inject
 	private TooltipManager tooltipManager;
@@ -50,7 +49,7 @@ public class ChatItemOverlay extends Overlay
 	private final Pattern prefixPattern = Pattern.compile("([\\w\\s'()]+ \\(\\d+/\\d+\\): )");
 
 	@Inject
-	private ChatItemOverlay()
+	private ChatItemNameTooltip()
 	{
 		setPosition(OverlayPosition.TOOLTIP);
 		setLayer(OverlayLayer.ABOVE_WIDGETS);
@@ -148,11 +147,6 @@ public class ChatItemOverlay extends Overlay
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
-		if (!config.enableChatCommandTooltip())
-		{
-			return null;
-		}
-
 		Point mousePosition = client.getMouseCanvasPosition();
 		Widget chatBoxScrollAreaWidget = client.getWidget(InterfaceID.Chatbox.SCROLLAREA);
 

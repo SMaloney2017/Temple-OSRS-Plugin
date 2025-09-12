@@ -33,7 +33,7 @@ import com.templeosrs.ui.ranks.TempleRanks;
 import com.templeosrs.util.TempleService;
 import com.templeosrs.util.collections.CollectionLogManager;
 import com.templeosrs.util.collections.SyncButtonManager;
-import com.templeosrs.util.collections.overlays.ChatItemOverlay;
+import com.templeosrs.util.collections.chatcommands.ChatItemNameTooltip;
 import lombok.Getter;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
@@ -124,7 +124,7 @@ public class TempleOSRSPlugin extends Plugin {
 	private OverlayManager overlayManager;
 
 	@Inject
-	private ChatItemOverlay chatItemOverlay;
+	private ChatItemNameTooltip chatItemNameTooltip;
 
     @Override
     protected void startUp() {
@@ -156,7 +156,10 @@ public class TempleOSRSPlugin extends Plugin {
 
         clogManager.startUp();
 
-		overlayManager.add(chatItemOverlay);
+		if (config.enableClogChatCommand() && config.enableClogChatCommandItemNameTooltip())
+		{
+			overlayManager.add(chatItemNameTooltip);
+		}
     }
 
     @Override
@@ -171,7 +174,10 @@ public class TempleOSRSPlugin extends Plugin {
 
         clogManager.shutDown();
 
-		overlayManager.remove(chatItemOverlay);
+		if (config.enableClogChatCommand() && config.enableClogChatCommandItemNameTooltip())
+		{
+			overlayManager.remove(chatItemNameTooltip);
+		}
     }
 
     @Subscribe
@@ -217,6 +223,15 @@ public class TempleOSRSPlugin extends Plugin {
                 } else {
                     syncButtonManager.shutDown();
                 }
+
+				if (config.enableClogChatCommand() && config.enableClogChatCommandItemNameTooltip())
+				{
+					overlayManager.add(chatItemNameTooltip);
+				}
+				else
+				{
+					overlayManager.remove(chatItemNameTooltip);
+				}
 
                 clans.repaint();
                 clans.revalidate();
