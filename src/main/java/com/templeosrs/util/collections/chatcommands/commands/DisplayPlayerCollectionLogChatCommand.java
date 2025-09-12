@@ -5,7 +5,6 @@ import com.templeosrs.util.collections.CollectionLogCategorySlug;
 import com.templeosrs.util.collections.CollectionLogManager;
 import com.templeosrs.util.collections.CollectionLogRequestManager;
 import com.templeosrs.util.collections.chatcommands.ChatCommand;
-import com.templeosrs.util.collections.chatcommands.ItemSpriteManager;
 import com.templeosrs.util.collections.data.CollectionLogCategory;
 import com.templeosrs.util.collections.data.ObtainedCollectionItem;
 import com.templeosrs.util.collections.data.PlayerInfoResponse;
