@@ -238,8 +238,7 @@ public class CollectionLogManager
 			case LOGGED_IN:
 			{
 				// Attempt to synchronise the player's collection log on login
-				clientThread.invokeLater(() ->
-				{
+				clientThread.invokeLater(() -> {
 					final String username = client.getLocalPlayer().getName();
 
 					// Wait for username to be available

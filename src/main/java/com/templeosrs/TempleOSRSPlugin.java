@@ -67,63 +67,58 @@ import javax.inject.Provider;
 import javax.swing.*;
 
 @PluginDependency(XpUpdaterPlugin.class)
-@PluginDescriptor(
-	name = "TempleOSRS",
-	description = "A RuneLite plugin utilizing the TempleOSRS API.",
-	tags = {"Temple", "ehp", "ehb"}
-)
-public class TempleOSRSPlugin extends Plugin
-{
-	private static final String TEMPLE = "Temple";
+@PluginDescriptor(name = "TempleOSRS", description = "A RuneLite plugin utilizing the TempleOSRS API.", tags = {"Temple", "ehp", "ehb"})
+public class TempleOSRSPlugin extends Plugin {
+    private static final String TEMPLE = "Temple";
 
-	private static final int XP_THRESHOLD = 10000;
+    private static final int XP_THRESHOLD = 10000;
 
-	private static NavigationButton navButton;
+    private static NavigationButton navButton;
 
-	public TempleRanks ranks;
+    public TempleRanks ranks;
 
-	public TempleClans clans;
+    public TempleClans clans;
 
-	public TempleCompetitions competitions;
+    public TempleCompetitions competitions;
 
-	public TempleOSRSPanel panel;
+    public TempleOSRSPanel panel;
 
-	private long lastAccount;
+    private long lastAccount;
 
-	private boolean fetchXp;
+    private boolean fetchXp;
 
-	private long lastXp;
+    private long lastXp;
 
-	@Inject
-	private Client client;
+    @Inject
+    private Client client;
 
-	@Inject
-	private Provider<MenuManager> menuManager;
+    @Inject
+    private Provider<MenuManager> menuManager;
 
-	@Inject
-	private PluginManager pluginManager;
+    @Inject
+    private PluginManager pluginManager;
 
-	@Inject
-	private ClientToolbar clientToolbar;
+    @Inject
+    private ClientToolbar clientToolbar;
 
-	@Getter
-	@Inject
-	private TempleOSRSConfig config;
+    @Getter
+    @Inject
+    private TempleOSRSConfig config;
 
-	@Inject
-	private XpUpdaterConfig xpUpdaterConfig;
+    @Inject
+    private XpUpdaterConfig xpUpdaterConfig;
 
-	@Inject
-	private XpUpdaterPlugin xpUpdaterPlugin;
+    @Inject
+    private XpUpdaterPlugin xpUpdaterPlugin;
 
-	@Inject
-	private TempleService service;
+    @Inject
+    private TempleService service;
 
-	@Inject
-	private SyncButtonManager syncButtonManager;
+    @Inject
+    private SyncButtonManager syncButtonManager;
 
-	@Inject
-	private CollectionLogManager clogManager;
+    @Inject
+    private CollectionLogManager clogManager;
 
 	@Inject
 	private OverlayManager overlayManager;
@@ -131,248 +126,202 @@ public class TempleOSRSPlugin extends Plugin
 	@Inject
 	private ChatItemOverlay chatItemOverlay;
 
-	@Override
-	protected void startUp()
-	{
-		fetchXp = true;
+    @Override
+    protected void startUp() {
+        fetchXp = true;
 
-		lastAccount = -1L;
+        lastAccount = -1L;
 
-		ranks = injector.getInstance(TempleRanks.class);
+        ranks = injector.getInstance(TempleRanks.class);
 
-		clans = injector.getInstance(TempleClans.class);
+        clans = injector.getInstance(TempleClans.class);
 
-		competitions = injector.getInstance(TempleCompetitions.class);
+        competitions = injector.getInstance(TempleCompetitions.class);
 
-		panel = new TempleOSRSPanel(ranks, clans, competitions);
-		navButton = NavigationButton.builder().tooltip("TempleOSRS").icon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "skills/skill_icon_ehp.png")).priority(5).panel(panel).build();
+        panel = new TempleOSRSPanel(ranks, clans, competitions);
+        navButton = NavigationButton.builder().tooltip("TempleOSRS").icon(ImageUtil.loadImageResource(TempleOSRSPlugin.class, "skills/skill_icon_ehp.png")).priority(5).panel(panel).build();
 
-		if (config.showSidebar())
-		{
-			clientToolbar.addNavigation(navButton);
-		}
+        if (config.showSidebar()) {
+            clientToolbar.addNavigation(navButton);
+        }
 
-		if (config.playerLookup() && client != null)
-		{
-			menuManager.get().addPlayerMenuItem(TEMPLE);
-		}
+        if (config.playerLookup() && client != null) {
+            menuManager.get().addPlayerMenuItem(TEMPLE);
+        }
 
-		// Only display clog update button if enabled
-		if (config.clogSyncButton())
-		{
-			syncButtonManager.startUp();
-		}
+        // Only display clog update button if enabled
+        if (config.clogSyncButton()) {
+            syncButtonManager.startUp();
+        }
 
-		clogManager.startUp();
+        clogManager.startUp();
 
 		overlayManager.add(chatItemOverlay);
-	}
+    }
 
-	@Override
-	protected void shutDown()
-	{
-		clientToolbar.removeNavigation(navButton);
+    @Override
+    protected void shutDown() {
+        clientToolbar.removeNavigation(navButton);
 
-		if (client != null)
-		{
-			menuManager.get().removePlayerMenuItem(TEMPLE);
-		}
+        if (client != null) {
+            menuManager.get().removePlayerMenuItem(TEMPLE);
+        }
 
-		ranks.shutdown();
+        ranks.shutdown();
 
-		clogManager.shutDown();
+        clogManager.shutDown();
 
 		overlayManager.remove(chatItemOverlay);
-	}
+    }
 
-	@Subscribe
-	public void onConfigChanged(ConfigChanged event)
-	{
-		if (event.getGroup().equals(TempleOSRSConfig.TEMPLE_OSRS_CONFIG_GROUP))
-		{
-			if (client != null)
-			{
-				menuManager.get().removePlayerMenuItem(TEMPLE);
-				if (config.playerLookup())
-				{
-					menuManager.get().addPlayerMenuItem(TEMPLE);
-				}
+    @Subscribe
+    public void onConfigChanged(ConfigChanged event) {
+        if (event.getGroup().equals(TempleOSRSConfig.TEMPLE_OSRS_CONFIG_GROUP)) {
+            if (client != null) {
+                menuManager.get().removePlayerMenuItem(TEMPLE);
+                if (config.playerLookup()) {
+                    menuManager.get().addPlayerMenuItem(TEMPLE);
+                }
 
-				// Show/Hide plugin icon in sidebar
-				if (config.showSidebar())
-				{
-					clientToolbar.addNavigation(navButton);
-				}
-				else
-				{
-					clientToolbar.removeNavigation(navButton);
-				}
+                // Show/Hide plugin icon in sidebar
+                if (config.showSidebar()) {
+                    clientToolbar.addNavigation(navButton);
+                } else {
+                    clientToolbar.removeNavigation(navButton);
+                }
 
-				if (clans.clanAchievements != null)
-				{
-					clans.remove(clans.clanAchievements);
-					if (config.displayClanAchievements())
-					{
-						clans.add(clans.clanAchievements);
-					}
-				}
+                if (clans.clanAchievements != null) {
+                    clans.remove(clans.clanAchievements);
+                    if (config.displayClanAchievements()) {
+                        clans.add(clans.clanAchievements);
+                    }
+                }
 
-				if (clans.clanCurrentTop != null)
-				{
-					clans.remove(clans.clanCurrentTop);
-					if (config.displayClanCurrentTop())
-					{
-						clans.add(clans.clanCurrentTop);
-					}
-				}
+                if (clans.clanCurrentTop != null) {
+                    clans.remove(clans.clanCurrentTop);
+                    if (config.displayClanCurrentTop()) {
+                        clans.add(clans.clanCurrentTop);
+                    }
+                }
 
-				if (clans.clanMembers != null)
-				{
-					clans.remove(clans.clanMembers);
-					if (config.displayClanMembers())
-					{
-						clans.add(clans.clanMembers);
-					}
-				}
+                if (clans.clanMembers != null) {
+                    clans.remove(clans.clanMembers);
+                    if (config.displayClanMembers()) {
+                        clans.add(clans.clanMembers);
+                    }
+                }
 
-				// Collection Log Related
-				if (config.clogSyncButton())
-				{
-					syncButtonManager.startUp();
-				}
-				else
-				{
-					syncButtonManager.shutDown();
-				}
+                // Collection Log Related
+                if (config.clogSyncButton()) {
+                    syncButtonManager.startUp();
+                } else {
+                    syncButtonManager.shutDown();
+                }
 
-				clans.repaint();
-				clans.revalidate();
-			}
+                clans.repaint();
+                clans.revalidate();
+            }
 
-			competitions.rebuildWatchlist();
-		}
-	}
+            competitions.rebuildWatchlist();
+        }
+    }
 
-	@Subscribe
-	public void onMenuEntryAdded(MenuEntryAdded event)
-	{
-		if ((event.getType() != MenuAction.CC_OP.getId() && event.getType() != MenuAction.CC_OP_LOW_PRIORITY.getId()) || !config.playerLookup())
-		{
-			return;
-		}
+    @Subscribe
+    public void onMenuEntryAdded(MenuEntryAdded event) {
+        if ((event.getType() != MenuAction.CC_OP.getId() && event.getType() != MenuAction.CC_OP_LOW_PRIORITY.getId()) || !config.playerLookup()) {
+            return;
+        }
 
-		String username = Text.toJagexName(Text.removeTags(event.getTarget()).toLowerCase().trim());
+        String username = Text.toJagexName(Text.removeTags(event.getTarget()).toLowerCase().trim());
 
-		final String option = event.getOption();
-		final int componentId = event.getActionParam1();
-		final int groupId = WidgetUtil.componentToInterface(componentId);
+        final String option = event.getOption();
+        final int componentId = event.getActionParam1();
+        final int groupId = WidgetUtil.componentToInterface(componentId);
 
-		if (groupId == InterfaceID.FRIEND_LIST && option.equals("Delete")
-			|| groupId == InterfaceID.FRIENDS_CHAT && (option.equals("Add ignore") || option.equals("Remove friend"))
-			|| groupId == InterfaceID.CHATBOX && (option.equals("Add ignore") || option.equals("Message"))
-			|| groupId == InterfaceID.IGNORE_LIST && option.equals("Delete")
-			|| (componentId == ComponentID.CLAN_MEMBERS || componentId == ComponentID.CLAN_GUEST_MEMBERS) && (option.equals("Add ignore") || option.equals("Remove friend"))
-			|| groupId == InterfaceID.PRIVATE_CHAT && (option.equals("Add ignore") || option.equals("Message"))
-			|| groupId == InterfaceID.GROUP_IRON && (option.equals("Add friend") || option.equals("Remove friend") || option.equals("Remove ignore"))
-		)
-		{
-			client.createMenuEntry(-2).setOption(TEMPLE).setTarget(event.getTarget()).setType(MenuAction.RUNELITE).setIdentifier(event.getIdentifier()).onClick(e -> fetchUser(username));
-		}
-	}
+        if (groupId == InterfaceID.FRIEND_LIST && option.equals("Delete")
+                || groupId == InterfaceID.FRIENDS_CHAT && (option.equals("Add ignore") || option.equals("Remove friend"))
+                || groupId == InterfaceID.CHATBOX && (option.equals("Add ignore") || option.equals("Message"))
+                || groupId == InterfaceID.IGNORE_LIST && option.equals("Delete")
+                || (componentId == ComponentID.CLAN_MEMBERS || componentId == ComponentID.CLAN_GUEST_MEMBERS) && (option.equals("Add ignore") || option.equals("Remove friend"))
+                || groupId == InterfaceID.PRIVATE_CHAT && (option.equals("Add ignore") || option.equals("Message"))
+                || groupId == InterfaceID.GROUP_IRON && (option.equals("Add friend") || option.equals("Remove friend") || option.equals("Remove ignore"))
+        ) {
+            client.createMenuEntry(-2).setOption(TEMPLE).setTarget(event.getTarget()).setType(MenuAction.RUNELITE).setIdentifier(event.getIdentifier()).onClick(e -> fetchUser(username));
+        }
+    }
 
-	@Subscribe
-	public void onMenuOptionClicked(MenuOptionClicked event)
-	{
-		if (event.getMenuAction() == MenuAction.RUNELITE_PLAYER && event.getMenuOption().equals(TEMPLE))
-		{
-			Player player = event.getMenuEntry().getPlayer();
-			if (player == null)
-			{
-				return;
-			}
+    @Subscribe
+    public void onMenuOptionClicked(MenuOptionClicked event) {
+        if (event.getMenuAction() == MenuAction.RUNELITE_PLAYER && event.getMenuOption().equals(TEMPLE)) {
+            Player player = event.getMenuEntry().getPlayer();
+            if (player == null) {
+                return;
+            }
 
-			String username = player.getName();
-			fetchUser(username);
-		}
-	}
+            String username = player.getName();
+            fetchUser(username);
+        }
+    }
 
-	@Subscribe
-	public void onGameTick(GameTick gameTick)
-	{
-		if (fetchXp)
-		{
-			lastXp = client.getOverallExperience();
-			fetchXp = false;
-		}
-	}
+    @Subscribe
+    public void onGameTick(GameTick gameTick) {
+        if (fetchXp) {
+            lastXp = client.getOverallExperience();
+            fetchXp = false;
+        }
+    }
 
-	@Subscribe
-	public void onGameStateChanged(GameStateChanged gameStateChanged)
-	{
-		GameState state = gameStateChanged.getGameState();
-		if (state == GameState.LOGGED_IN)
-		{
-			if (lastAccount != client.getAccountHash())
-			{
-				lastAccount = client.getAccountHash();
-				fetchXp = true;
-			}
-		}
-		else if (state == GameState.LOGIN_SCREEN)
-		{
-			Player local = client.getLocalPlayer();
-			if (local == null)
-			{
-				return;
-			}
+    @Subscribe
+    public void onGameStateChanged(GameStateChanged gameStateChanged) {
+        GameState state = gameStateChanged.getGameState();
+        if (state == GameState.LOGGED_IN) {
+            if (lastAccount != client.getAccountHash()) {
+                lastAccount = client.getAccountHash();
+                fetchXp = true;
+            }
+        } else if (state == GameState.LOGIN_SCREEN) {
+            Player local = client.getLocalPlayer();
+            if (local == null) {
+                return;
+            }
 
-			long totalXp = client.getOverallExperience();
-			String username = local.getName();
+            long totalXp = client.getOverallExperience();
+            String username = local.getName();
 
 			/* Don't submit update if xp-threshold has not been reached or username is null
 			   or config option for auto-update is disabled */
-			if (Math.abs(totalXp - lastXp) > XP_THRESHOLD && username != null && config.autoUpdate())
-			{
-				updateUser(lastAccount, username.replace(" ", "+"));
-				lastXp = totalXp;
-			}
-		}
-	}
+            if (Math.abs(totalXp - lastXp) > XP_THRESHOLD && username != null && config.autoUpdate()) {
+                updateUser(lastAccount, username.replace(" ", "+"));
+                lastXp = totalXp;
+            }
+        }
+    }
 
-	@Provides
-	TempleOSRSConfig provideConfig(ConfigManager configManager)
-	{
-		return configManager.getConfig(TempleOSRSConfig.class);
-	}
+    @Provides
+    TempleOSRSConfig provideConfig(ConfigManager configManager) {
+        return configManager.getConfig(TempleOSRSConfig.class);
+    }
 
-	public void fetchUser(String username)
-	{
-		SwingUtilities.invokeLater(() ->
-		{
-			clientToolbar.openPanel(navButton);
+    public void fetchUser(String username) {
+        SwingUtilities.invokeLater(() -> {
+            clientToolbar.openPanel(navButton);
 
-			/* select ranks-tab */
-			panel.tabGroup.select(panel.ranksTab);
-			ranks.fetchUser(username);
-		});
-	}
+            /* select ranks-tab */
+            panel.tabGroup.select(panel.ranksTab);
+            ranks.fetchUser(username);
+        });
+    }
 
-	public void updateUser(long accountHash, String username)
-	{
-		/* if XpUpdaterPlugin is disabled or XpUpdaterPlugin's config option for templeosrs is disabled */
-		if (!pluginManager.isPluginEnabled(xpUpdaterPlugin) || !xpUpdaterConfig.templeosrs())
-		{
-			new Thread(() ->
-			{
-				try
-				{
-					service.addDatapointAsync(username, accountHash);
-				}
-				catch (Exception ignored)
-				{
+    public void updateUser(long accountHash, String username) {
+        /* if XpUpdaterPlugin is disabled or XpUpdaterPlugin's config option for templeosrs is disabled */
+        if (!pluginManager.isPluginEnabled(xpUpdaterPlugin) || !xpUpdaterConfig.templeosrs()) {
+            new Thread(() -> {
+                try {
+                    service.addDatapointAsync(username, accountHash);
+                } catch (Exception ignored) {
 
-				}
-			}).start();
-		}
-	}
+                }
+            }).start();
+        }
+    }
 }

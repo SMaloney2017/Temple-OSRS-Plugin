@@ -89,12 +89,9 @@ public interface TempleOSRSConfig extends Config
 		name = "Show sidebar icon",
 		description = "Display TempleOSRS plugin in the sidebar.",
 		position = 4,
-		section = generalOptions
+	    section = generalOptions
 	)
-	default boolean showSidebar()
-	{
-		return true;
-	}
+	default boolean showSidebar() { return true; }
 
 	@ConfigItem(
 		keyName = "defaultPlayer",
@@ -261,11 +258,11 @@ public interface TempleOSRSConfig extends Config
 	void setCompetitionWatchlist(String key);
 
 	@ConfigItem(
-		keyName = "clogsyncbutton",
-		name = "Collection Log Update Button",
-		description = "Add a button to the collection log interface to update your collection log on TempleOSRS",
-		position = 1,
-		section = clogOptions
+			keyName = "clogsyncbutton",
+			name = "Collection Log Update Button",
+			description = "Add a button to the collection log interface to update your collection log on TempleOSRS",
+			position = 1,
+			section = clogOptions
 	)
 	default boolean clogSyncButton()
 	{
@@ -273,11 +270,11 @@ public interface TempleOSRSConfig extends Config
 	}
 
 	@ConfigItem(
-		keyName = "autoSyncClog",
-		name = "Automatically sync Collection Log",
-		description = "When enabled, TempleOSRS will automatically sync your collection log when you receive a new item",
-		position = 2,
-		section = clogOptions
+			keyName = "autoSyncClog",
+			name = "Automatically sync Collection Log",
+			description = "When enabled, TempleOSRS will automatically sync your collection log when you receive a new item",
+			position = 2,
+			section = clogOptions
 	)
 	default boolean autoSyncClog()
 	{
@@ -286,31 +283,25 @@ public interface TempleOSRSConfig extends Config
 
 	@Range(min = 50, max = 200)
 	@ConfigItem(
-		keyName = "maxCachedPlayers",
-		name = "Max Cached Players",
-		description = "Maximum number of players to keep in the database (excluding yourself)." +
-			" The more players the more MB kept on database. " +
-			"Default number of players in database is 50",
-		position = 3,
-		section = clogOptions
+			keyName = "maxCachedPlayers",
+			name = "Max Cached Players",
+			description = "Maximum number of players to keep in the database (excluding yourself)." +
+					" The more players the more MB kept on database. " +
+					"Default number of players in database is 50",
+			position = 3,
+			section = clogOptions
 	)
-	default int maxCachedPlayers()
-	{
-		return 50;
-	}
+	default int maxCachedPlayers() { return 50; }
 
 	@ConfigItem(
-		keyName = "enableClogChatCommand",
-		name = "Enable !col chat command",
-		description = "When enabled, the plugin will detect any !col chat messages and replace the contents with " +
-			"TempleOSRS log data, if available",
-		position = 4,
-		section = clogOptions
+			keyName = "enableClogChatCommand",
+			name = "Enable !col chat command",
+			description = "When enabled, the plugin will detect any !col chat messages and replace the contents with " +
+					"TempleOSRS log data, if available",
+			position = 4,
+			section = clogOptions
 	)
-	default boolean enableClogChatCommand()
-	{
-		return true;
-	}
+	default boolean enableClogChatCommand() { return true; }
 
 	@ConfigItem(
 		keyName = "enableChatCommandTooltip",

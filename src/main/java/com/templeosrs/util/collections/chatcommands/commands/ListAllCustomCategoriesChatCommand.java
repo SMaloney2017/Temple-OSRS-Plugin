@@ -13,23 +13,22 @@ import net.runelite.client.chat.QueuedMessage;
 
 import java.util.Map;
 
-public class ListAllCustomCategoriesChatCommand extends ChatCommand
-{
-	public ListAllCustomCategoriesChatCommand()
-	{
-		super("!col list custom", "Lists all available custom categories", true);
-	}
+public class ListAllCustomCategoriesChatCommand extends ChatCommand {
+    public ListAllCustomCategoriesChatCommand()
+    {
+        super("!col list custom", "Lists all available custom categories", true);
+    }
 
-	@Override
-	public void command(ChatMessage event)
-	{
-		clientThread.invoke(() -> {
-			chatMessageManager.queue(
-				QueuedMessage.builder()
-					.type(ChatMessageType.CONSOLE)
-					.runeLiteFormattedMessage(buildAvailableCategoriesMessage("custom"))
-					.build()
-			);
+    @Override
+    public void command(ChatMessage event)
+    {
+        clientThread.invoke(() -> {
+            chatMessageManager.queue(
+                QueuedMessage.builder()
+                    .type(ChatMessageType.CONSOLE)
+                    .runeLiteFormattedMessage(buildAvailableCategoriesMessage("custom"))
+                    .build()
+            );
 
 			List<Integer> iconItemIds = CollectionLogCategoryUtils.CUSTOM_CATEGORIES
 				.values()
@@ -41,28 +40,27 @@ public class ListAllCustomCategoriesChatCommand extends ChatCommand
 
 			int i = 0;
 
-			for (Map.Entry<String, CollectionLogCategory> customCategory : CollectionLogCategoryUtils.CUSTOM_CATEGORIES.entrySet())
-			{
+            for (Map.Entry<String, CollectionLogCategory> customCategory : CollectionLogCategoryUtils.CUSTOM_CATEGORIES.entrySet()) {
 				int iconIndex = itemSpriteManager.getItemSpriteIndexes().get(iconItemIds.get(i++));
 
-				chatMessageManager.queue(
-					QueuedMessage.builder()
-						.type(ChatMessageType.CONSOLE)
-						.runeLiteFormattedMessage(
-							new ChatMessageBuilder()
-								.append(ChatColorType.NORMAL)
+                chatMessageManager.queue(
+                    QueuedMessage.builder()
+                        .type(ChatMessageType.CONSOLE)
+                        .runeLiteFormattedMessage(
+                            new ChatMessageBuilder()
+                                .append(ChatColorType.NORMAL)
 								.img(iconIndex)
-								.append(customCategory.getValue().getTitle())
-								.append(": ")
-								.append(ChatColorType.HIGHLIGHT)
-								.append(customCategory.getKey())
-								.build()
-						)
-						.build()
-				);
-			}
+                                .append(customCategory.getValue().getTitle())
+                                .append(": ")
+                                .append(ChatColorType.HIGHLIGHT)
+                                .append(customCategory.getKey())
+                                .build()
+                        )
+                        .build()
+                );
+            }
 
-			client.refreshChat();
-		});
-	}
+            client.refreshChat();
+        });
+    }
 }
