@@ -22,6 +22,9 @@ import net.runelite.client.util.ImageUtil;
 @Singleton
 public class ItemSpriteManager
 {
+	public static final int SPRITE_WIDTH = 18;
+	public static final int SPRITE_HEIGHT = 14;
+
 	@Inject
 	private Client client;
 
@@ -45,9 +48,6 @@ public class ItemSpriteManager
 	 */
 	protected final Set<Integer> loadedItemIds = new HashSet<>();
 
-	public static final int SPRITE_WIDTH = 18;
-	public static final int SPRITE_HEIGHT = 14;
-
 	/**
 	 * Loads the in-game icon sprites for a given item list, ready to be used in the chat message.
 	 *
@@ -56,7 +56,7 @@ public class ItemSpriteManager
 	public void loadItemSprites(List<Integer> itemIds)
 	{
 		// Starting with an empty list, we find which icons haven't previously been seen
-		List<Integer> newItems = new ArrayList<>();
+		final List<Integer> newItems = new ArrayList<>();
 
 		for (int itemId : itemIds)
 		{

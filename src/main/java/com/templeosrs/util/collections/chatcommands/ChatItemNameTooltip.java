@@ -56,13 +56,13 @@ public class ChatItemNameTooltip extends Overlay
 		setPriority(PRIORITY_MED);
 	}
 
-	private boolean isMessageVisible(Widget parent, Widget line)
+	private boolean isMessageVisible(final Widget parent, final Widget line)
 	{
-		int childNorthCoordinate = line.getRelativeY();
-		int childSouthCoordinate = childNorthCoordinate + line.getHeight();
+		final int childNorthCoordinate = line.getRelativeY();
+		final int childSouthCoordinate = childNorthCoordinate + line.getHeight();
 
-		int currentScrollNorthCoordinate = parent.getScrollY();
-		int currentScrollSouthCoordinate = currentScrollNorthCoordinate + parent.getHeight();
+		final int currentScrollNorthCoordinate = parent.getScrollY();
+		final int currentScrollSouthCoordinate = currentScrollNorthCoordinate + parent.getHeight();
 
 		if (childSouthCoordinate < currentScrollNorthCoordinate)
 		{
@@ -145,10 +145,10 @@ public class ChatItemNameTooltip extends Overlay
 	}
 
 	@Override
-	public Dimension render(Graphics2D graphics)
+	public Dimension render(final Graphics2D graphics)
 	{
-		Point mousePosition = client.getMouseCanvasPosition();
-		Widget chatBoxScrollAreaWidget = client.getWidget(InterfaceID.Chatbox.SCROLLAREA);
+		final Point mousePosition = client.getMouseCanvasPosition();
+		final Widget chatBoxScrollAreaWidget = client.getWidget(InterfaceID.Chatbox.SCROLLAREA);
 
 		if (chatBoxScrollAreaWidget == null || !chatBoxScrollAreaWidget.contains(mousePosition))
 		{
@@ -180,7 +180,7 @@ public class ChatItemNameTooltip extends Overlay
 					isMessageVisible(chatBoxScrollAreaWidget, chatMessage)
 			)
 			{
-				Rectangle bounds = chatMessage.getBounds();
+				final Rectangle bounds = chatMessage.getBounds();
 
 				if (!bounds.contains(mousePosition.getX(), mousePosition.getY()))
 				{
