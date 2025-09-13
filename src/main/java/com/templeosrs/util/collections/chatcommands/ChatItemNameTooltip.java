@@ -155,7 +155,7 @@ public class ChatItemNameTooltip extends Overlay
 			return null;
 		}
 
-		Widget[] chatMessages = chatBoxScrollAreaWidget.getChildren();
+		final Widget[] chatMessages = chatBoxScrollAreaWidget.getChildren();
 
 		if (chatMessages == null)
 		{
