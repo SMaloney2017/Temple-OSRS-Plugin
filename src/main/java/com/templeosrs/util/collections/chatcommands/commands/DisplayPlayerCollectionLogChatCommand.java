@@ -67,6 +67,9 @@ public class DisplayPlayerCollectionLogChatCommand extends ChatCommand  {
         // Normalize boss name
         final String bossInput = parts[0].trim().replace(' ', '_').toLowerCase();
         final CollectionLogCategory category = getCategoryFromMessageInput(bossInput);
+
+		// For outgoing PMs, the message should show the current player's log,
+		// but the event contains the recipient's name.
 		final String senderName = event.getType() == ChatMessageType.PRIVATECHATOUT
 			? client.getLocalPlayer().getName()
 			: event.getName();
