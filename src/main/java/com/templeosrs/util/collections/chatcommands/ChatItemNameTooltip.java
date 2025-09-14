@@ -56,10 +56,15 @@ public class ChatItemNameTooltip extends Overlay
 		setPriority(PRIORITY_MED);
 	}
 
-	private boolean isMessageVisible(final Widget parent, final Widget line)
+	/**
+	 * @param parent  The parent widget
+	 * @param message The message widget
+	 * @return true if the message is currently visible on the screen, else false.
+	 */
+	private boolean isMessageVisible(final Widget parent, final Widget message)
 	{
-		final int childNorthCoordinate = line.getRelativeY();
-		final int childSouthCoordinate = childNorthCoordinate + line.getHeight();
+		final int childNorthCoordinate = message.getRelativeY();
+		final int childSouthCoordinate = childNorthCoordinate + message.getHeight();
 
 		final int currentScrollNorthCoordinate = parent.getScrollY();
 		final int currentScrollSouthCoordinate = currentScrollNorthCoordinate + parent.getHeight();
@@ -74,19 +79,25 @@ public class ChatItemNameTooltip extends Overlay
 		return childNorthCoordinate <= currentScrollSouthCoordinate;
 	}
 
+	/**
+	 * Parses a chat message for its containing item icons, and map them to a matrix of rows & icon bounds.
+	 *
+	 * @param messageWidget The matched !col command message widget
+	 * @param messagePrefix The text matching the command prefix, e.g. "Kree'arra (1/9): "
+	 * @return A list of rows containing the icon bounds in that row
+	 */
 	private List<Map<Integer, Rectangle>> mapItemIcons(
-		final Widget line,
-		final String messagePrefix,
-		final String message
+		final Widget messageWidget,
+		final String messagePrefix
 	)
 	{
-		final Matcher iconIdMatcher = itemIdPattern.matcher(message);
+		final Matcher iconIdMatcher = itemIdPattern.matcher(messageWidget.getText());
 		final List<Map<Integer, Rectangle>> itemRows = new ArrayList<>(List.of(new HashMap<>()));
 
-		final int textOffset = line.getFont().getTextWidth(messagePrefix);
-		final int nbspWidth = line.getFont().getTextWidth(" ");
+		final int textOffset = messageWidget.getFont().getTextWidth(messagePrefix);
+		final int nbspWidth = messageWidget.getFont().getTextWidth(" ");
 
-		final Rectangle chatMessageBounds = line.getBounds();
+		final Rectangle chatMessageBounds = messageWidget.getBounds();
 		final int chatMessageEastCoordinate = chatMessageBounds.x + chatMessageBounds.width;
 
 		final AtomicInteger coordsX = new AtomicInteger(chatMessageBounds.x + textOffset);
@@ -99,7 +110,11 @@ public class ChatItemNameTooltip extends Overlay
 			final String itemText = iconIdMatcher.group(2);
 			final int itemId = itemSpriteManager.getSpriteItemIds().get(iconId);
 
-			final int textWidth = ItemSpriteManager.SPRITE_WIDTH + line.getFont().getTextWidth(itemText);
+			final int textWidth = ItemSpriteManager.SPRITE_WIDTH + messageWidget.getFont().getTextWidth(itemText);
+
+			// The line heights differ between the chatbox and private messages,
+			// which causes the tooltips to become misaligned if not dynamically calculated.
+			final int messageLineHeight = messageWidget.getLineHeight();
 
 			// The game ignores whitespace when rendering text at the edge of the chatbox,
 			// hence it is subtracted in the calculation.
@@ -108,7 +123,7 @@ public class ChatItemNameTooltip extends Overlay
 			{
 				// If the new item would escape the bounds, move it onto a new line
 				coordsX.set(chatMessageBounds.x);
-				coordsY.addAndGet(ItemSpriteManager.SPRITE_HEIGHT);
+				coordsY.addAndGet(messageLineHeight);
 
 				itemRows.add(row.addAndGet(1), new HashMap<>());
 			}
@@ -117,7 +132,7 @@ public class ChatItemNameTooltip extends Overlay
 				coordsX.get(),
 				coordsY.get(),
 				ItemSpriteManager.SPRITE_WIDTH,
-				ItemSpriteManager.SPRITE_HEIGHT
+				messageLineHeight
 			);
 
 			coordsX.addAndGet(textWidth);
@@ -128,12 +143,27 @@ public class ChatItemNameTooltip extends Overlay
 		return itemRows;
 	}
 
+	/**
+	 * When a !col command chat message row is hovered,
+	 * check to see if an item icon is being hovered and return its item name.
+	 *
+	 * @param iconCoordinates A map of icons in the currently hovered chat message row
+	 * @param mouseX          The current X coordinate of the mouse
+	 * @return The item name of the currently hovered icon, if found
+	 */
 	@Nullable()
-	private String findHoveredItemName(final Map<Integer, Rectangle> iconCoordinates, final Point mousePosition)
+	private String findHoveredItemName(final Map<Integer, Rectangle> iconCoordinates, final int mouseX)
 	{
 		for (Map.Entry<Integer, Rectangle> iconEntry : iconCoordinates.entrySet())
 		{
-			if (iconEntry.getValue().contains(mousePosition.getX(), mousePosition.getY()))
+			final Rectangle iconBounds = iconEntry.getValue();
+
+			final int iconWestCoordinate = iconBounds.x;
+			final int iconEastCoordinate = iconWestCoordinate + iconBounds.width;
+
+			// Y coordinate bounds are done by filtering the rows based on the icon height
+			// All we need to do here is check whether the X coordinate is hovered
+			if (iconWestCoordinate <= mouseX && iconEastCoordinate >= mouseX)
 			{
 				final int hoveredItemId = iconEntry.getKey();
 
@@ -144,24 +174,19 @@ public class ChatItemNameTooltip extends Overlay
 		return null;
 	}
 
-	@Override
-	public Dimension render(final Graphics2D graphics)
+	/**
+	 * Iterates through a list of chat messages, adding tooltip listeners to matching !col commands
+	 *
+	 * @param chatMessages     The chat messages from the interface widget
+	 * @param messageContainer The interface widget that should be used to determine bounds
+	 * @param mousePosition    The current mouse position
+	 */
+	private void addTooltipToChatMessages(
+		final Widget[] chatMessages,
+		final Widget messageContainer,
+		final Point mousePosition
+	)
 	{
-		final Point mousePosition = client.getMouseCanvasPosition();
-		final Widget chatBoxScrollAreaWidget = client.getWidget(InterfaceID.Chatbox.SCROLLAREA);
-
-		if (chatBoxScrollAreaWidget == null || !chatBoxScrollAreaWidget.contains(mousePosition))
-		{
-			return null;
-		}
-
-		final Widget[] chatMessages = chatBoxScrollAreaWidget.getChildren();
-
-		if (chatMessages == null)
-		{
-			return null;
-		}
-
 		for (Widget chatMessage : chatMessages)
 		{
 			final String messageText = chatMessage.getText();
@@ -177,7 +202,7 @@ public class ChatItemNameTooltip extends Overlay
 			if (
 				prefixMatcher.find() &&
 					itemIdPattern.matcher(messageText).find() &&
-					isMessageVisible(chatBoxScrollAreaWidget, chatMessage)
+					isMessageVisible(messageContainer, chatMessage)
 			)
 			{
 				final Rectangle bounds = chatMessage.getBounds();
@@ -188,15 +213,54 @@ public class ChatItemNameTooltip extends Overlay
 				}
 
 				final String messagePrefix = prefixMatcher.group();
-				final List<Map<Integer, Rectangle>> itemIconRows = mapItemIcons(chatMessage, messagePrefix, messageText);
-				final int hoveredRow = Math.floorDiv((int) (mousePosition.getY() - bounds.getY()), ItemSpriteManager.SPRITE_HEIGHT);
-				final String hoveredItemName = findHoveredItemName(itemIconRows.get(hoveredRow), mousePosition);
+				final List<Map<Integer, Rectangle>> itemIconRows = mapItemIcons(chatMessage, messagePrefix);
+				final int hoveredRow = Math.floorDiv((int) (mousePosition.getY() - bounds.getY()), chatMessage.getLineHeight());
+				final String hoveredItemName = findHoveredItemName(itemIconRows.get(hoveredRow), mousePosition.getX());
 
 				if (hoveredItemName != null)
 				{
 					tooltipManager.add(new Tooltip(hoveredItemName));
 				}
 			}
+		}
+	}
+
+	@Override
+	public Dimension render(final Graphics2D graphics)
+	{
+		final Point mousePosition = client.getMouseCanvasPosition();
+		final Widget chatBoxWidget = client.getWidget(InterfaceID.Chatbox.UNIVERSE);
+		final Widget chatBoxScrollAreaWidget = client.getWidget(InterfaceID.Chatbox.SCROLLAREA);
+		final Widget privateChatWidget = client.getWidget(InterfaceID.PmChat.CONTAINER);
+
+		if (
+			chatBoxWidget == null ||
+				chatBoxScrollAreaWidget == null ||
+				privateChatWidget == null ||
+				(
+					!chatBoxScrollAreaWidget.contains(mousePosition) &&
+						!privateChatWidget.contains(mousePosition)
+				)
+		)
+		{
+			return null;
+		}
+
+		final Widget[] chatMessages = chatBoxScrollAreaWidget.getChildren();
+		final Widget[] privateChatMessages = privateChatWidget.getChildren();
+
+		if (chatMessages != null && chatBoxScrollAreaWidget.contains(mousePosition))
+		{
+			addTooltipToChatMessages(chatMessages, chatBoxScrollAreaWidget, mousePosition);
+		}
+
+		if (
+			privateChatMessages != null &&
+				privateChatWidget.contains(mousePosition) &&
+				!chatBoxWidget.contains(mousePosition)
+		)
+		{
+			addTooltipToChatMessages(privateChatMessages, privateChatWidget, mousePosition);
 		}
 
 		return null;
