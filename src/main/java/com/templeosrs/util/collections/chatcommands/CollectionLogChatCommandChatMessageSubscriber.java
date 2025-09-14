@@ -48,6 +48,7 @@ public class CollectionLogChatCommandChatMessageSubscriber
 		ChatMessageType.PUBLICCHAT,
 		ChatMessageType.FRIENDSCHAT,
 		ChatMessageType.PRIVATECHAT,
+		ChatMessageType.PRIVATECHATOUT,
 		ChatMessageType.CLAN_CHAT,
 		ChatMessageType.CLAN_GIM_MESSAGE,
 		ChatMessageType.CLAN_GIM_CHAT,
