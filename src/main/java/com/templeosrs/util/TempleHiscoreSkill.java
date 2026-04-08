@@ -60,6 +60,7 @@ public enum TempleHiscoreSkill
 	RUNECRAFT("Runecraft", SKILL),
 	HUNTER("Hunter", SKILL),
 	CONSTRUCTION("Construction", SKILL),
+	SAILING("Sailing", SKILL),
 	EHP("Ehp", SKILL),
 	CLUE_ALL("Clue All", ACTIVITY),
 	CLUE_BEGINNER("Clue Beginner", ACTIVITY),
@@ -147,7 +148,10 @@ public enum TempleHiscoreSkill
 	HUEYCOATL("Hueycoatl", BOSS),
 	AMOXLIATL("Amoxliatl", BOSS),
 	COLLECTIONS("Collections", BOSS),
-	THE_ROYAL_TITANS("The Royal Titans", BOSS);
+	THE_ROYAL_TITANS("The Royal Titans", BOSS),
+	DOOM_OF_MOKHAIOTL("Doom of Mokhaiotl", BOSS),
+	SHELLBANE_GRYPHON("Shellbane Gryphon", BOSS),
+	BRUTUS("Brutus", BOSS);
 
 
 	private final String name;

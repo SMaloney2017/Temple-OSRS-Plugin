@@ -6,7 +6,9 @@ import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.events.ChatMessage;
+import net.runelite.api.Client;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.config.RuneScapeProfileType;
 import static net.runelite.client.util.Text.removeTags;
 
 @Slf4j
@@ -16,6 +18,9 @@ public class CollectionLogAutoSyncChatMessageSubscriber
 
 	@Inject
 	private CollectionLogAutoSyncManager collectionLogAutoSyncManager;
+
+	@Inject
+	private Client client;
 
 	/**
 	 * This method watches for in-game chat messages that match the new collection log item pattern.
@@ -34,6 +39,14 @@ public class CollectionLogAutoSyncChatMessageSubscriber
 
 		if (matcher.matches())
 		{
+			// Only sync items on regular worlds
+			RuneScapeProfileType profileType = RuneScapeProfileType.getCurrent(client);
+
+			if (profileType.toString() != "STANDARD")
+			{
+				return;
+			}
+
 			String itemName = removeTags(matcher.group(1));
 
 			collectionLogAutoSyncManager.obtainedItemNames.add(itemName);

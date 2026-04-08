@@ -48,6 +48,8 @@ import net.runelite.api.widgets.WidgetType;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.config.RuneScapeProfileType;
+
 
 @Slf4j
 @Singleton
@@ -153,6 +155,13 @@ public class SyncButtonManager
 
 	void addButton(Screen screen, Runnable onClick)
 	{
+		RuneScapeProfileType profileType = RuneScapeProfileType.getCurrent(client);
+
+		if (profileType.toString() != "STANDARD")
+		{
+			return;
+		}
+
 		Widget parent = client.getWidget(screen.getParentId());
 		Widget searchButton = client.getWidget(screen.getSearchButtonId());
 		Widget collectionLogContainer = client.getWidget(screen.getCollectionLogContainer());

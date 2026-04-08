@@ -352,11 +352,12 @@ public class CollectionLogManager
 	private void submitPlayerData()
 	{
 		String username = client.getLocalPlayer().getName();
+		RuneScapeProfileType profileType = RuneScapeProfileType.getCurrent(client);
 
-		// Do not send if slot data wasn't generated
-		if (obtainedCollectionLogItems.isEmpty())
+		// Do not send if slot data wasn't generated or player isn't on standard worlds
+		if (obtainedCollectionLogItems.isEmpty() || profileType.toString() != "STANDARD")
 		{
-			log.error("❌ No obtained items have been set for {}", username);
+			log.error("❌ Aborted sync due to missing items or non-standard profile.", username);
 
 			gameTickToSync = null;
 			backoffStrategy.reset();
@@ -364,7 +365,6 @@ public class CollectionLogManager
 			return;
 		}
 
-		RuneScapeProfileType profileType = RuneScapeProfileType.getCurrent(client);
 		PlayerProfile profileKey = new PlayerProfile(username, profileType);
 
 		// Only IDs and counts are useful in the request

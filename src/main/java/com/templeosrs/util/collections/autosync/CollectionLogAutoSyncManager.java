@@ -184,8 +184,10 @@ public class CollectionLogAutoSyncManager
 		try
 		{
 			String username = client.getLocalPlayer().getName();
+			RuneScapeProfileType profileType = RuneScapeProfileType.getCurrent(client);
 
-			if (username == null || !CollectionDatabase.hasPlayerData(username))
+			// Prevent auto sync (on opening log) searching for new items in log when logged into a non-standard world or no data available
+			if (username == null || !CollectionDatabase.hasPlayerData(username) || profileType.toString() != "STANDARD")
 			{
 				log.debug("No saved log items were found, falling back to a full sync for {}", username);
 
