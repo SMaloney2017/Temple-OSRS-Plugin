@@ -10,6 +10,7 @@ import static com.templeosrs.util.TempleHiscoreSkill.ARAXXOR;
 import static com.templeosrs.util.TempleHiscoreSkill.ARTIO;
 import static com.templeosrs.util.TempleHiscoreSkill.ATTACK;
 import static com.templeosrs.util.TempleHiscoreSkill.BARROWS_CHESTS;
+import static com.templeosrs.util.TempleHiscoreSkill.BRUTUS;
 import static com.templeosrs.util.TempleHiscoreSkill.BRYOPHYTA;
 import static com.templeosrs.util.TempleHiscoreSkill.CALLISTO;
 import static com.templeosrs.util.TempleHiscoreSkill.CALVARION;
@@ -30,6 +31,7 @@ import static com.templeosrs.util.TempleHiscoreSkill.DAGANNOTH_REX;
 import static com.templeosrs.util.TempleHiscoreSkill.DAGANNOTH_SUPREME;
 import static com.templeosrs.util.TempleHiscoreSkill.DEFENCE;
 import static com.templeosrs.util.TempleHiscoreSkill.DERANGED_ARCHAEOLOGIST;
+import static com.templeosrs.util.TempleHiscoreSkill.DOOM_OF_MOKHAIOTL;
 import static com.templeosrs.util.TempleHiscoreSkill.DUKE_SUCELLUS;
 import static com.templeosrs.util.TempleHiscoreSkill.FARMING;
 import static com.templeosrs.util.TempleHiscoreSkill.FIREMAKING;
@@ -59,9 +61,11 @@ import static com.templeosrs.util.TempleHiscoreSkill.PHOSANIS_NIGHTMARE;
 import static com.templeosrs.util.TempleHiscoreSkill.PRAYER;
 import static com.templeosrs.util.TempleHiscoreSkill.RANGED;
 import static com.templeosrs.util.TempleHiscoreSkill.RUNECRAFT;
+import static com.templeosrs.util.TempleHiscoreSkill.SAILING;
 import static com.templeosrs.util.TempleHiscoreSkill.SARACHNIS;
 import static com.templeosrs.util.TempleHiscoreSkill.SCORPIA;
 import static com.templeosrs.util.TempleHiscoreSkill.SCURRIUS;
+import static com.templeosrs.util.TempleHiscoreSkill.SHELLBANE_GRYPHON;
 import static com.templeosrs.util.TempleHiscoreSkill.SKOTIZO;
 import static com.templeosrs.util.TempleHiscoreSkill.SLAYER;
 import static com.templeosrs.util.TempleHiscoreSkill.SMITHING;
@@ -120,21 +124,21 @@ public class TempleActivity extends JPanel
 		CRAFTING, SMITHING, MINING,
 		HERBLORE, AGILITY, THIEVING,
 		SLAYER, FARMING, RUNECRAFT,
-		HUNTER, CONSTRUCTION
+		HUNTER, CONSTRUCTION, SAILING
 	);
 
 	public static final List<TempleHiscoreSkill> BOSSES = ImmutableList.of(
-		ABYSSAL_SIRE, ALCHEMICAL_HYDRA, AMOXLIATL, ARAXXOR, ARTIO, BARROWS_CHESTS,
+		ABYSSAL_SIRE, ALCHEMICAL_HYDRA, AMOXLIATL, ARAXXOR, ARTIO, BARROWS_CHESTS, BRUTUS,
 		BRYOPHYTA, CALLISTO, CALVARION, CERBERUS,
 		CHAMBERS_OF_XERIC, CHAMBERS_OF_XERIC_CHALLENGE_MODE, CHAOS_ELEMENTAL,
 		CHAOS_FANATIC, COMMANDER_ZILYANA, CORPOREAL_BEAST,
 		DAGANNOTH_PRIME, DAGANNOTH_REX, DAGANNOTH_SUPREME,
-		CRAZY_ARCHAEOLOGIST, DERANGED_ARCHAEOLOGIST, DUKE_SUCELLUS, GENERAL_GRAARDOR,
+		CRAZY_ARCHAEOLOGIST, DERANGED_ARCHAEOLOGIST, DOOM_OF_MOKHAIOTL, DUKE_SUCELLUS, GENERAL_GRAARDOR,
 		GIANT_MOLE, GROTESQUE_GUARDIANS, HESPORI,
 		KALPHITE_QUEEN, KING_BLACK_DRAGON, KRAKEN,
 		KREEARRA, KRIL_TSUTSAROTH, LUNAR_CHESTS, MIMIC,
 		NEX, THE_NIGHTMARE, PHOSANIS_NIGHTMARE,
-		OBOR, PHANTOM_MUSPAH, SARACHNIS, SCORPIA, SCURRIUS,
+		OBOR, PHANTOM_MUSPAH, SARACHNIS, SCORPIA, SCURRIUS, SHELLBANE_GRYPHON,
 		SKOTIZO, SOL_HEREDIT, SPINDEL, TEMPOROSS, THE_GAUNTLET,
 		THE_CORRUPTED_GAUNTLET, HUEYCOATL, THE_LEVIATHAN, THE_ROYAL_TITANS, THE_WHISPERER, THEATRE_OF_BLOOD, THEATRE_OF_BLOOD_CHALLENGE_MODE,
 		THERMONUCLEAR_SMOKE_DEVIL, TOMBS_OF_AMASCUT, TOMBS_OF_AMASCUT_EXPERT, TZKAL_ZUK, TZTOK_JAD, VARDORVIS,
