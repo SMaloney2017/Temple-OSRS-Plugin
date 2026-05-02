@@ -54,6 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.EnumComposition;
 import net.runelite.api.GameState;
+import net.runelite.api.Player;
 import net.runelite.api.StructComposition;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
@@ -251,9 +252,17 @@ public class CollectionLogManager
 			{
 				// Attempt to synchronise the player's collection log on login
 				clientThread.invokeLater(() -> {
-					final String username = client.getLocalPlayer().getName();
+					final Player localPlayer = client.getLocalPlayer();
 
-					// Wait for username to be available
+					// Wait for local player to be available
+					if (localPlayer == null)
+					{
+						return false;
+					}
+
+					final String username = localPlayer.getName();
+
+					// Not sure if this is necessary after localPlayer is checked already
 					if (username == null)
 					{
 						return false;
