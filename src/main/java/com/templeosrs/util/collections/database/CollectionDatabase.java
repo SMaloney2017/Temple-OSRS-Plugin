@@ -82,6 +82,18 @@ public class CollectionDatabase
 
 				stmt.executeUpdate(createCollectionLogCacheTableSql);
 				stmt.executeUpdate(createPlayerMetadataTableSql);
+
+				stmt.executeUpdate(String.format(
+					"CREATE INDEX IF NOT EXISTS idx_%s_player_item ON %s(player_name, item_id)",
+					COLLECTION_LOG_CACHE_TABLE_NAME,
+					COLLECTION_LOG_CACHE_TABLE_NAME
+				));
+
+				stmt.executeUpdate(String.format(
+					"CREATE INDEX IF NOT EXISTS idx_%s_player ON %s(player_name)",
+					PLAYER_METADATA_TABLE_NAME,
+					PLAYER_METADATA_TABLE_NAME
+				));
 			}
 		}
 		catch (ClassNotFoundException e)
@@ -352,17 +364,16 @@ public class CollectionDatabase
 		try (Connection conn = getConnection();
 			 PreparedStatement ps1 = conn.prepareStatement(
 				 "SELECT player_name, MIN(last_accessed) as oldest " +
-					 String.format("FROM %s ", COLLECTION_LOG_CACHE_TABLE_NAME) +
+					 String.format("FROM %s ", PLAYER_METADATA_TABLE_NAME) +
 					 "WHERE player_name != ? " +
 					 "GROUP BY player_name " +
-					 "ORDER BY oldest ASC"
+					 "ORDER BY oldest DESC"
 			 );
 			 PreparedStatement deleteStmt = conn.prepareStatement(
-				 String.format(
-					 "DELETE FROM %s AS a INNER JOIN %s AS b WHERE a.player_name = b.player_name AND a.player_name = ?",
-					 COLLECTION_LOG_CACHE_TABLE_NAME,
-					 PLAYER_METADATA_TABLE_NAME
-				 )
+				 String.format("DELETE FROM %s WHERE player_name = ?", COLLECTION_LOG_CACHE_TABLE_NAME)
+			 );
+			 PreparedStatement deleteMetadataStmt = conn.prepareStatement(
+				 String.format("DELETE FROM %s WHERE player_name = ?", PLAYER_METADATA_TABLE_NAME)
 			 )
 		)
 		{
@@ -386,6 +397,8 @@ public class CollectionDatabase
 				log.debug("\uD83E\uDDF9 Pruning cached player: {}", name);
 				deleteStmt.setString(1, name);
 				deleteStmt.executeUpdate();
+				deleteMetadataStmt.setString(1, name);
+				deleteMetadataStmt.executeUpdate();
 			}
 		}
 		catch (SQLException e)
