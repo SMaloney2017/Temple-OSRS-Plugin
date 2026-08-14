@@ -6,9 +6,6 @@ import com.templeosrs.util.api.APIError;
 import com.templeosrs.util.collections.data.CollectionLogResponse;
 import com.templeosrs.util.collections.data.ObtainedCollectionItem;
 import com.templeosrs.util.collections.database.CollectionDatabase;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -105,19 +102,6 @@ public class CollectionParser
 			int itemCount = itemList.size();
 
 			log.debug("✅ Parsed and inserted {} items total for {}.", itemCount, username);
-
-			// ✅ Manually shut down the database after insert
-			try (Connection conn = CollectionDatabase.getConnection();
-				 Statement stmt = conn.createStatement()
-			)
-			{
-				stmt.execute("SHUTDOWN");
-				log.debug("🚗 Manually closed H2 database after sync.");
-			}
-			catch (SQLException e)
-			{
-				log.error("⚠️ Error while trying to shut down the database", e);
-			}
 		}
 	}
 }
