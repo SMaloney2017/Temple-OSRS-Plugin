@@ -82,6 +82,18 @@ public class CollectionDatabase
 
 				stmt.executeUpdate(createCollectionLogCacheTableSql);
 				stmt.executeUpdate(createPlayerMetadataTableSql);
+
+				stmt.executeUpdate(String.format(
+					"CREATE INDEX IF NOT EXISTS idx_%s_player_item ON %s(player_name, item_id)",
+					COLLECTION_LOG_CACHE_TABLE_NAME,
+					COLLECTION_LOG_CACHE_TABLE_NAME
+				));
+
+				stmt.executeUpdate(String.format(
+					"CREATE INDEX IF NOT EXISTS idx_%s_player ON %s(player_name)",
+					PLAYER_METADATA_TABLE_NAME,
+					PLAYER_METADATA_TABLE_NAME
+				));
 			}
 		}
 		catch (ClassNotFoundException e)
