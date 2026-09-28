@@ -409,7 +409,7 @@ public class TempleOSRSPlugin extends Plugin
 		{
 			return;
 		}
-		/* if XpUpdaterPlugin is disabled or XpUpdaterPlugin's config option for templeosrs is disabled */
+		/* if XpUpdaterPlugin is not disabled and XpUpdaterPlugin's config option for templeosrs is enabled */
 		new Thread(() -> {
 			try
 			{
