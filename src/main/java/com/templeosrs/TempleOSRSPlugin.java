@@ -25,6 +25,7 @@
 
 package com.templeosrs;
 
+import com.google.inject.Binder;
 import com.google.inject.Provides;
 import com.templeosrs.ui.TempleOSRSPanel;
 import com.templeosrs.ui.clans.TempleClans;
@@ -33,6 +34,12 @@ import com.templeosrs.ui.ranks.TempleRanks;
 import com.templeosrs.util.TempleService;
 import com.templeosrs.util.collections.CollectionLogManager;
 import com.templeosrs.util.collections.SyncButtonManager;
+import com.templeosrs.util.collections.autosync.CollectionLogAutoSyncChatMessageSubscriber;
+import com.templeosrs.util.collections.autosync.CollectionLogAutoSyncConfigChecker;
+import com.templeosrs.util.collections.autosync.CollectionLogAutoSyncGameTickSubscriber;
+import com.templeosrs.util.collections.autosync.CollectionLogAutoSyncItemContainerChangedSubscriber;
+import com.templeosrs.util.collections.autosync.CollectionLogAutoSyncManager;
+import com.templeosrs.util.collections.autosync.CollectionLogAutoSyncServerNpcLootSubscriber;
 import com.templeosrs.util.collections.chatcommands.ChatItemNameTooltip;
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -54,7 +61,6 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.menus.MenuManager;
 import net.runelite.client.plugins.Plugin;
-import net.runelite.client.plugins.PluginDependency;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.PluginManager;
 import net.runelite.client.plugins.xpupdater.XpUpdaterConfig;
@@ -65,7 +71,6 @@ import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.Text;
 
-@PluginDependency(XpUpdaterPlugin.class)
 @PluginDescriptor(name = "TempleOSRS", description = "A RuneLite plugin utilizing the TempleOSRS API.", tags = {"Temple", "ehp", "ehb"})
 public class TempleOSRSPlugin extends Plugin
 {
@@ -106,12 +111,6 @@ public class TempleOSRSPlugin extends Plugin
 	private TempleOSRSConfig config;
 
 	@Inject
-	private XpUpdaterConfig xpUpdaterConfig;
-
-	@Inject
-	private XpUpdaterPlugin xpUpdaterPlugin;
-
-	@Inject
 	private TempleService service;
 
 	@Inject
@@ -125,6 +124,9 @@ public class TempleOSRSPlugin extends Plugin
 
 	@Inject
 	private ChatItemNameTooltip chatItemNameTooltip;
+
+	@Inject
+	private ConfigManager configManager;
 
 	@Override
 	protected void startUp()
@@ -349,6 +351,22 @@ public class TempleOSRSPlugin extends Plugin
 		}
 	}
 
+	@Override
+	public void configure(Binder binder)
+	{
+		// These classes depend on each other in cycles. Without explicit bindings Guice first tries to create their
+		// just-in-time bindings in RuneLite's root injector, which fails and leaves them half-initialized
+		// ("Constructor not ready") since RuneLite 1.13.0 no longer puts a dependency injector in between.
+		binder.bind(CollectionLogManager.class);
+		binder.bind(SyncButtonManager.class);
+		binder.bind(CollectionLogAutoSyncManager.class);
+		binder.bind(CollectionLogAutoSyncConfigChecker.class);
+		binder.bind(CollectionLogAutoSyncChatMessageSubscriber.class);
+		binder.bind(CollectionLogAutoSyncGameTickSubscriber.class);
+		binder.bind(CollectionLogAutoSyncItemContainerChangedSubscriber.class);
+		binder.bind(CollectionLogAutoSyncServerNpcLootSubscriber.class);
+	}
+
 	@Provides
 	TempleOSRSConfig provideConfig(ConfigManager configManager)
 	{
@@ -366,21 +384,41 @@ public class TempleOSRSPlugin extends Plugin
 		});
 	}
 
+	private boolean isXpUpdaterEnabled()
+	{
+		return pluginManager.getPlugins().stream()
+			.filter(XpUpdaterPlugin.class::isInstance)
+			.findFirst()
+			.map(pluginManager::isPluginEnabled)
+			.orElse(false);
+	}
+
+	private XpUpdaterConfig getXpUpdaterConfig()
+	{
+		return configManager.getConfig(XpUpdaterConfig.class);
+	}
+
 	public void updateUser(long accountHash, String username)
 	{
-		/* if XpUpdaterPlugin is disabled or XpUpdaterPlugin's config option for templeosrs is disabled */
-		if (!pluginManager.isPluginEnabled(xpUpdaterPlugin) || !xpUpdaterConfig.templeosrs())
+		if (!isXpUpdaterEnabled())
 		{
-			new Thread(() -> {
-				try
-				{
-					service.addDatapointAsync(username, accountHash);
-				}
-				catch (Exception ignored)
-				{
-
-				}
-			}).start();
+			return;
 		}
+		XpUpdaterConfig xpUpdaterConfig = getXpUpdaterConfig();
+		if (xpUpdaterConfig == null || !xpUpdaterConfig.templeosrs())
+		{
+			return;
+		}
+		/* if XpUpdaterPlugin is disabled or XpUpdaterPlugin's config option for templeosrs is disabled */
+		new Thread(() -> {
+			try
+			{
+				service.addDatapointAsync(username, accountHash);
+			}
+			catch (Exception ignored)
+			{
+
+			}
+		}).start();
 	}
 }
