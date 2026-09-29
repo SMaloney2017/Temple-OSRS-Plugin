@@ -28,7 +28,7 @@ package com.templeosrs.util.collections;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import static java.lang.Math.round;
-import java.util.Arrays;
+import java.util.Optional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -50,6 +50,9 @@ import net.runelite.client.callback.ClientThread;
 import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.config.RuneScapeProfileType;
+import net.runelite.client.events.PluginChanged;
+import net.runelite.client.plugins.Plugin;
+import net.runelite.client.plugins.PluginManager;
 
 
 @Slf4j
@@ -100,6 +103,9 @@ public class SyncButtonManager
 	@Inject
 	private CollectionLogManager collectionLogManager;
 
+	@Inject
+	private PluginManager pluginManager;
+
 	@Getter
 	@Setter
 	private boolean fullSyncRequested = false;
@@ -110,6 +116,11 @@ public class SyncButtonManager
 	{
 		eventBus.register(this);
 		clientThread.invokeLater(() -> tryAddButton(this::onButtonClick));
+		Optional<Plugin> wsPluginOpt = pluginManager.getPlugins().stream()
+			.filter(p -> "WikiSync".equals(p.getName()))
+			.findFirst();
+
+		wikiSyncEnabled = wsPluginOpt.isPresent() && pluginManager.isPluginActive(wsPluginOpt.get());
 	}
 
 	public void shutDown()
@@ -123,6 +134,14 @@ public class SyncButtonManager
 		for (Screen screen : Screen.values())
 		{
 			addButton(screen, onClick);
+		}
+	}
+
+	@Subscribe
+	public void onPluginChanged(PluginChanged pluginChanged)
+	{
+		if ("WikiSync".equals(pluginChanged.getPlugin().getName())) {
+			wikiSyncEnabled = pluginChanged.isLoaded();
 		}
 	}
 
@@ -323,11 +342,7 @@ public class SyncButtonManager
 					continue;
 				}
 
-				// WikiSync will have already deleted our "TempleOSRS" named widgets if it was enabled, so track that
-				wikiSyncEnabled = Arrays.stream(children)
-					.noneMatch(widget -> widget != null && "TempleOSRS".equals(widget.getName()));
-
-				// only delte the child widgets if WikiSync didn't already
+				// only delete the child widgets if WikiSync didn't already
 				if (!wikiSyncEnabled)
 				{
 					parent.deleteAllChildren();
