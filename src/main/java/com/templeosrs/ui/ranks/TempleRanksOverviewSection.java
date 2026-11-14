@@ -19,6 +19,8 @@ public class TempleRanksOverviewSection extends JPanel
 
 	JLabel rank;
 
+	private static final String LOADING = "...";
+
 	TempleRanksOverviewSection(String label, String tooltip, Color color)
 	{
 		this.total = createNewJLabel(label + " Total");
@@ -43,8 +45,30 @@ public class TempleRanksOverviewSection extends JPanel
 	/* update overview-section (rank, total) pair */
 	public void update(long x, long x1)
 	{
+		setRank(x);
+		setTotal(x1);
+	}
+
+	void setRank(long x)
+	{
 		rank.setText(x != 0 ? QuantityFormatter.quantityToStackSize(x) : DEFAULT);
+	}
+
+	void setTotal(long x1)
+	{
 		total.setText(x1 != 0 ? QuantityFormatter.quantityToStackSize(x1) : DEFAULT);
+	}
+
+	void setRankLoading()
+	{
+		rank.setText(LOADING);
+	}
+
+	/* rank could not be determined; explain why in its tooltip */
+	void setRankUnavailable(String reason)
+	{
+		rank.setText(DEFAULT);
+		rank.setToolTipText(reason);
 	}
 
 	/* reset overview-section (rank, total) pair */
@@ -52,6 +76,19 @@ public class TempleRanksOverviewSection extends JPanel
 	{
 		total.setText(DEFAULT);
 		rank.setText(DEFAULT);
+	}
+
+	/* indicate the (rank, total) pair is being fetched */
+	void loading()
+	{
+		total.setText(LOADING);
+		rank.setText(LOADING);
+	}
+
+	void setTooltips(String totalTooltip, String rankTooltip)
+	{
+		total.setToolTipText(totalTooltip);
+		rank.setToolTipText(rankTooltip);
 	}
 
 	/* creates an overview-section label of similar style */

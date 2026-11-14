@@ -2,6 +2,8 @@ package com.templeosrs;
 
 import com.templeosrs.util.CurrentTopRanges;
 import com.templeosrs.util.PlayerRanges;
+import com.templeosrs.util.leaderboard.AccountBuildFilter;
+import com.templeosrs.util.leaderboard.GameModeFilter;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
@@ -12,6 +14,10 @@ import net.runelite.client.config.Range;
 public interface TempleOSRSConfig extends Config
 {
 	String TEMPLE_OSRS_CONFIG_GROUP = "TempleOSRS";
+
+	String OVERVIEW_GAME_MODE_KEY = "overviewGameMode";
+
+	String OVERVIEW_BUILD_KEY = "overviewBuild";
 
 	@ConfigSection(
 		name = "General",
@@ -121,10 +127,50 @@ public interface TempleOSRSConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = OVERVIEW_GAME_MODE_KEY,
+		name = "Overview Game Mode",
+		description = "Game mode leaderboard used for the EHP and EHB shown in the player overview." +
+			" Filtered ranks take a few seconds to look up, and are only available for leaderboards exposed by the TempleOSRS API.",
+		position = 3,
+		section = rankOptions
+	)
+	default GameModeFilter getOverviewGameMode()
+	{
+		return GameModeFilter.ALL;
+	}
+
+	@ConfigItem(
+		keyName = OVERVIEW_GAME_MODE_KEY,
+		name = "",
+		description = ""
+	)
+	void setOverviewGameMode(GameModeFilter gameMode);
+
+	@ConfigItem(
+		keyName = OVERVIEW_BUILD_KEY,
+		name = "Overview Account Build",
+		description = "Account build leaderboard used for the EHP and EHB shown in the player overview." +
+			" Filtered ranks take a few seconds to look up, and are only available for leaderboards exposed by the TempleOSRS API.",
+		position = 4,
+		section = rankOptions
+	)
+	default AccountBuildFilter getOverviewBuild()
+	{
+		return AccountBuildFilter.ALL;
+	}
+
+	@ConfigItem(
+		keyName = OVERVIEW_BUILD_KEY,
+		name = "",
+		description = ""
+	)
+	void setOverviewBuild(AccountBuildFilter build);
+
+	@ConfigItem(
 		keyName = "autoUpdate",
 		name = "Auto-Update",
 		description = "Toggle whether or not to automatically update the player on TempleOSRS",
-		position = 3,
+		position = 5,
 		section = rankOptions
 	)
 	default boolean autoUpdate()

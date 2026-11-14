@@ -21,7 +21,12 @@ A RuneLite plugin utilizing the [TempleOSRS API](https://templeosrs.com/api_doc.
 
 1. Set `default-player` to be fetched on startup or search-icon double-click
 2. Set `default-range`
-3. Toggle `auto-update` of local-player on logout
+3. Set the `game mode` and `account build` the player overview's EHP / EHB are shown for (also selectable in the player overview)
+4. Toggle `auto-update` of local-player on logout
+
+> Filtered ranks are looked up through the TempleOSRS API, which only exposes the Ironman, UIM, F2P and Lvl-3 EHP
+> leaderboards and the Ironman EHB leaderboard. Other filters show the matching EHP / EHB where TempleOSRS tracks it,
+> without a rank. Filtered ranks can take several seconds to look up the first time and are cached for 10 minutes.
 
 #### Clan Options
 
