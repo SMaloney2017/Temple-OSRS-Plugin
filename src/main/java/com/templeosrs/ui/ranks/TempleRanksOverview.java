@@ -1,8 +1,12 @@
 package com.templeosrs.ui.ranks;
 
+import com.templeosrs.util.leaderboard.AccountBuildFilter;
+import com.templeosrs.util.leaderboard.GameModeFilter;
+import com.templeosrs.util.leaderboard.PlayerLeaderboard;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -18,7 +22,12 @@ public class TempleRanksOverview extends JPanel
 
 	public final TempleRanksOverviewSection EHB;
 
-	public TempleRanksOverview()
+	/* game mode / account build leaderboard the EHP and EHB sections are shown for */
+	public final JComboBox<GameModeFilter> gameModeSelector;
+
+	public final JComboBox<AccountBuildFilter> buildSelector;
+
+	public TempleRanksOverview(PlayerLeaderboard leaderboard)
 	{
 		setLayout(new GridLayout(0, 1));
 		setBorder(new EmptyBorder(5, -2, 5, -2));
@@ -49,8 +58,34 @@ public class TempleRanksOverview extends JPanel
 		playerOverview.add(EHB);
 		playerOverview.add(EXP);
 
+		gameModeSelector = new JComboBox<>(GameModeFilter.values());
+		gameModeSelector.setSelectedItem(leaderboard.getGameMode());
+		gameModeSelector.setToolTipText("Game mode");
+
+		buildSelector = new JComboBox<>(AccountBuildFilter.values());
+		buildSelector.setSelectedItem(leaderboard.getBuild());
+		buildSelector.setToolTipText("Account build");
+
+		JPanel selectorLayout = new JPanel(new GridLayout(1, 2, 3, 0));
+		selectorLayout.setBorder(new EmptyBorder(3, 3, 0, 3));
+		selectorLayout.setOpaque(false);
+		selectorLayout.add(gameModeSelector);
+		selectorLayout.add(buildSelector);
+
+		layoutPanel.add(selectorLayout, BorderLayout.NORTH);
 		layoutPanel.add(playerOverview, BorderLayout.SOUTH);
 		add(layoutPanel);
+
+		setLeaderboard(leaderboard);
+	}
+
+	/* label EHP and EHB sections with the leaderboard they are ranked on */
+	public void setLeaderboard(PlayerLeaderboard leaderboard)
+	{
+		String suffix = leaderboard.isAll() ? "" : " (" + leaderboard.getName() + ")";
+
+		EHP.setTooltips("Ehp Total" + suffix, "Ehp Rank" + suffix);
+		EHB.setTooltips("Ehb Total" + suffix, "Ehb Rank" + suffix);
 	}
 
 	/* reset player-overview sections */

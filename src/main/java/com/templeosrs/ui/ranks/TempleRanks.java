@@ -33,6 +33,12 @@ import com.templeosrs.TempleOSRSPlugin;
 import com.templeosrs.util.NameAutocompleter;
 import com.templeosrs.util.PlayerRanges;
 import com.templeosrs.util.TempleService;
+import com.templeosrs.util.leaderboard.AccountBuildFilter;
+import com.templeosrs.util.leaderboard.GameModeFilter;
+import com.templeosrs.util.leaderboard.LeaderboardRankFinder;
+import com.templeosrs.util.leaderboard.LeaderboardService;
+import com.templeosrs.util.leaderboard.LeaderboardStats;
+import com.templeosrs.util.leaderboard.PlayerLeaderboard;
 import com.templeosrs.util.player.TemplePlayer;
 import com.templeosrs.util.player.TemplePlayerData;
 import com.templeosrs.util.player.TemplePlayerSkill;
@@ -40,7 +46,11 @@ import java.awt.Dimension;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -52,6 +62,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.client.hiscore.HiscoreSkillType;
 import net.runelite.client.ui.ColorScheme;
@@ -63,6 +74,7 @@ import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.LinkBrowser;
 import okhttp3.HttpUrl;
 
+@Slf4j
 public class TempleRanks extends PluginPanel
 {
 	public final IconTextField lookup;
@@ -81,13 +93,31 @@ public class TempleRanks extends PluginPanel
 
 	private final TempleService service;
 
+	private final LeaderboardService leaderboardService;
+
+	/* filtered-leaderboard lookups are serialized to stay within TempleOSRS rate limits */
+	private final ExecutorService leaderboardExecutor = Executors.newSingleThreadExecutor();
+
+	/* incremented whenever pending filtered-leaderboard results become stale */
+	private final AtomicInteger leaderboardRequest = new AtomicInteger();
+
+	private PlayerLeaderboard leaderboard;
+
+	private boolean updatingSelectors;
+
+	private String lastUsername;
+
+	private TemplePlayer lastResult;
+
 	@Inject
-	public TempleRanks(TempleOSRSConfig config, Client client, TempleService templeService, NameAutocompleter nameAutocompleter)
+	public TempleRanks(TempleOSRSConfig config, Client client, TempleService templeService, LeaderboardService leaderboardService, NameAutocompleter nameAutocompleter)
 	{
 		this.client = client;
 		this.config = config;
 		this.nameAutocompleter = nameAutocompleter;
 		this.service = templeService;
+		this.leaderboardService = leaderboardService;
+		this.leaderboard = configuredLeaderboard();
 
 		skills = new TempleActivity(HiscoreSkillType.SKILL);
 		bosses = new TempleActivity(HiscoreSkillType.BOSS);
@@ -159,7 +189,9 @@ public class TempleRanks extends PluginPanel
 		add(fetchLayout);
 
 		/* build and add player overview */
-		overview = new TempleRanksOverview();
+		overview = new TempleRanksOverview(leaderboard);
+		overview.gameModeSelector.addActionListener(e -> onSelectorChanged());
+		overview.buildSelector.addActionListener(e -> onSelectorChanged());
 		add(overview);
 
 		/* material-tab-group for selecting view of Skills/ Bosses */
@@ -193,6 +225,65 @@ public class TempleRanks extends PluginPanel
 	public void shutdown()
 	{
 		removeInputKeyListener(this.nameAutocompleter);
+		leaderboardExecutor.shutdownNow();
+	}
+
+	/* leaderboard persisted in the plugin config */
+	public PlayerLeaderboard configuredLeaderboard()
+	{
+		GameModeFilter gameMode = config.getOverviewGameMode();
+		AccountBuildFilter build = config.getOverviewBuild();
+
+		return new PlayerLeaderboard(Objects.nonNull(gameMode) ? gameMode : GameModeFilter.ALL, Objects.nonNull(build) ? build : AccountBuildFilter.ALL);
+	}
+
+	/* leaderboard selected in the player-overview */
+	private void onSelectorChanged()
+	{
+		if (updatingSelectors)
+		{
+			return;
+		}
+
+		setLeaderboard(new PlayerLeaderboard((GameModeFilter) overview.gameModeSelector.getSelectedItem(), (AccountBuildFilter) overview.buildSelector.getSelectedItem()));
+	}
+
+	/* change the leaderboard used for the player-overview, persisting it and refreshing the displayed player */
+	public void setLeaderboard(PlayerLeaderboard leaderboard)
+	{
+		if (leaderboard.equals(this.leaderboard))
+		{
+			return;
+		}
+
+		this.leaderboard = leaderboard;
+
+		/* ignore selector events while both selectors are being updated */
+		updatingSelectors = true;
+		try
+		{
+			overview.gameModeSelector.setSelectedItem(leaderboard.getGameMode());
+			overview.buildSelector.setSelectedItem(leaderboard.getBuild());
+		}
+		finally
+		{
+			updatingSelectors = false;
+		}
+
+		if (config.getOverviewGameMode() != leaderboard.getGameMode())
+		{
+			config.setOverviewGameMode(leaderboard.getGameMode());
+		}
+
+		if (config.getOverviewBuild() != leaderboard.getBuild())
+		{
+			config.setOverviewBuild(leaderboard.getBuild());
+		}
+
+		if (lastResult != null && lastUsername.equals(format(lookup.getText())))
+		{
+			rebuildLeaderboard(lastUsername, lastResult);
+		}
 	}
 
 	private IconTextField buildTextField()
@@ -300,15 +391,19 @@ public class TempleRanks extends PluginPanel
 			error();
 			return;
 		}
-		rebuild(result);
+		rebuild(username, result);
 	}
 
 	/* rebuild components */
-	private void rebuild(TemplePlayer result)
+	private void rebuild(String username, TemplePlayer result)
 	{
+		lastUsername = username;
+		lastResult = result;
+
 		skills.update(result);
 		bosses.update(result);
 		rebuildOverall(result);
+		rebuildLeaderboard(username, result);
 
 		completed();
 	}
@@ -324,14 +419,8 @@ public class TempleRanks extends PluginPanel
 		TemplePlayerSkill xpData = skillsData.table.get("Overall");
 
 		/* if not null, get overall totals, ranks, and gains for ehp/ehb/xp */
-		double ehbRankTotal = Objects.nonNull(ehbData.rankTotal) ? ehbData.rankTotal : 0;
-		double ehbTotal = Objects.nonNull(ehbData.xpTotal) ? ehbData.xpTotal : 0;
-
 		double ehbRankGain = Objects.nonNull(ehbData.rank) ? ehbData.rank : 0;
 		double ehbGain = Objects.nonNull(ehbData.xp) ? ehbData.xp : 0;
-
-		double ehpRankTotal = Objects.nonNull(ehpData.rankTotal) ? ehpData.rankTotal : 0;
-		double ehpTotal = Objects.nonNull(ehpData.xpTotal) ? ehpData.xpTotal : 0;
 
 		double ehpRankGain = Objects.nonNull(ehpData.rank) ? ehpData.rank : 0;
 		double ehpGain = Objects.nonNull(ehpData.xp) ? ehpData.xp : 0;
@@ -339,14 +428,118 @@ public class TempleRanks extends PluginPanel
 		double xpRankTotal = Objects.nonNull(xpData.rankTotal) ? xpData.rankTotal : 0;
 		double xpTotal = Objects.nonNull(xpData.xpTotal) ? xpData.xpTotal : 0;
 
-		/* update player-overview sections */
-		overview.EHP.update((long) ehpRankTotal, (long) ehpTotal);
-		overview.EHB.update((long) ehbRankTotal, (long) ehbTotal);
+		/* update player-overview xp section; ehp and ehb sections depend on the selected leaderboard */
 		overview.EXP.update((long) xpRankTotal, (long) xpTotal);
 
 		/* update activity overall-row */
 		bosses.update((long) ehbRankGain, ehbGain);
 		skills.update((long) ehpRankGain, ehpGain);
+	}
+
+	/* update player-overview ehp and ehb sections for the selected leaderboard */
+	private void rebuildLeaderboard(String username, TemplePlayer result)
+	{
+		final int request = leaderboardRequest.incrementAndGet();
+		final PlayerLeaderboard leaderboard = this.leaderboard;
+
+		overview.setLeaderboard(leaderboard);
+
+		if (leaderboard.isAll())
+		{
+			/* overall ranks are already included in the player-overview response */
+			TemplePlayerSkill ehbData = result.playerBossesOverview.data.table.get("Ehb");
+			TemplePlayerSkill ehpData = result.playerSkillsOverview.data.table.get("Ehp");
+
+			double ehbRankTotal = Objects.nonNull(ehbData.rankTotal) ? ehbData.rankTotal : 0;
+			double ehbTotal = Objects.nonNull(ehbData.xpTotal) ? ehbData.xpTotal : 0;
+
+			double ehpRankTotal = Objects.nonNull(ehpData.rankTotal) ? ehpData.rankTotal : 0;
+			double ehpTotal = Objects.nonNull(ehpData.xpTotal) ? ehpData.xpTotal : 0;
+
+			overview.EHP.update((long) ehpRankTotal, (long) ehpTotal);
+			overview.EHB.update((long) ehbRankTotal, (long) ehbTotal);
+			return;
+		}
+
+		/* filtered ranks are not part of the player-overview response and are looked up separately */
+		overview.EHP.loading();
+		overview.EHB.loading();
+
+		leaderboardExecutor.execute(() -> {
+			/* skip lookups which became stale while queued */
+			if (request != leaderboardRequest.get())
+			{
+				return;
+			}
+
+			LeaderboardStats stats = null;
+			try
+			{
+				stats = leaderboardService.fetchStats(username, leaderboard, result.playerSkillsOverview.data.table, progress -> SwingUtilities.invokeLater(() -> updateLeaderboard(request, progress, false)));
+			}
+			catch (IOException e)
+			{
+				log.debug("Unable to fetch {} leaderboard stats for {}", leaderboard, username, e);
+			}
+
+			final LeaderboardStats finalStats = stats;
+			SwingUtilities.invokeLater(() -> updateLeaderboard(request, finalStats, true));
+		});
+	}
+
+	/* show (partial) filtered-leaderboard stats; once finished, ranks still unknown are shown as unavailable */
+	private void updateLeaderboard(int request, LeaderboardStats stats, boolean finished)
+	{
+		if (request != leaderboardRequest.get())
+		{
+			return;
+		}
+
+		if (stats == null)
+		{
+			overview.EHP.reset();
+			overview.EHB.reset();
+			return;
+		}
+
+		PlayerLeaderboard leaderboard = stats.getLeaderboard();
+		String unavailable = stats.isRateLimited() ? "Rank unavailable: TempleOSRS rate limit reached, try again shortly" : "Rank unavailable";
+
+		updateSection(overview.EHP, "EHP", leaderboard, stats.getEhp(), stats.getEhpRank(), leaderboard.getEhpMetric(), finished, unavailable);
+		updateSection(overview.EHB, "EHB", leaderboard, stats.getEhb(), stats.getEhbRank(), leaderboard.getEhbMetric(), finished, unavailable);
+	}
+
+	private static void updateSection(TempleRanksOverviewSection section, String label, PlayerLeaderboard leaderboard, Double value, Integer rank, String metric, boolean finished, String unavailable)
+	{
+		if (value == null)
+		{
+			section.reset();
+			section.setRankUnavailable("TempleOSRS does not track " + leaderboard.getName() + " " + label);
+			return;
+		}
+
+		section.setTotal((long) (double) value);
+
+		if (metric == null)
+		{
+			section.setRankUnavailable("TempleOSRS does not provide a " + leaderboard.getName() + " " + label + " leaderboard");
+		}
+		else if (rank != null && rank == LeaderboardRankFinder.UNRANKED)
+		{
+			section.setRankUnavailable("Not on the " + leaderboard.getName() + " " + label + " leaderboard");
+		}
+		else if (rank != null)
+		{
+			section.setRank(rank);
+		}
+		else if (finished)
+		{
+			section.setRankUnavailable(unavailable);
+		}
+		else
+		{
+			section.setRankLoading();
+		}
 	}
 
 	private void open()
@@ -376,6 +569,10 @@ public class TempleRanks extends PluginPanel
 	/* reset all panels */
 	private void reset()
 	{
+		/* discard pending filtered-leaderboard results */
+		leaderboardRequest.incrementAndGet();
+		lastResult = null;
+
 		skills.reset();
 		bosses.reset();
 		overview.reset();

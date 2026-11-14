@@ -193,6 +193,13 @@ public class TempleOSRSPlugin extends Plugin
 	{
 		if (event.getGroup().equals(TempleOSRSConfig.TEMPLE_OSRS_CONFIG_GROUP))
 		{
+			if (TempleOSRSConfig.OVERVIEW_GAME_MODE_KEY.equals(event.getKey()) || TempleOSRSConfig.OVERVIEW_BUILD_KEY.equals(event.getKey()))
+			{
+				/* keep player-overview leaderboard selectors in sync with the config panel */
+				SwingUtilities.invokeLater(() -> ranks.setLeaderboard(ranks.configuredLeaderboard()));
+				return;
+			}
+
 			if (client != null)
 			{
 				menuManager.get().removePlayerMenuItem(TEMPLE);
