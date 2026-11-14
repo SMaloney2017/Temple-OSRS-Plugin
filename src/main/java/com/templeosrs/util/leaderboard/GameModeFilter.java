@@ -30,6 +30,32 @@ public enum GameModeFilter
 
 	private final String ehbKey;
 
+	public boolean isIronman()
+	{
+		return this == IRONMAN || this == HARDCORE_IRONMAN || this == ULTIMATE_IRONMAN;
+	}
+
+	/**
+	 * @param templeGameMode TempleOSRS game mode enumeration; 0 = Main, 1 = IM, 2 = UIM, 3 = HCIM
+	 * @return whether an account of that game mode is on this game mode's leaderboards
+	 */
+	public boolean matches(int templeGameMode)
+	{
+		switch (this)
+		{
+			case MAIN:
+				return templeGameMode == 0;
+			case IRONMAN:
+				return templeGameMode >= 1 && templeGameMode <= 3;
+			case ULTIMATE_IRONMAN:
+				return templeGameMode == 2;
+			case HARDCORE_IRONMAN:
+				return templeGameMode == 3;
+			default:
+				return true;
+		}
+	}
+
 	@Override
 	public String toString()
 	{

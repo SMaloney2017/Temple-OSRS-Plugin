@@ -35,6 +35,7 @@ import com.templeosrs.util.PlayerRanges;
 import com.templeosrs.util.TempleService;
 import com.templeosrs.util.leaderboard.AccountBuildFilter;
 import com.templeosrs.util.leaderboard.GameModeFilter;
+import com.templeosrs.util.leaderboard.LeaderboardRankFinder;
 import com.templeosrs.util.leaderboard.LeaderboardService;
 import com.templeosrs.util.leaderboard.LeaderboardStats;
 import com.templeosrs.util.leaderboard.PlayerLeaderboard;
@@ -474,7 +475,7 @@ public class TempleRanks extends PluginPanel
 			LeaderboardStats stats = null;
 			try
 			{
-				stats = leaderboardService.fetchStats(username, leaderboard, progress -> SwingUtilities.invokeLater(() -> updateLeaderboard(request, progress, false)));
+				stats = leaderboardService.fetchStats(username, leaderboard, result.playerSkillsOverview.data.table, progress -> SwingUtilities.invokeLater(() -> updateLeaderboard(request, progress, false)));
 			}
 			catch (IOException e)
 			{
@@ -522,6 +523,10 @@ public class TempleRanks extends PluginPanel
 		if (metric == null)
 		{
 			section.setRankUnavailable("TempleOSRS does not provide a " + leaderboard.getName() + " " + label + " leaderboard");
+		}
+		else if (rank != null && rank == LeaderboardRankFinder.UNRANKED)
+		{
+			section.setRankUnavailable("Not on the " + leaderboard.getName() + " " + label + " leaderboard");
 		}
 		else if (rank != null)
 		{

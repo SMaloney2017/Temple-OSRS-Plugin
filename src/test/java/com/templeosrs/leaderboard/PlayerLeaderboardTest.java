@@ -77,15 +77,39 @@ public class PlayerLeaderboardTest
 	}
 
 	@Test
-	void combinedFiltersAreNotTracked()
+	void combinedFiltersUseBuildEhpAndGameModeEhbWithoutRanks()
 	{
-		/* the issue's example: F2P Ultimate Ironman */
+		/* the issue's example: F2P Ultimate Ironman; TempleOSRS' primary EHP/EHB for such accounts are F2p_ehp/Uim_ehb */
 		PlayerLeaderboard f2pUim = new PlayerLeaderboard(GameModeFilter.ULTIMATE_IRONMAN, AccountBuildFilter.F2P);
 
+		/* F2P ironmen use their player-overview F2P EHP row; TempleOSRS' F2P ironman leaderboard includes every
+		 * ironman type, so F2P UIM is not ranked */
 		assertEquals("F2P UIM", f2pUim.getName());
+		assertTrue(f2pUim.isF2pIronman());
 		assertNull(f2pUim.getEhpMetric());
 		assertNull(f2pUim.getEhpKey());
+		assertEquals("Uim_ehb", f2pUim.getEhbKey());
 		assertNull(f2pUim.getEhbMetric());
-		assertNull(f2pUim.getEhbKey());
+
+		PlayerLeaderboard f2pIronman = new PlayerLeaderboard(GameModeFilter.IRONMAN, AccountBuildFilter.F2P);
+		assertTrue(f2pIronman.isF2pIronman());
+		assertEquals("f2pim", f2pIronman.getEhpMetric());
+		assertNull(f2pIronman.getEhbMetric());
+
+		/* other combinations use the build's EHP without a rank */
+		PlayerLeaderboard lvl3Ironman = new PlayerLeaderboard(GameModeFilter.IRONMAN, AccountBuildFilter.LVL_3);
+		assertFalse(lvl3Ironman.isF2pIronman());
+		assertEquals("Lvl3_ehp", lvl3Ironman.getEhpKey());
+		assertNull(lvl3Ironman.getEhpMetric());
+
+		PlayerLeaderboard f2pMain = new PlayerLeaderboard(GameModeFilter.MAIN, AccountBuildFilter.F2P);
+		assertFalse(f2pMain.isF2pIronman());
+		assertEquals("F2p_ehp", f2pMain.getEhpKey());
+		assertNull(f2pMain.getEhpMetric());
+
+		/* builds without their own rates have no EHP value */
+		PlayerLeaderboard tenHpUim = new PlayerLeaderboard(GameModeFilter.ULTIMATE_IRONMAN, AccountBuildFilter.TEN_HITPOINTS);
+		assertNull(tenHpUim.getEhpKey());
+		assertEquals("Uim_ehb", tenHpUim.getEhbKey());
 	}
 }

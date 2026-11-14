@@ -5,7 +5,9 @@ import com.google.common.cache.CacheBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.templeosrs.util.player.TemplePlayerSkill;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -57,11 +59,12 @@ public class LeaderboardService
 	 * Blocking; must not be called on the client or Swing threads.
 	 *
 	 * @param player   username formatted for the TempleOSRS API
+	 * @param overview the player's player-overview table, which holds values missing from api/player_stats.php
 	 * @param progress receives partial results (totals first, then each rank as it is found) before this returns
 	 * @return the final result; ranks which could not be determined are null
 	 * @throws IOException if the player's stats can not be fetched
 	 */
-	public LeaderboardStats fetchStats(String player, PlayerLeaderboard leaderboard, Consumer<LeaderboardStats> progress) throws IOException
+	public LeaderboardStats fetchStats(String player, PlayerLeaderboard leaderboard, Map<String, TemplePlayerSkill> overview, Consumer<LeaderboardStats> progress) throws IOException
 	{
 		String key = player.toLowerCase() + ":" + leaderboard.getGameMode().name() + ":" + leaderboard.getBuild().name();
 
@@ -71,7 +74,7 @@ public class LeaderboardService
 			return cached;
 		}
 
-		if (leaderboard.getEhpKey() == null && leaderboard.getEhbKey() == null)
+		if (leaderboard.getEhpKey() == null && leaderboard.getEhbKey() == null && !leaderboard.isF2pIronman())
 		{
 			/* TempleOSRS tracks nothing for this game mode / build combination */
 			return new LeaderboardStats(leaderboard, null, null, null, null, true, false);
@@ -79,7 +82,7 @@ public class LeaderboardService
 
 		JsonObject stats = requestPlayerStats(player);
 
-		Double ehp = getValue(stats, leaderboard.getEhpKey());
+		Double ehp = leaderboard.isF2pIronman() ? getF2pIronmanEhp(stats, leaderboard, overview) : getValue(stats, leaderboard.getEhpKey());
 		Double ehb = getValue(stats, leaderboard.getEhbKey());
 
 		LeaderboardStats result = new LeaderboardStats(leaderboard, ehp, null, ehb, null, false, false);
@@ -182,6 +185,26 @@ public class LeaderboardService
 
 			return json;
 		}
+	}
+
+	/* 0 unless the player is an F2P ironman of the leaderboard's game mode */
+	private static double getF2pIronmanEhp(JsonObject stats, PlayerLeaderboard leaderboard, Map<String, TemplePlayerSkill> overview)
+	{
+		JsonObject info = stats.has("info") && stats.get("info").isJsonObject() ? stats.getAsJsonObject("info") : new JsonObject();
+		JsonElement gameMode = info.get("Game mode");
+		JsonElement f2p = info.get("F2p");
+
+		boolean isF2pIronman = gameMode != null && gameMode.isJsonPrimitive() && leaderboard.getGameMode().matches(gameMode.getAsInt())
+			&& gameMode.getAsInt() != 0 && f2p != null && f2p.isJsonPrimitive() && f2p.getAsInt() == 1;
+
+		TemplePlayerSkill row = overview != null ? overview.get(PlayerLeaderboard.F2P_IRONMAN_EHP_ROW) : null;
+
+		if (!isF2pIronman || row == null || row.xpTotal == null)
+		{
+			return 0;
+		}
+
+		return row.xpTotal;
 	}
 
 	/* null if the key is null, i.e. TempleOSRS tracks no such value */
